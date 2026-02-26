@@ -4,7 +4,7 @@ with structured metadata, respecting chapter boundaries.
 
 Usage:
     python chunk_handbook.py \
-        --input  raw_data/handbook.json \
+        --input  raw_data/handbook_notables.json \
         --meta   metadata/handbook/handbook_chapters.json \
         --outdir data \
         --chunk-size 1000 \
@@ -17,6 +17,8 @@ import os
 import re
 import sys
 from typing import Any, Dict, List, Optional, Tuple
+
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 
 # ---------------------------------------------------------------------------
@@ -108,18 +110,32 @@ def sliding_window_chunks(
 
     full_text = "\n".join(p for _, p in collected)
 
-    stride = max(1, chunk_size - overlap)
-    chunks: List[Tuple[str, int, int]] = []
-    start = 0
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=overlap,
+        length_function=len,
+        is_separator_regex=False,
+    )
 
-    while start < len(full_text):
-        end = min(start + chunk_size, len(full_text))
-        chunk_text = full_text[start:end].strip()
-        if chunk_text:
-            p_start = page_at_offset(page_breaks, start)
-            p_end = page_at_offset(page_breaks, end - 1)
-            chunks.append((chunk_text, p_start, p_end))
-        start += stride
+    split_texts = splitter.split_text(full_text)
+
+    chunks: List[Tuple[str, int, int]] = []
+    search_start = 0
+
+    for chunk_text in split_texts:
+        # Find the exact start position of this chunk in the full text to map pages
+        start = full_text.find(chunk_text, search_start)
+        if start == -1:
+            start = search_start
+
+        end = start + len(chunk_text)
+
+        p_start = page_at_offset(page_breaks, start)
+        p_end = page_at_offset(page_breaks, end - 1)
+        chunks.append((chunk_text, p_start, p_end))
+
+        # Advance search_start, but keep it before the overlap region
+        search_start = start + 1
 
     return chunks
 
