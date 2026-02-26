@@ -58,7 +58,7 @@ def extract_context(page_text, page_num):
 
 def main():
     # Read the handbook
-    handbook_path = Path("/Users/j/Source/biogas-rag/raw_data/handbook.json")
+    handbook_path = Path("raw_data/handbook_notables.json")
 
     with open(handbook_path, "r", encoding="utf-8") as f:
         handbook = json.load(f)
@@ -86,7 +86,7 @@ def main():
             all_tables.append(table_entry)
 
     # Write the tables to a new file
-    tables_output_path = Path("/Users/j/Source/biogas-rag/data/handbook_tables.json")
+    tables_output_path = Path("data/handbook_tables.json")
     tables_output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(tables_output_path, "w", encoding="utf-8") as f:
@@ -96,7 +96,7 @@ def main():
     print(f"Tables saved to: {tables_output_path}")
 
     # Write the modified handbook (without tables) to a new file
-    notables_path = Path("/Users/j/Source/biogas-rag/raw_data/handbook_notables.json")
+    notables_path = Path("raw_data/handbook_notables.json")
     with open(notables_path, "w", encoding="utf-8") as f:
         json.dump(modified_handbook, f, ensure_ascii=False, indent=2)
 
