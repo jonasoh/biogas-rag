@@ -417,8 +417,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--input", default="raw_data/handbook_notables.json")
     p.add_argument("--meta", default="metadata/handbook/handbook_chapters.json")
     p.add_argument("--outdir", default="data")
-    p.add_argument("--chunk-size", type=int, default=1000)
-    p.add_argument("--overlap", type=int, default=150)
+    p.add_argument("--chunk-size", type=int, default=2500)
+    p.add_argument("--overlap", type=int, default=250)
     return p.parse_args()
 
 

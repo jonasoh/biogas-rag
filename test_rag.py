@@ -1,5 +1,5 @@
 """
-test_rag.py – Simple RAG pipeline for the biogas handbook.
+test_rag.py - Simple RAG pipeline for the biogas handbook.
 
 Retrieves relevant chunks from the FAISS index, then sends them as
 context to a local Ollama instance (llama3.1) to generate an answer.
@@ -26,9 +26,9 @@ from query import (
     load_assets,
 )
 
-OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
-LLM_MODEL = "llama3.1:latest"
-TOP_K = 5
+LLAMA_URL = "http://127.0.0.1:8000/v1/chat/completions"
+LLM_MODEL = "Qwen/Qwen3.5-35B-A3B"
+TOP_K = 8
 
 SYSTEM_PROMPT = """\
 Du är en kunnig handledare i biogasteknik. Du svarar på svenska.
@@ -37,6 +37,8 @@ Regler:
 - Svara ENBART utifrån den kontext som ges nedan.
 - Om kontexten inte innehåller tillräcklig information för att besvara frågan, \
 säg tydligt att du inte kan besvara frågan med den tillgängliga informationen.
+- Istället för 'kontext', använd 'handboken' eller 'biogashandboken' när du \
+refererar till den information som ges.
 - Hänvisa till kapitel- och sidnummer när det är möjligt.
 - Var koncis och saklig."""
 
@@ -106,12 +108,12 @@ def ask_llm(question: str, context: str, debug: bool = False) -> str:
         print()
 
     resp = httpx.post(
-        OLLAMA_URL,
+        LLAMA_URL,
         json={"model": LLM_MODEL, "messages": messages, "stream": False},
         timeout=120.0,
     )
     resp.raise_for_status()
-    return resp.json()["message"]["content"]
+    return resp.json()['choices'][0]["message"]["content"]
 
 
 def rag_query(question: str, index, meta, texts, model, debug: bool = False) -> str:
