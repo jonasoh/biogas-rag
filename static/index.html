@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biogas RAG</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f5f5; --fg: #1a1a1a; --muted: #666;
+    --accent: #2563eb; --accent-hover: #1d4ed8;
+    --card-bg: #fff; --chat-bg: #fff;
+    --user-bg: #e0edff; --bot-bg: #f0f0f0;
+    --border: #ddd; --radius: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--fg); }
+  .container { max-width: 700px; margin: 0 auto; padding: 1rem; min-height: 100dvh; display: flex; flex-direction: column; }
+  header { text-align: center; padding: 1.5rem 0 1rem; }
+  header h1 { font-size: 1.4rem; font-weight: 600; }
+  header .sub { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+  /* Auth view */
+  #auth-view { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .auth-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 380px; }
+  .auth-card h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .auth-card label { display: block; font-size: 0.85rem; margin-bottom: 0.25rem; color: var(--muted); }
+  .auth-card input[type="text"],
+  .auth-card input[type="email"] {
+    width: 100%; padding: 0.5rem 0.6rem; border: 1px solid var(--border);
+    border-radius: 4px; font-size: 0.95rem; margin-bottom: 0.75rem;
+  }
+  .checkbox-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.75rem 0 1.25rem; font-size: 0.85rem; }
+  .checkbox-row input { width: 16px; height: 16px; }
+  .btn-row { display: flex; gap: 0.5rem; }
+  .btn {
+    flex: 1; padding: 0.55rem; border: none; border-radius: 4px; font-size: 0.9rem;
+    cursor: pointer; font-weight: 500; transition: background 0.15s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary { background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .auth-error { color: #dc2626; font-size: 0.85rem; margin-top: 0.75rem; display: none; }
+
+  /* Chat view */
+  #chat-view { flex: 1; display: none; flex-direction: column; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; font-size: 0.85rem; color: var(--muted); }
+  .topbar button { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 0.85rem; }
+  .topbar button:hover { text-decoration: underline; }
+  #messages { flex: 1; overflow-y: auto; padding: 0.5rem 0; display: flex; flex-direction: column; gap: 0.75rem; }
+  .msg { padding: 0.6rem 0.8rem; border-radius: var(--radius); max-width: 85%; line-height: 1.5; font-size: 0.92rem; word-wrap: break-word; }
+  .msg.user { background: var(--user-bg); align-self: flex-end; white-space: pre-wrap; }
+  .msg.bot { background: var(--bot-bg); align-self: flex-start; }
+  .msg.bot p { margin: 0.4em 0; }
+  .msg.bot p:first-child { margin-top: 0; }
+  .msg.bot p:last-child { margin-bottom: 0; }
+  .msg.bot ul, .msg.bot ol { padding-left: 1.4em; margin: 0.4em 0; }
+  .msg.bot li { margin: 0.15em 0; }
+  .msg.bot strong { font-weight: 600; }
+  .msg.bot code { background: rgba(0,0,0,0.07); padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.88em; font-family: ui-monospace, monospace; }
+  .msg.bot pre { background: rgba(0,0,0,0.07); padding: 0.6em 0.8em; border-radius: 4px; overflow-x: auto; margin: 0.5em 0; }
+  .msg.bot pre code { background: none; padding: 0; font-size: 0.85em; }
+  .msg.bot h1, .msg.bot h2, .msg.bot h3 { margin: 0.6em 0 0.2em; line-height: 1.3; }
+  .msg.error { background: #fef2f2; color: #dc2626; align-self: flex-start; white-space: pre-wrap; }
+  .input-row { display: flex; gap: 0.5rem; padding: 0.75rem 0; }
+  .input-row input {
+    flex: 1; padding: 0.55rem 0.7rem; border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 0.95rem;
+  }
+  .input-row .btn { flex: none; width: 80px; }
+  .input-row .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Biogas&shy;handboken</h1>
+    <p class="sub">Ställ frågor om biogashandboken</p>
+  </header>
+
+  <!-- Auth view -->
+  <div id="auth-view">
+    <div class="auth-card">
+      <h2>Välkommen</h2>
+      <label for="name-input">Namn</label>
+      <input type="text" id="name-input" placeholder="Anna Svensson">
+      <label for="email-input">E-post</label>
+      <input type="email" id="email-input" placeholder="anna@example.com">
+      <div class="checkbox-row">
+        <input type="checkbox" id="allow-logging">
+        <label for="allow-logging">Tillåt insamling av data för att förbättra systemet</label>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="doSignup()">Registrera</button>
+        <button class="btn btn-secondary" onclick="doLogin()">Logga in</button>
+      </div>
+      <p class="auth-error" id="auth-error"></p>
+    </div>
+  </div>
+
+  <!-- Chat view -->
+  <div id="chat-view">
+    <div class="topbar">
+      <span>Inloggad som <strong id="user-name"></strong></span>
+      <button onclick="doLogout()">Logga ut</button>
+    </div>
+    <div id="messages"></div>
+    <div class="input-row">
+      <input type="text" id="q-input" placeholder="Ställ en fråga..." onkeydown="if(event.key==='Enter')sendQuery()">
+      <button class="btn btn-primary" id="send-btn" onclick="sendQuery()">Skicka</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const authView = document.getElementById("auth-view");
+const chatView = document.getElementById("chat-view");
+const authError = document.getElementById("auth-error");
+const messages = document.getElementById("messages");
+const qInput = document.getElementById("q-input");
+const sendBtn = document.getElementById("send-btn");
+
+function showError(msg) {
+  authError.textContent = msg;
+  authError.style.display = "block";
+}
+function hideError() { authError.style.display = "none"; }
+
+function showChat(name) {
+  document.getElementById("user-name").textContent = name;
+  authView.style.display = "none";
+  chatView.style.display = "flex";
+  qInput.focus();
+}
+
+async function doSignup() {
+  hideError();
+  const name = document.getElementById("name-input").value.trim();
+  const email = document.getElementById("email-input").value.trim();
+  const allow_logging = document.getElementById("allow-logging").checked;
+  if (!name || !email) { showError("Ange namn och e-post."); return; }
+
+  const res = await fetch("/api/signup", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({name, email, allow_logging}),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    showError(err.detail || "Registrering misslyckades.");
+    return;
+  }
+  const data = await res.json();
+  showChat(data.name);
+}
+
+async function doLogin() {
+  hideError();
+  const email = document.getElementById("email-input").value.trim();
+  if (!email) { showError("Ange din e-post."); return; }
+
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({email}),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    showError(err.detail || "Inloggning misslyckades.");
+    return;
+  }
+  const data = await res.json();
+  showChat(data.name);
+}
+
+async function doLogout() {
+  await fetch("/api/logout", {method: "POST"});
+  chatView.style.display = "none";
+  authView.style.display = "flex";
+  messages.innerHTML = "";
+}
+
+function appendMsg(role, text) {
+  const div = document.createElement("div");
+  div.className = "msg " + role;
+  div.textContent = text;
+  messages.appendChild(div);
+  div.scrollIntoView({behavior: "smooth", block: "end"});
+  return div;
+}
+
+async function sendQuery() {
+  const q = qInput.value.trim();
+  if (!q) return;
+  qInput.value = "";
+  sendBtn.disabled = true;
+  qInput.disabled = true;
+
+  appendMsg("user", q);
+  const botDiv = appendMsg("bot", "");
+  let botText = "";
+
+  try {
+    const res = await fetch("/api/query?q=" + encodeURIComponent(q));
+    if (!res.ok) {
+      botDiv.className = "msg error";
+      botDiv.textContent = res.status === 401 ? "Sessionen har gått ut. Logga in igen." : "Något gick fel.";
+      return;
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = "";
+
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, {stream: true});
+
+      const lines = buf.split("\n");
+      buf = lines.pop();
+
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        const payload = line.slice(6);
+        if (payload.trim() === "[DONE]") continue;
+        try {
+          const obj = JSON.parse(payload);
+          if (obj.error) {
+            botDiv.className = "msg error";
+            botDiv.textContent = obj.error;
+          } else if (obj.token) {
+            botText += obj.token;
+            botDiv.innerHTML = marked.parse(botText);
+          }
+        } catch(e) { /* skip malformed lines */ }
+      }
+      botDiv.scrollIntoView({behavior: "smooth", block: "end"});
+    }
+  } catch (e) {
+    botDiv.className = "msg error";
+    botDiv.textContent = "Nätverksfel. Kontrollera anslutningen.";
+  } finally {
+    sendBtn.disabled = false;
+    qInput.disabled = false;
+    qInput.focus();
+  }
+}
+</script>
+</body>
+</html>
