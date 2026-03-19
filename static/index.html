@@ -6,6 +6,7 @@
 <title>Biogas RAG</title>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link rel="icon" type="image/png" href="/static/images/favicon.png">
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js"></script>
 <style>
@@ -20,9 +21,17 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: system-ui, -apple-system, sans-serif;
-    background: var(--bg); color: var(--fg);
-    height: 100dvh; overflow: hidden;
-    display: flex; flex-direction: column;
+    background: var(--bg);
+    color: var(--fg);
+    background-image: url('static/images/julia-koblitz-JJkwsqNv4d0-unsplash.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Auth view */
@@ -117,9 +126,9 @@
     <div class="auth-card">
       <h2>Välkommen till Biogashandboken</h2>
       <label for="name-input">Namn</label>
-      <input type="text" id="name-input" placeholder="Anna Svensson">
+      <input type="text" id="name-input">
       <label for="email-input">E-post</label>
-      <input type="email" id="email-input" placeholder="anna@example.com">
+      <input type="email" id="email-input">
 <!----      <div class="checkbox-row">
         <input type="checkbox" id="allow-logging">
         <label for="allow-logging">Tillåt insamling av data för att förbättra systemet</label>
@@ -222,14 +231,6 @@ async function doLogout() {
   messages.innerHTML = "";
 }
 
-// Expand [handbok:N] and [handbok:N-M] markers into markdown links.
-function resolveMarkers(text) {
-  return text.replace(/\[handbok:(\d+)(?:[-–](\d+))?\]/g, (_match, p1, p2) => {
-    const label = p2 ? `${p1}–${p2}` : `sidan ${p1}`;
-    return `[${label}](/static/handbok.pdf?p=${p1})`;
-  });
-}
-
 // Navigate the PDF.js viewer to a specific page without reloading the PDF.
 function showHandbookPage(page) {
   contentFrame.contentWindow.PDFViewerApplication.initializedPromise.then(() => {
@@ -237,13 +238,16 @@ function showHandbookPage(page) {
   });
 }
 
+// Intercept clicks on handbok: links (rendered by marked.js from LLM output).
 messages.addEventListener("click", e => {
   const a = e.target.closest("a");
   if (!a) return;
   const href = a.getAttribute("href");
-  if (!href || !href.startsWith("/static/handbok.pdf")) return;
+  if (!href) return;
+  const m = href.match(/^handbok:(\d+)(?:[-–](\d+))?$/);
+  if (!m) return;
   e.preventDefault();
-  const page = parseInt(new URL(href, location.origin).searchParams.get("p"));
+  const page = parseInt(m[1]);
   if (page) showHandbookPage(page);
 });
 
@@ -299,7 +303,7 @@ async function sendQuery() {
             botDiv.textContent = obj.error;
           } else if (obj.token) {
             botText += obj.token;
-            botDiv.innerHTML = marked.parse(resolveMarkers(botText));
+            botDiv.innerHTML = marked.parse(botText);
             renderMathInElement(botDiv, {
               delimiters: [
                 {left: "$$", right: "$$", display: true},

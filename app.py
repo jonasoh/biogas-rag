@@ -27,6 +27,7 @@ from test_rag import (
     TOP_K,
     USER_TEMPLATE,
     build_context,
+    enrich_with_exercises,
     retrieve,
 )
 
@@ -127,6 +128,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static/pdfjs", StaticFiles(directory="static/pdfjs"), name="pdfjs")
+app.mount("/static/images", StaticFiles(directory="static/images"), name="images")
 
 # ── Routes ───────────────────────────────────────────────────────────────
 
@@ -214,6 +216,7 @@ async def query_sse(q: str, request: Request):
         None,
         lambda: retrieve(q, st.index, st.meta, st.texts, st.model, TOP_K),
     )
+    results = enrich_with_exercises(results, st.meta, st.texts)
     context = build_context(results)
 
     # Build LLM messages

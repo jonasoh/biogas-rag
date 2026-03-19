@@ -58,7 +58,7 @@ def extract_context(page_text, page_num):
 
 def main():
     # Read the handbook
-    handbook_path = Path("raw_data/handbook_notables.json")
+    handbook_path = Path("raw_data/handbook.json")
 
     with open(handbook_path, "r", encoding="utf-8") as f:
         handbook = json.load(f)

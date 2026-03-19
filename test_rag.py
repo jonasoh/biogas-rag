@@ -37,15 +37,17 @@ med relevanta avsnitt ur handboken, inklusive bilder. Om användaren efterfråga
 bild eller figur hänvisar du enbart till sidan och använder inte markdown.
 
 Regler:
+- Var kort och koncis.
 - Svara ENBART utifrån den kontext som ges nedan.
 - Om kontexten inte innehåller tillräcklig information för att besvara frågan, \
 säg tydligt att du inte kan besvara frågan med den tillgängliga informationen.
 - Istället för 'kontext', använd 'handboken' eller 'biogashandboken' när du \
 refererar till den information som ges.
-- Var koncis och saklig.
-- När du hänvisar till sidor i handboken, använd markeringen \
-[handbok:N] för en enskild sida eller [handbok:N-M] för ett sidintervall \
-(t.ex. [handbok:45-52]). Skriv INTE ut sidnummer på något annat sätt."""
+- Ange alltid sidhänvisningar när det är möjligt. \
+När du hänvisar till sidor i handboken, använd ALLTID markdown-länkformatet \
+[s. N](handbok:N) för en enskild sida eller [s. N–M](handbok:N-M) för ett sidintervall. \
+Formatera i löpande text, t.ex. 'beskrivs i handboken ([s. 45–52](handbok:45-52))'. \
+Skriv INTE ut sidnummer på något annat sätt."""
 
 USER_TEMPLATE = """\
 ### Kontext
@@ -76,9 +78,69 @@ def retrieve(query: str, index, meta, texts, model, top_k: int):
                 "pages": f"{m['page_start']}–{m['page_end']}",
                 "type": m["type_of_content"],
                 "text": texts[idx],  # full text, no truncation
+                "table_markdown": m.get("table_markdown"),
+                "table_legend": m.get("table_legend"),
             }
         )
     return results
+
+
+def enrich_with_exercises(
+    results: list[dict],
+    meta: list[dict],
+    texts: list[str],
+) -> list[dict]:
+    """When a solution chunk is retrieved, inject the matching exercise(s)."""
+    solution_chapters = set()
+    existing_ids = {r["chunk_id"] for r in results}
+
+    for r in results:
+        if r["type"] == "solution":
+            solution_chapters.add(r["chapter"])
+
+    if not solution_chapters:
+        return results
+
+    # Find exercise chunks for those chapters
+    to_inject: list[dict] = []
+    for idx, m in enumerate(meta):
+        if (
+            m["type_of_content"] == "exercise"
+            and m["chapter_number"] in solution_chapters
+            and m["chunk_id"] not in existing_ids
+        ):
+            to_inject.append(
+                {
+                    "rank": 0,
+                    "score": -1.0,
+                    "chunk_id": m["chunk_id"],
+                    "chapter": m["chapter_number"],
+                    "chapter_title": m["chapter_title"],
+                    "section": m["section_title"],
+                    "pages": f"{m['page_start']}–{m['page_end']}",
+                    "type": m["type_of_content"],
+                    "text": texts[idx],
+                    "table_markdown": m.get("table_markdown"),
+                    "table_legend": m.get("table_legend"),
+                    "injected": True,
+                }
+            )
+
+    if not to_inject:
+        return results
+
+    # Insert exercises before the first solution for their chapter
+    enriched = []
+    injected_chapters: set[int] = set()
+    for r in results:
+        if r["type"] == "solution" and r["chapter"] not in injected_chapters:
+            for ex in to_inject:
+                if ex["chapter"] == r["chapter"]:
+                    enriched.append(ex)
+            injected_chapters.add(r["chapter"])
+        enriched.append(r)
+
+    return enriched
 
 
 def build_context(results: list[dict]) -> str:
@@ -88,7 +150,15 @@ def build_context(results: list[dict]) -> str:
         header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
         if r["section"]:
             header += f" › {r['section']}"
-        parts.append(f"{header}\n{r['text']}")
+
+        if r.get("table_markdown"):
+            # For table chunks: show the actual table, not the summary
+            legend = r.get("table_legend", "")
+            content = f"{legend}\n\n{r['table_markdown']}"
+        else:
+            content = r["text"]
+
+        parts.append(f"{header}\n{content}")
     return "\n\n---\n\n".join(parts)
 
 
@@ -124,6 +194,7 @@ def ask_llm(question: str, context: str, debug: bool = False) -> str:
 def rag_query(question: str, index, meta, texts, model, debug: bool = False) -> str:
     """Full RAG pipeline: retrieve then generate."""
     results = retrieve(question, index, meta, texts, model, TOP_K)
+    results = enrich_with_exercises(results, meta, texts)
 
     print(f"\n--- Hämtade {len(results)} relevanta avsnitt ---")
     for r in results:

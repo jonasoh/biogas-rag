@@ -229,11 +229,71 @@ def chunks_for_segment(
 # ---------------------------------------------------------------------------
 
 
+def build_table_chunks(
+    tables_data: List[Dict],
+    meta: Dict,
+    source: str,
+) -> List[Dict]:
+    """Create one chunk per table from enriched table data.
+
+    The ``text`` field (used for embedding) is the LLM summary, while
+    ``table_markdown`` and ``table_legend`` carry the actual content for
+    LLM context delivery at query time.
+    """
+    chapters = meta.get("chapters", [])
+
+    def chapter_for_page(page: int):
+        for ch in chapters:
+            s, e = ch["page_start"], ch["page_end"]
+            if e < s:
+                e = s
+            if s <= page <= max(e, 200):
+                return ch["chapter_number"], ch["chapter_title"]
+        return None, None
+
+    # Build a global section map across all chapters
+    section_map: Dict[int, str] = {}
+    for ch in chapters:
+        section_map.update(build_page_to_section(ch.get("sections", [])))
+
+    # Per-chapter sequence counters
+    seq: Dict[int, int] = {}
+    chunks: List[Dict] = []
+
+    for t in tables_data:
+        page = t["page"]
+        ch_num, ch_title = chapter_for_page(page)
+        sec_title = section_map.get(page, t.get("section") or "")
+
+        idx = seq.get(ch_num, 0)
+        seq[ch_num] = idx + 1
+
+        chunk_id = make_chunk_id(source, f"tbl_ch{ch_num}", idx)
+        chunks.append(
+            {
+                "chunk_id": chunk_id,
+                "source": source,
+                "chapter_number": ch_num,
+                "chapter_title": ch_title,
+                "section_title": sec_title,
+                "page_start": page,
+                "page_end": page,
+                "type_of_content": "table",
+                "text": t["summary"],
+                "table_markdown": t["table_markdown"],
+                "table_legend": t["legend"],
+            }
+        )
+
+    return chunks
+
+
 def build_chunks(
     pages_dict: Dict[str, str],
     meta: Dict,
     chunk_size: int,
     overlap: int,
+    tables_data: Optional[List[Dict]] = None,
 ) -> List[Dict]:
     source = meta.get("source_id", "handbook")
     all_chunks: List[Dict] = []
@@ -409,6 +469,12 @@ def build_chunks(
             )
         )
 
+    # ---- 5. Tables -------------------------------------------------------
+    if tables_data:
+        table_chunks = build_table_chunks(tables_data, meta, source)
+        print(f"Adding {len(table_chunks)} table chunks")
+        all_chunks.extend(table_chunks)
+
     return all_chunks
 
 
@@ -419,6 +485,11 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--outdir", default="data")
     p.add_argument("--chunk-size", type=int, default=2500)
     p.add_argument("--overlap", type=int, default=250)
+    p.add_argument(
+        "--tables",
+        default=None,
+        help="Path to enriched table data (from summarize_tables.py)",
+    )
     return p.parse_args()
 
 
@@ -432,11 +503,18 @@ def main() -> None:
     print(f"Loading metadata from {args.meta}")
     meta: Dict = read_json(args.meta)
 
+    tables_data = None
+    if args.tables:
+        print(f"Loading enriched tables from {args.tables}")
+        tables_data = read_json(args.tables)
+        print(f"  {len(tables_data)} tables loaded")
+
     chunks = build_chunks(
         pages_dict=pages_dict,
         meta=meta,
         chunk_size=args.chunk_size,
         overlap=args.overlap,
+        tables_data=tables_data,
     )
 
     out_path = os.path.join(args.outdir, "chunks.json")
