@@ -35,12 +35,23 @@
   }
 
   /* Auth view */
-  #auth-view { flex: 1; display: flex; align-items: center; justify-content: center; }
+  #auth-view { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
   .auth-card {
     background: var(--card-bg); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 380px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.75);
   }
   .auth-card h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .auth-subtitle {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    color: var(--fg);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    margin-top: -0.5rem;
+  }
   .auth-card label { display: block; font-size: 0.85rem; margin-bottom: 0.25rem; color: var(--muted); }
   .auth-card input[type="text"],
   .auth-card input[type="email"] {
@@ -114,9 +125,33 @@
   .input-row .btn { flex: none; width: 80px; }
   .input-row .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+  /* Attribution footer */
+  .attribution {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: right;
+  }
+  .attribution a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .attribution a:hover {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: underline;
+  }
+
   /* Content panel */
   .content-panel { flex: 1; display: flex; }
   .content-panel iframe { flex: 1; border: none; }
+
+  @media (max-width: 600px) {
+    .chat-panel { width: 100%; max-width: 100%; border-right: none; }
+    .content-panel { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -124,7 +159,8 @@
   <!-- Auth view -->
   <div id="auth-view">
     <div class="auth-card">
-      <h2>Välkommen till Biogashandboken</h2>
+      <img src="/static/images/slu-logo-color.webp" alt="SLU logo" style="max-width: 50%; height: auto; display: block; margin: 0 auto 1rem;">
+      <div class="auth-subtitle">Biogas RAG</div>
       <label for="name-input">Namn</label>
       <input type="text" id="name-input">
       <label for="email-input">E-post</label>
@@ -138,6 +174,9 @@
         <button class="btn btn-primary" onclick="doLogin()">Logga in</button>
       </div>
       <p class="auth-error" id="auth-error"></p>
+    </div>
+    <div class="attribution">
+      Photo by <a href="https://unsplash.com/@jkoblitz" target="_blank">Julia Koblitz</a> on <a href="https://unsplash.com" target="_blank">Unsplash</a>
     </div>
   </div>
 
@@ -248,7 +287,12 @@ messages.addEventListener("click", e => {
   if (!m) return;
   e.preventDefault();
   const page = parseInt(m[1]);
-  if (page) showHandbookPage(page);
+  if (!page) return;
+  if (window.innerWidth <= 600) {
+    window.location.href = `/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#page=${page}`;
+  } else {
+    showHandbookPage(page);
+  }
 });
 
 function appendMsg(role, text) {
