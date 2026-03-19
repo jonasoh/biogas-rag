@@ -1,5 +1,5 @@
 """
-query.py – Interactive query utility for the handbook FAISS index.
+query.py -- Interactive query utility for the handbook FAISS index.
 
 Usage:
     # single query
@@ -36,7 +36,7 @@ DEFAULT_INDEX = "data/handbook.faiss"
 DEFAULT_META = "data/chunk_metadata.json"
 DEFAULT_CHUNKS = "data/chunks.json"
 DEFAULT_MODEL = "Alibaba-NLP/gte-multilingual-base"
-
+#DEFAULT_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 
 def load_assets(index_path, meta_path, chunks_path, model_name):
     print(f"Loading index …", end=" ", flush=True)

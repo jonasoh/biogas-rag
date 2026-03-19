@@ -5,3 +5,5 @@ data/
 raw_data/
 metadata/
 biogas.db*
+static/handbok.pdf
+static/pdfjs/

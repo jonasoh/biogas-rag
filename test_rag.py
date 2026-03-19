@@ -39,8 +39,10 @@ Regler:
 säg tydligt att du inte kan besvara frågan med den tillgängliga informationen.
 - Istället för 'kontext', använd 'handboken' eller 'biogashandboken' när du \
 refererar till den information som ges.
-- Hänvisa till kapitel- och sidnummer när det är möjligt.
-- Var koncis och saklig."""
+- Var koncis och saklig.
+- När du hänvisar till sidor i handboken, använd markeringen \
+[handbok:N] för en enskild sida eller [handbok:N-M] för ett sidintervall \
+(t.ex. [handbok:45-52]). Skriv INTE ut sidnummer på något annat sätt."""
 
 USER_TEMPLATE = """\
 ### Kontext

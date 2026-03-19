@@ -15,6 +15,7 @@ import aiosqlite
 import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from itsdangerous import BadSignature, URLSafeTimedSerializer
 from pydantic import BaseModel
 
@@ -125,6 +126,7 @@ async def lifespan(app: FastAPI):
 # ── FastAPI app ──────────────────────────────────────────────────────────
 
 app = FastAPI(lifespan=lifespan)
+app.mount("/static/pdfjs", StaticFiles(directory="static/pdfjs"), name="pdfjs")
 
 # ── Routes ───────────────────────────────────────────────────────────────
 
@@ -132,6 +134,11 @@ app = FastAPI(lifespan=lifespan)
 @app.get("/")
 async def index():
     return FileResponse("static/index.html")
+
+
+@app.get("/static/handbok.pdf")
+async def handbok_pdf():
+    return FileResponse("static/handbok.pdf", media_type="application/pdf")
 
 
 class SignupBody(BaseModel):
