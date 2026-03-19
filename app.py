@@ -19,12 +19,19 @@ from fastapi.staticfiles import StaticFiles
 from itsdangerous import BadSignature, URLSafeTimedSerializer
 from pydantic import BaseModel
 
-from query import DEFAULT_CHUNKS, DEFAULT_INDEX, DEFAULT_META, DEFAULT_MODEL, load_assets
-from test_rag import (
-    LLAMA_URL,
+from config import (
+    CHUNKS_PATH,
+    EMBEDDING_MODEL,
+    INDEX_PATH,
     LLM_MODEL,
-    SYSTEM_PROMPT,
+    LLM_TIMEOUT,
+    LLM_URL,
+    METADATA_PATH,
     TOP_K,
+)
+from query import load_assets
+from rag import (
+    SYSTEM_PROMPT,
     USER_TEMPLATE,
     build_context,
     enrich_with_exercises,
@@ -82,7 +89,7 @@ async def log_query(db: aiosqlite.Connection, user_id: int, question: str, answe
 async def lifespan(app: FastAPI):
     # Load RAG assets (FAISS index, metadata, chunks, embedding model)
     index, meta, texts, model = load_assets(
-        DEFAULT_INDEX, DEFAULT_META, DEFAULT_CHUNKS, DEFAULT_MODEL
+        INDEX_PATH, METADATA_PATH, CHUNKS_PATH, EMBEDDING_MODEL
     )
     app.state.index = index
     app.state.meta = meta
@@ -115,7 +122,7 @@ async def lifespan(app: FastAPI):
     app.state.db = db
 
     # Shared async HTTP client for LLM requests
-    app.state.http = httpx.AsyncClient(timeout=120.0)
+    app.state.http = httpx.AsyncClient(timeout=LLM_TIMEOUT)
 
     print("Server ready.")
     yield
@@ -237,7 +244,7 @@ async def query_sse(q: str, request: Request):
         try:
             async with st.http.stream(
                 "POST",
-                LLAMA_URL,
+                LLM_URL,
                 json={"model": LLM_MODEL, "messages": messages, "stream": True},
             ) as resp:
                 async for line in resp.aiter_lines():

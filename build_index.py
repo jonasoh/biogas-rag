@@ -5,7 +5,6 @@ Usage:
     python build_index.py \
         --chunks data/chunks.json \
         --outdir data \
-        --model  Alibaba-NLP/gte-multilingual-base \
         --batch-size 32
 """
 
@@ -16,18 +15,7 @@ from typing import Any, Dict, List
 
 import numpy as np
 
-
-# MPS (Apple Silicon) triggers out-of-bounds errors with some
-# trust_remote_code models (e.g. gte-multilingual-base), so only
-# auto-select CUDA; fall back to CPU otherwise.
-try:
-    import torch
-
-    DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-    if torch.backends.mps.is_available():
-        DEVICE = "mps"
-except Exception:
-    DEVICE = "cpu"
+from config import DEVICE, EMBEDDING_MODEL
 
 
 def read_json(path: str) -> Any:
@@ -84,7 +72,7 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Build a FAISS index from handbook chunks.")
     p.add_argument("--chunks", default="data/chunks.json")
     p.add_argument("--outdir", default="data")
-    p.add_argument("--model", default="Alibaba-NLP/gte-multilingual-base")
+    p.add_argument("--model", default=EMBEDDING_MODEL)
     p.add_argument("--batch-size", type=int, default=32)
     return p.parse_args()
 

@@ -17,8 +17,8 @@ from pathlib import Path
 
 import httpx
 
-LLM_URL = "http://127.0.0.1:8000/v1/chat/completions"
-LLM_MODEL = "Qwen/Qwen3.5-35B-A3B"
+from config import LLM_MODEL, LLM_TIMEOUT, LLM_URL
+
 MAX_RETRIES = 3
 RETRY_DELAY = 5  # seconds
 
@@ -150,7 +150,7 @@ def summarize_table(legend: str, table_markdown: str) -> str:
                     "temperature": 0.3,
                     "max_tokens": 500,
                 },
-                timeout=120.0,
+                timeout=LLM_TIMEOUT,
             )
             resp.raise_for_status()
             content = resp.json()["choices"][0]["message"]["content"]

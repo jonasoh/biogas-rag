@@ -1,13 +1,13 @@
 """
-test_rag.py - Simple RAG pipeline for the biogas handbook.
+rag.py -- RAG pipeline for the biogas handbook.
 
 Retrieves relevant chunks from the FAISS index, then sends them as
-context to a local Ollama instance (llama3.1) to generate an answer.
+context to a local LLM to generate an answer.
 
 Usage:
-    python test_rag.py "vad är metanogener?"
-    python test_rag.py --debug "toxiska ämnen"
-    python test_rag.py                        # interactive mode
+    python rag.py "vad är metanogener?"
+    python rag.py --debug "toxiska ämnen"
+    python rag.py                        # interactive mode
 """
 
 import argparse
@@ -18,17 +18,17 @@ import sys
 import httpx
 import numpy as np
 
-from query import (
-    DEFAULT_CHUNKS,
-    DEFAULT_INDEX,
-    DEFAULT_META,
-    DEFAULT_MODEL,
-    load_assets,
+from config import (
+    CHUNKS_PATH,
+    EMBEDDING_MODEL,
+    INDEX_PATH,
+    LLM_MODEL,
+    LLM_TIMEOUT,
+    LLM_URL,
+    METADATA_PATH,
+    TOP_K,
 )
-
-LLAMA_URL = "http://127.0.0.1:8000/v1/chat/completions"
-LLM_MODEL = "Qwen/Qwen3.5-35B-A3B"
-TOP_K = 8
+from query import load_assets
 
 SYSTEM_PROMPT = """\
 Du är en kunnig handledare i biogasteknik. Du svarar på svenska. Dina svar används
@@ -39,11 +39,15 @@ bild eller figur hänvisar du enbart till sidan och använder inte markdown.
 Regler:
 - Var kort och koncis.
 - Svara ENBART utifrån den kontext som ges nedan.
+- Dina svar kommer att formateras i en webbapp där relevanta avsnitt från handboken \
+visas tillsammans med ditt svar.
 - Om kontexten inte innehåller tillräcklig information för att besvara frågan, \
 säg tydligt att du inte kan besvara frågan med den tillgängliga informationen.
 - Istället för 'kontext', använd 'handboken' eller 'biogashandboken' när du \
 refererar till den information som ges.
-- Ange alltid sidhänvisningar när det är möjligt. \
+- Skriv aldrig ut hela tabeller utan hänvisa till dem i handboken.
+- Du MÅSTE ange sidhänvisningar när det är möjligt och de måste ALLTID vara korrekt formaterade \
+enligt nedan för att användaren ska kunna hitta informationen. \
 När du hänvisar till sidor i handboken, använd ALLTID markdown-länkformatet \
 [s. N](handbok:N) för en enskild sida eller [s. N–M](handbok:N-M) för ett sidintervall. \
 Formatera i löpande text, t.ex. 'beskrivs i handboken ([s. 45–52](handbok:45-52))'. \
@@ -183,9 +187,9 @@ def ask_llm(question: str, context: str, debug: bool = False) -> str:
         print()
 
     resp = httpx.post(
-        LLAMA_URL,
+        LLM_URL,
         json={"model": LLM_MODEL, "messages": messages, "stream": False},
-        timeout=120.0,
+        timeout=LLM_TIMEOUT,
     )
     resp.raise_for_status()
     return resp.json()['choices'][0]["message"]["content"]
@@ -218,7 +222,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    for path in (DEFAULT_INDEX, DEFAULT_META, DEFAULT_CHUNKS):
+    for path in (INDEX_PATH, METADATA_PATH, CHUNKS_PATH):
         if not os.path.exists(path):
             print(
                 f"Error: {path} not found. Run build_index.py first.", file=sys.stderr
@@ -226,10 +230,10 @@ def main():
             sys.exit(1)
 
     index, meta, texts, model = load_assets(
-        DEFAULT_INDEX, DEFAULT_META, DEFAULT_CHUNKS, DEFAULT_MODEL
+        INDEX_PATH, METADATA_PATH, CHUNKS_PATH, EMBEDDING_MODEL
     )
     # load_assets returns snippet-truncated texts; reload full texts
-    texts = [c["text"] for c in json.load(open(DEFAULT_CHUNKS, encoding="utf-8"))]
+    texts = [c["text"] for c in json.load(open(CHUNKS_PATH, encoding="utf-8"))]
 
     if args.query:
         question = " ".join(args.query)

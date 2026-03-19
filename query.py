@@ -17,26 +17,14 @@ import json
 import os
 import sys
 
+from config import CHUNKS_PATH, DEVICE, EMBEDDING_MODEL, INDEX_PATH, METADATA_PATH
+
 # sentence_transformers must be imported before faiss on macOS: both link
 # against Apple's Accelerate framework and faiss-first causes a segfault.
-try:
-    import torch
-
-    # MPS causes a segfault with gte-multilingual-base; use CPU or CUDA only.
-    DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-except Exception:
-    DEVICE = "cpu"
-
 from sentence_transformers import SentenceTransformer  # noqa: E402 (must precede faiss)
 
 import faiss  # noqa: E402
 import numpy as np
-
-DEFAULT_INDEX = "data/handbook.faiss"
-DEFAULT_META = "data/chunk_metadata.json"
-DEFAULT_CHUNKS = "data/chunks.json"
-DEFAULT_MODEL = "Alibaba-NLP/gte-multilingual-base"
-#DEFAULT_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 
 def load_assets(index_path, meta_path, chunks_path, model_name):
     print(f"Loading index …", end=" ", flush=True)
@@ -100,10 +88,10 @@ def print_results(results):
 def parse_args():
     p = argparse.ArgumentParser(description="Query the handbook FAISS index.")
     p.add_argument("query", nargs="?", help="Query string (omit for interactive mode)")
-    p.add_argument("--index", default=DEFAULT_INDEX)
-    p.add_argument("--meta", default=DEFAULT_META)
-    p.add_argument("--chunks", default=DEFAULT_CHUNKS)
-    p.add_argument("--model", default=DEFAULT_MODEL)
+    p.add_argument("--index", default=INDEX_PATH)
+    p.add_argument("--meta", default=METADATA_PATH)
+    p.add_argument("--chunks", default=CHUNKS_PATH)
+    p.add_argument("--model", default=EMBEDDING_MODEL)
     p.add_argument("--top-k", type=int, default=5)
     p.add_argument(
         "--snippet", type=int, default=200, help="Characters of text to show per result"
