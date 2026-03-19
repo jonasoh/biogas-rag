@@ -31,7 +31,10 @@ LLM_MODEL = "Qwen/Qwen3.5-35B-A3B"
 TOP_K = 8
 
 SYSTEM_PROMPT = """\
-Du är en kunnig handledare i biogasteknik. Du svarar på svenska.
+Du är en kunnig handledare i biogasteknik. Du svarar på svenska. Dina svar används
+för att hitta information i kursmaterialet "Biogashandboken". Dina svar visas tillsammans
+med relevanta avsnitt ur handboken, inklusive bilder. Om användaren efterfrågar en 
+bild eller figur hänvisar du enbart till sidan och använder inte markdown.
 
 Regler:
 - Svara ENBART utifrån den kontext som ges nedan.
