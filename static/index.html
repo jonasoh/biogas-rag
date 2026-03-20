@@ -114,6 +114,15 @@
   .msg.bot a:hover { color: var(--accent-hover); }
   .msg.error { background: #fef2f2; color: #dc2626; align-self: flex-start; white-space: pre-wrap; }
 
+  .spinner {
+    display: inline-block; width: 18px; height: 18px;
+    border: 2px solid rgba(0,0,0,0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   .input-row {
     display: flex; gap: 0.5rem; padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--border); flex-shrink: 0;
@@ -314,6 +323,7 @@ async function sendQuery() {
   messages.innerHTML = "";
   appendMsg("user", q);
   const botDiv = appendMsg("bot", "");
+  botDiv.innerHTML = '<span class="spinner"></span>';
   let botText = "";
 
   try {
