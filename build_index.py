@@ -14,6 +14,7 @@ import os
 from typing import Any, Dict, List
 
 import numpy as np
+import faiss
 
 from config import DEVICE, EMBEDDING_MODEL
 
@@ -58,10 +59,8 @@ def embed_texts(
     return matrix
 
 
-def build_faiss_index(vectors: np.ndarray):
+def build_faiss_index(vectors: np.ndarray) -> faiss.IndexFlatIP:
     """Build a flat inner-product FAISS index from *vectors*."""
-    import faiss
-
     dim = vectors.shape[1]
     index = faiss.IndexFlatIP(dim)
     index.add(vectors)
