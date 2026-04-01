@@ -170,16 +170,13 @@
     <div class="auth-card">
       <img src="/static/images/slu-logo-color.webp" alt="SLU logo" style="max-width: 50%; height: auto; display: block; margin: 0 auto 1rem;">
       <div class="auth-subtitle">Biogas RAG</div>
-      <label for="name-input">Namn</label>
-      <input type="text" id="name-input">
       <label for="email-input">E-post</label>
       <input type="email" id="email-input">
-<!----      <div class="checkbox-row">
-        <input type="checkbox" id="allow-logging">
+      <div class="checkbox-row">
+        <input type="checkbox" id="allow-logging" checked="true">
         <label for="allow-logging">Tillåt insamling av data för att förbättra systemet</label>
-      </div> -->
+      </div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="doSignup()">Registrera</button>
         <button class="btn btn-primary" onclick="doLogin()">Logga in</button>
       </div>
       <p class="auth-error" id="auth-error"></p>
@@ -225,43 +222,23 @@ function showError(msg) {
 }
 function hideError() { authError.style.display = "none"; }
 
-function showChat(name) {
-  document.getElementById("user-name").textContent = name;
+function showChat(email) {
+  document.getElementById("user-name").textContent = email;
   authView.style.display = "none";
   chatView.style.display = "flex";
   qInput.focus();
 }
 
-async function doSignup() {
-  hideError();
-  const name = document.getElementById("name-input").value.trim();
-  const email = document.getElementById("email-input").value.trim();
-  const allow_logging = document.getElementById("allow-logging").checked;
-  if (!name || !email) { showError("Ange namn och e-post."); return; }
-
-  const res = await fetch("/api/signup", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({name, email, allow_logging}),
-  });
-  if (!res.ok) {
-    const err = await res.json();
-    showError(err.detail || "Registrering misslyckades.");
-    return;
-  }
-  const data = await res.json();
-  showChat(data.name);
-}
-
 async function doLogin() {
   hideError();
   const email = document.getElementById("email-input").value.trim();
+  const allow_logging = document.getElementById("allow-logging").checked;
   if (!email) { showError("Ange din e-post."); return; }
 
   const res = await fetch("/api/login", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({email}),
+    body: JSON.stringify({email, allow_logging}),
   });
   if (!res.ok) {
     const err = await res.json();
@@ -269,7 +246,7 @@ async function doLogin() {
     return;
   }
   const data = await res.json();
-  showChat(data.name);
+  showChat(data.email);
 }
 
 async function doLogout() {

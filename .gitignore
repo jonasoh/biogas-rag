@@ -7,3 +7,4 @@ metadata/
 biogas.db*
 static/handbok.pdf
 static/pdfjs/
+.env

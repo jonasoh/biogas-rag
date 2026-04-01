@@ -13,6 +13,7 @@ from contextlib import asynccontextmanager
 
 import aiosqlite
 import httpx
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -38,6 +39,8 @@ from rag import (
     retrieve,
 )
 
+load_dotenv()
+
 # ── Configuration ────────────────────────────────────────────────────────
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-fallback-key-change-in-production")
@@ -45,13 +48,18 @@ COOKIE_NAME = "session"
 COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # 30 days
 DB_PATH = "biogas.db"
 
+ADMIN_COOKIE_NAME = "admin_session"
+ADMIN_COOKIE_MAX_AGE = 60 * 60 * 8  # 8 hours
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
+
 serializer = URLSafeTimedSerializer(SECRET_KEY)
 
 # ── Session helpers ──────────────────────────────────────────────────────
 
 
-def set_session_cookie(response, user_id: int, name: str):
-    token = serializer.dumps({"uid": user_id, "name": name})
+def set_session_cookie(response, user_id: int, email: str):
+    token = serializer.dumps({"uid": user_id, "email": email})
     response.set_cookie(
         COOKIE_NAME,
         token,
@@ -69,6 +77,30 @@ def get_current_user(request: Request) -> dict | None:
         return serializer.loads(token, max_age=COOKIE_MAX_AGE)
     except BadSignature:
         return None
+
+
+# ── Admin session helpers ────────────────────────────────────────────────
+
+
+def set_admin_cookie(response):
+    token = serializer.dumps({"admin": True})
+    response.set_cookie(
+        ADMIN_COOKIE_NAME,
+        token,
+        max_age=ADMIN_COOKIE_MAX_AGE,
+        httponly=True,
+        samesite="lax",
+    )
+
+
+def get_current_admin(request: Request) -> bool:
+    token = request.cookies.get(ADMIN_COOKIE_NAME)
+    if not token:
+        return False
+    try:
+        return bool(serializer.loads(token, max_age=ADMIN_COOKIE_MAX_AGE).get("admin"))
+    except BadSignature:
+        return False
 
 
 # ── Database helpers ─────────────────────────────────────────────────────
@@ -103,7 +135,7 @@ async def lifespan(app: FastAPI):
     await db.execute(
         """CREATE TABLE IF NOT EXISTS users (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
-            name          TEXT    NOT NULL,
+            name          TEXT,
             email         TEXT    NOT NULL UNIQUE,
             allow_logging INTEGER NOT NULL DEFAULT 0,
             created_at    TEXT    NOT NULL DEFAULT (datetime('now'))
@@ -145,57 +177,43 @@ async def index():
     return FileResponse("static/index.html")
 
 
+@app.get("/admin")
+async def admin_page():
+    return FileResponse("static/admin.html")
+
+
 @app.get("/static/handbok.pdf")
 async def handbok_pdf():
     return FileResponse("static/handbok.pdf", media_type="application/pdf")
 
 
-class SignupBody(BaseModel):
-    name: str
-    email: str
-    allow_logging: bool = False
-
-
-@app.post("/api/signup")
-async def signup(body: SignupBody, request: Request):
-    name = body.name.strip()
-    email = body.email.strip().lower()
-    if not name or not email or "@" not in email:
-        raise HTTPException(400, "Name and valid email are required.")
-
-    db: aiosqlite.Connection = request.app.state.db
-    try:
-        cursor = await db.execute(
-            "INSERT INTO users (name, email, allow_logging) VALUES (?, ?, ?)",
-            (name, email, int(body.allow_logging)),
-        )
-        await db.commit()
-        user_id = cursor.lastrowid
-    except aiosqlite.IntegrityError:
-        raise HTTPException(409, "Email already registered. Use login instead.")
-
-    resp = JSONResponse({"ok": True, "name": name})
-    set_session_cookie(resp, user_id, name)
-    return resp
-
-
 class LoginBody(BaseModel):
     email: str
+    allow_logging: bool = False
 
 
 @app.post("/api/login")
 async def login(body: LoginBody, request: Request):
     email = body.email.strip().lower()
+    if not email or "@" not in email:
+        raise HTTPException(400, "Ange en giltig e-postadress.")
+
     db: aiosqlite.Connection = request.app.state.db
     row = await db.execute_fetchall(
-        "SELECT id, name FROM users WHERE email = ?", (email,)
+        "SELECT id FROM users WHERE email = ?", (email,)
     )
     if not row:
-        raise HTTPException(404, "Email not found. Sign up first.")
+        raise HTTPException(404, "E-postadressen är inte registrerad.")
 
-    user_id, name = row[0][0], row[0][1]
-    resp = JSONResponse({"ok": True, "name": name})
-    set_session_cookie(resp, user_id, name)
+    user_id = row[0][0]
+    await db.execute(
+        "UPDATE users SET allow_logging = ? WHERE id = ?",
+        (int(body.allow_logging), user_id),
+    )
+    await db.commit()
+
+    resp = JSONResponse({"ok": True, "email": email})
+    set_session_cookie(resp, user_id, email)
     return resp
 
 
@@ -204,6 +222,93 @@ async def logout():
     resp = JSONResponse({"ok": True})
     resp.delete_cookie(COOKIE_NAME)
     return resp
+
+
+# ── Admin API ────────────────────────────────────────────────────────────
+
+
+class AdminLoginBody(BaseModel):
+    email: str
+    password: str
+
+
+@app.post("/api/admin/login")
+async def admin_login(body: AdminLoginBody):
+    if not ADMIN_EMAIL or not ADMIN_PASSWORD:
+        raise HTTPException(503, "Admin not configured.")
+    if body.email.strip().lower() != ADMIN_EMAIL.lower() or body.password != ADMIN_PASSWORD:
+        raise HTTPException(401, "Ogiltiga uppgifter.")
+    resp = JSONResponse({"ok": True})
+    set_admin_cookie(resp)
+    return resp
+
+
+@app.post("/api/admin/logout")
+async def admin_logout():
+    resp = JSONResponse({"ok": True})
+    resp.delete_cookie(ADMIN_COOKIE_NAME)
+    return resp
+
+
+@app.get("/api/admin/users")
+async def admin_list_users(request: Request):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    db: aiosqlite.Connection = request.app.state.db
+    rows = await db.execute_fetchall(
+        "SELECT id, name, email, allow_logging, created_at FROM users ORDER BY created_at DESC"
+    )
+    users = [
+        {
+            "id": r[0],
+            "name": r[1],
+            "email": r[2],
+            "allow_logging": bool(r[3]),
+            "created_at": r[4],
+        }
+        for r in rows
+    ]
+    return JSONResponse(users)
+
+
+class AddUserBody(BaseModel):
+    name: str
+    email: str
+
+
+@app.post("/api/admin/users")
+async def admin_add_user(body: AddUserBody, request: Request):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    name = body.name.strip()
+    email = body.email.strip().lower()
+    if not email or "@" not in email:
+        raise HTTPException(400, "Ange en giltig e-postadress.")
+    db: aiosqlite.Connection = request.app.state.db
+    try:
+        await db.execute(
+            "INSERT INTO users (name, email) VALUES (?, ?)", (name or None, email)
+        )
+        await db.commit()
+    except aiosqlite.IntegrityError:
+        raise HTTPException(409, "E-postadressen är redan registrerad.")
+    return JSONResponse({"ok": True})
+
+
+@app.delete("/api/admin/users/{user_id}")
+async def admin_delete_user(user_id: int, request: Request):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    db: aiosqlite.Connection = request.app.state.db
+    await db.execute("DELETE FROM query_logs WHERE user_id = ?", (user_id,))
+    result = await db.execute("DELETE FROM users WHERE id = ?", (user_id,))
+    await db.commit()
+    if result.rowcount == 0:
+        raise HTTPException(404, "User not found.")
+    return JSONResponse({"ok": True})
+
+
+# ── Query ────────────────────────────────────────────────────────────────
 
 
 @app.get("/api/query")
