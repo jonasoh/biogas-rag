@@ -83,13 +83,20 @@
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
     padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
-    background: var(--panel-header); flex-shrink: 0;
+    background: var(--panel-header); flex-shrink: 0; gap: 0.5rem; min-width: 0;
   }
-  .panel-header h1 { font-size: 1rem; font-weight: 600; }
-  .panel-header .meta { font-size: 0.82rem; color: var(--muted); }
+  .panel-header h1 { font-size: 1rem; font-weight: 600; flex-shrink: 0; }
+  .panel-header .user-info {
+    display: flex; flex-direction: column; align-items: flex-end;
+    min-width: 0; gap: 0.1rem;
+  }
+  .panel-header .meta {
+    font-size: 0.82rem; color: var(--muted);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;
+  }
   .panel-header button {
     background: none; border: none; color: var(--accent);
-    cursor: pointer; font-size: 0.82rem; margin-left: 0.5rem;
+    cursor: pointer; font-size: 0.82rem; padding: 0;
   }
   .panel-header button:hover { text-decoration: underline; }
 
@@ -171,7 +178,7 @@
       <img src="/static/images/slu-logo-color.webp" alt="SLU logo" style="max-width: 50%; height: auto; display: block; margin: 0 auto 1rem;">
       <div class="auth-subtitle">Biogas RAG</div>
       <label for="email-input">E-post</label>
-      <input type="email" id="email-input">
+      <input type="email" id="email-input" onkeydown="if(event.key==='Enter')doLogin()">
       <div class="checkbox-row">
         <input type="checkbox" id="allow-logging" checked="true">
         <label for="allow-logging">Tillåt insamling av data för att förbättra systemet</label>
@@ -191,8 +198,8 @@
     <div class="chat-panel">
       <div class="panel-header">
         <h1>Biogashandboken</h1>
-        <div>
-          <span class="meta">Inloggad som <strong id="user-name"></strong></span>
+        <div class="user-info">
+          <span class="meta" id="user-name"></span>
           <button onclick="doLogout()">Logga ut</button>
         </div>
       </div>
