@@ -204,8 +204,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--subs-dir", default="raw_data/lecture_subs")
     p.add_argument("--meta", default="raw_data/lecture_subs/lecture_metadata.csv")
     p.add_argument("--outdir", default="data")
-    p.add_argument("--chunk-size", type=int, default=1500)
-    p.add_argument("--overlap", type=int, default=150)
+    p.add_argument("--chunk-size", type=int, default=800)
+    p.add_argument("--overlap", type=int, default=160)
     return p.parse_args()
 
 
