@@ -210,7 +210,8 @@
       <div id="messages"></div>
     </div>
     <div class="content-panel">
-      <iframe id="content-frame" src="/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#zoom=page-width"></iframe>
+      <iframe id="pdf-frame" src="/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#zoom=page-width"></iframe>
+      <iframe id="video-frame" style="display:none" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -221,7 +222,8 @@ const authError = document.getElementById("auth-error");
 const messages = document.getElementById("messages");
 const qInput = document.getElementById("q-input");
 const sendBtn = document.getElementById("send-btn");
-const contentFrame = document.getElementById("content-frame");
+const pdfFrame = document.getElementById("pdf-frame");
+const videoFrame = document.getElementById("video-frame");
 
 function showError(msg) {
   authError.textContent = msg;
@@ -265,26 +267,51 @@ async function doLogout() {
 
 // Navigate the PDF.js viewer to a specific page without reloading the PDF.
 function showHandbookPage(page) {
-  contentFrame.contentWindow.PDFViewerApplication.initializedPromise.then(() => {
-    contentFrame.contentWindow.PDFViewerApplication.page = page;
+  videoFrame.style.display = "none";
+  videoFrame.src = "";
+  pdfFrame.style.display = "";
+  pdfFrame.contentWindow.PDFViewerApplication.initializedPromise.then(() => {
+    pdfFrame.contentWindow.PDFViewerApplication.page = page;
   });
 }
 
-// Intercept clicks on handbok: links (rendered by marked.js from LLM output).
+// Show a lecture video in the content panel.
+function showLectureVideo(url) {
+  pdfFrame.style.display = "none";
+  videoFrame.src = url;
+  videoFrame.style.display = "";
+}
+
+// Intercept clicks on handbok: and lecture: links (rendered by marked.js from LLM output).
 messages.addEventListener("click", e => {
   const a = e.target.closest("a");
   if (!a) return;
   const href = a.getAttribute("href");
   if (!href) return;
-  const m = href.match(/^handbok:(\d+)(?:[-–](\d+))?$/);
-  if (!m) return;
-  e.preventDefault();
-  const page = parseInt(m[1]);
-  if (!page) return;
-  if (window.innerWidth <= 600) {
-    window.location.href = `/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#page=${page}`;
-  } else {
-    showHandbookPage(page);
+
+  // Handbook links: handbok:N or handbok:N-M
+  const hm = href.match(/^handbok:(\d+)(?:[-–](\d+))?$/);
+  if (hm) {
+    e.preventDefault();
+    const page = parseInt(hm[1]);
+    if (!page) return;
+    if (window.innerWidth <= 600) {
+      window.location.href = `/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#page=${page}`;
+    } else {
+      showHandbookPage(page);
+    }
+    return;
+  }
+
+  // Lecture links: play.slu.se URLs
+  if (href.startsWith("https://play.slu.se/")) {
+    e.preventDefault();
+    if (window.innerWidth <= 600) {
+      window.open(href, "_blank");
+    } else {
+      showLectureVideo(href);
+    }
+    return;
   }
 });
 

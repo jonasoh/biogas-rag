@@ -184,13 +184,21 @@ def chunk_lecture(
 # ---------------------------------------------------------------------------
 
 
-def load_lecture_metadata(meta_path: str) -> Dict[str, str]:
-    """Load lecture_metadata.csv → {lecture_title: url}."""
-    result: Dict[str, str] = {}
+def load_lecture_metadata(meta_path: str) -> Dict[str, Dict[str, str]]:
+    """Load lecture_metadata.csv → {vtt_filename: {title, url}}.
+
+    The CSV has columns: lecture title, transcript, url.
+    The 'transcript' column contains the VTT filename used for matching.
+    """
+    result: Dict[str, Dict[str, str]] = {}
     with open(meta_path, encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
         for row in reader:
-            result[row["lecture"].strip()] = row["url"].strip()
+            vtt = row["transcript"].strip()
+            result[vtt] = {
+                "title": row["lecture title"].strip(),
+                "url": row["url"].strip(),
+            }
     return result
 
 
@@ -213,8 +221,8 @@ def main() -> None:
     args = parse_args()
 
     print(f"Loading lecture metadata from {args.meta} …")
-    meta_by_title = load_lecture_metadata(args.meta)
-    print(f"  {len(meta_by_title)} lectures in metadata")
+    meta_by_vtt = load_lecture_metadata(args.meta)
+    print(f"  {len(meta_by_vtt)} lectures in metadata")
 
     vtt_files = sorted(
         f for f in os.listdir(args.subs_dir) if f.lower().endswith(".vtt")
@@ -224,10 +232,11 @@ def main() -> None:
     all_chunks: List[Dict] = []
 
     for vtt_file in vtt_files:
-        lecture_title = os.path.splitext(vtt_file)[0]
-        url = meta_by_title.get(lecture_title, "")
-        if not url:
-            print(f"  WARNING: No metadata found for '{lecture_title}', URL will be empty")
+        meta = meta_by_vtt.get(vtt_file, {})
+        lecture_title = meta.get("title", os.path.splitext(vtt_file)[0])
+        url = meta.get("url", "")
+        if not meta:
+            print(f"  WARNING: No metadata found for '{vtt_file}', title/URL will be defaults")
 
         vtt_path = os.path.join(args.subs_dir, vtt_file)
         cues = parse_vtt(vtt_path)

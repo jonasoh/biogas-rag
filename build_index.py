@@ -73,7 +73,7 @@ def build_faiss_index(vectors: np.ndarray) -> faiss.IndexFlatIP:
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Build a FAISS index from all chunks.")
-    p.add_argument("--chunks", default="data/chunks.json")
+    p.add_argument("--chunks", default="data/handbook_chunks.json")
     p.add_argument("--lecture-chunks", default="data/lecture_chunks.json")
     p.add_argument("--outdir", default="data")
     p.add_argument("--model", default=EMBEDDING_MODEL)

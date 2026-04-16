@@ -517,7 +517,7 @@ def main() -> None:
         tables_data=tables_data,
     )
 
-    out_path = os.path.join(args.outdir, "chunks.json")
+    out_path = os.path.join(args.outdir, "handbook_chunks.json")
     os.makedirs(args.outdir, exist_ok=True)
     write_json(out_path, chunks)
 
