@@ -55,32 +55,56 @@ def search(query: str, index, meta, texts, model, top_k: int, snippet: int):
         text_preview = texts[idx][:snippet].replace("\n", " ")
         if len(texts[idx]) > snippet:
             text_preview += " …"
-        results.append(
-            {
-                "rank": rank,
-                "score": float(score),
-                "chunk_id": m["chunk_id"],
-                "chapter": m["chapter_number"],
-                "chapter_title": m["chapter_title"],
-                "section": m["section_title"],
-                "pages": f"{m['page_start']}–{m['page_end']}",
-                "type": m["type_of_content"],
-                "text": text_preview,
-            }
-        )
+        source = m.get("source", "handbook")
+        if source == "lecture":
+            results.append(
+                {
+                    "rank": rank,
+                    "score": float(score),
+                    "chunk_id": m["chunk_id"],
+                    "source": "lecture",
+                    "lecture_title": m["lecture_title"],
+                    "timestamp_start": m.get("timestamp_start", ""),
+                    "timestamp_end": m.get("timestamp_end", ""),
+                    "type": m["type_of_content"],
+                    "text": text_preview,
+                }
+            )
+        else:
+            results.append(
+                {
+                    "rank": rank,
+                    "score": float(score),
+                    "chunk_id": m["chunk_id"],
+                    "source": "handbook",
+                    "chapter": m["chapter_number"],
+                    "chapter_title": m["chapter_title"],
+                    "section": m["section_title"],
+                    "pages": f"{m['page_start']}–{m['page_end']}",
+                    "type": m["type_of_content"],
+                    "text": text_preview,
+                }
+            )
     return results
 
 
 def print_results(results):
     for r in results:
-        ch = f"Ch{r['chapter']} · " if r["chapter"] else ""
-        print(
-            f"  [{r['rank']}] score={r['score']:.4f}  {ch}{r['type']}  p.{r['pages']}"
-        )
-        if r["chapter_title"]:
-            print(f"      {r['chapter_title']} › {r['section']}")
+        if r.get("source") == "lecture":
+            print(
+                f"  [{r['rank']}] score={r['score']:.4f}  lecture · {r['type']}  "
+                f"{r['timestamp_start']}–{r['timestamp_end']}"
+            )
+            print(f"      {r['lecture_title']}")
         else:
-            print(f"      {r['section']}")
+            ch = f"Ch{r['chapter']} · " if r["chapter"] else ""
+            print(
+                f"  [{r['rank']}] score={r['score']:.4f}  {ch}{r['type']}  p.{r['pages']}"
+            )
+            if r["chapter_title"]:
+                print(f"      {r['chapter_title']} › {r['section']}")
+            else:
+                print(f"      {r['section']}")
         print(f"      {r['text']}")
         print()
 

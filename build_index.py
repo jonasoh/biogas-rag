@@ -1,9 +1,13 @@
 """
-build_index.py – Embed handbook chunks and store them in a FAISS index.
+build_index.py – Embed all chunks (handbook + lectures) and store them in a FAISS index.
+
+Loads data/chunks.json (handbook) and, if present, data/lecture_chunks.json (lectures),
+merges them, and builds a single combined FAISS index.
 
 Usage:
     python build_index.py \
         --chunks data/chunks.json \
+        --lecture-chunks data/lecture_chunks.json \
         --outdir data \
         --batch-size 32
 """
@@ -68,8 +72,9 @@ def build_faiss_index(vectors: np.ndarray) -> faiss.IndexFlatIP:
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Build a FAISS index from handbook chunks.")
+    p = argparse.ArgumentParser(description="Build a FAISS index from all chunks.")
     p.add_argument("--chunks", default="data/chunks.json")
+    p.add_argument("--lecture-chunks", default="data/lecture_chunks.json")
     p.add_argument("--outdir", default="data")
     p.add_argument("--model", default=EMBEDDING_MODEL)
     p.add_argument("--batch-size", type=int, default=32)
@@ -81,9 +86,19 @@ def main() -> None:
 
     args = parse_args()
 
-    print(f"Loading chunks from {args.chunks} …")
+    print(f"Loading handbook chunks from {args.chunks} …")
     chunks: List[Dict] = read_json(args.chunks)
-    print(f"  {len(chunks)} chunks loaded")
+    print(f"  {len(chunks)} handbook chunks loaded")
+
+    if os.path.exists(args.lecture_chunks):
+        print(f"Loading lecture chunks from {args.lecture_chunks} …")
+        lecture_chunks: List[Dict] = read_json(args.lecture_chunks)
+        print(f"  {len(lecture_chunks)} lecture chunks loaded")
+        chunks = chunks + lecture_chunks
+    else:
+        print(f"No lecture chunks found at {args.lecture_chunks}, skipping")
+
+    print(f"Total chunks to index: {len(chunks)}")
 
     texts = [c["text"] for c in chunks]
     vectors = embed_texts(texts, args.model, args.batch_size)
@@ -94,9 +109,14 @@ def main() -> None:
 
     os.makedirs(args.outdir, exist_ok=True)
 
-    index_path = os.path.join(args.outdir, "handbook.faiss")
+    index_path = os.path.join(args.outdir, "index.faiss")
     faiss.write_index(index, index_path)
     print(f"FAISS index written to {index_path}")
+
+    # Combined chunks.json (used by app.py to load texts at query time)
+    chunks_path = os.path.join(args.outdir, "chunks.json")
+    write_json(chunks_path, chunks)
+    print(f"Combined chunks written to {chunks_path}")
 
     # Metadata file: all fields except 'text'
     metadata = [{k: v for k, v in c.items() if k != "text"} for c in chunks]

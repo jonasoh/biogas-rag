@@ -32,7 +32,8 @@ from query import load_assets
 
 SYSTEM_PROMPT = """\
 Du är en assistent som hjälper studenter att hitta information i kursmaterialet. Du svarar på svenska. \
-Dina svar visas tillsammans med relevanta avsnitt ur handboken, inklusive bilder och tabeller.
+Kursmaterialet består av en handbok och föreläsningar. \
+Dina svar visas tillsammans med relevanta avsnitt ur kursmaterialet, inklusive bilder och tabeller.
 
 Du svarar ENBART utifrån den kontext som ges nedan. Kort och koncist. Om kontexten inte \
 innehåller tillräcklig information för att besvara frågan, \
@@ -43,13 +44,15 @@ Det är därför mycket viktigt att du svarar helt enligt de riktlinjer som ange
 
 # Riktlinjer för formatering
 
-- Istället för 'kontext', använd 'handboken' eller 'biogashandboken' när du \
-refererar till den information som ges.
-- Du MÅSTE ange sidhänvisningar när det är möjligt och de måste ALLTID vara korrekt formaterade \
+- Istället för 'kontext', använd 'handboken', 'biogashandboken' eller 'föreläsningen' \
+beroende på källan.
+- Du MÅSTE ange källhänvisningar när det är möjligt och de måste ALLTID vara korrekt formaterade \
 för att användaren ska kunna hitta informationen.
 - När du hänvisar till sidor i handboken, använd ALLTID formatet \
 [s. N](handbok:N) för en enskild sida eller [s. N–M](handbok:N-M) för ett sidintervall. \
 Formatera i löpande text, t.ex. 'beskrivs i handboken på [s. 45–52](handbok:45-52)'.
+- När du hänvisar till en föreläsning, använd formatet [Föreläsningsnamn, HH:MM:SS](url) \
+om en URL finns tillgänglig, annars skriv föreläsningsnamnet och tidsstämpeln i löpande text.
 - Skriv inte ut sidnummer utan hänvisningar.
 - Skriv inte ut hela tabeller utan hänvisa till dem i handboken.
 """
@@ -72,21 +75,38 @@ def retrieve(query: str, index, meta, texts, model, top_k: int):
     results = []
     for rank, (idx, score) in enumerate(zip(ids[0], scores[0]), 1):
         m = meta[idx]
-        results.append(
-            {
+        source = m.get("source", "handbook")
+        if source == "lecture":
+            result = {
                 "rank": rank,
                 "score": float(score),
                 "chunk_id": m["chunk_id"],
+                "source": "lecture",
+                "lecture_title": m["lecture_title"],
+                "url": m.get("url", ""),
+                "timestamp_start": m.get("timestamp_start", ""),
+                "timestamp_end": m.get("timestamp_end", ""),
+                "type": m["type_of_content"],
+                "text": texts[idx],
+                "table_markdown": None,
+                "table_legend": None,
+            }
+        else:
+            result = {
+                "rank": rank,
+                "score": float(score),
+                "chunk_id": m["chunk_id"],
+                "source": "handbook",
                 "chapter": m["chapter_number"],
                 "chapter_title": m["chapter_title"],
                 "section": m["section_title"],
                 "pages": f"{m['page_start']}–{m['page_end']}",
                 "type": m["type_of_content"],
-                "text": texts[idx],  # full text, no truncation
+                "text": texts[idx],
                 "table_markdown": m.get("table_markdown"),
                 "table_legend": m.get("table_legend"),
             }
-        )
+        results.append(result)
     return results
 
 
@@ -152,16 +172,26 @@ def build_context(results: list[dict]) -> str:
     """Format search results into a context string for the LLM."""
     parts = []
     for r in results:
-        header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
-        if r["section"]:
-            header += f" › {r['section']}"
-
-        if r.get("table_markdown"):
-            # For table chunks: show the actual table, not the summary
-            legend = r.get("table_legend", "")
-            content = f"{legend}\n\n{r['table_markdown']}"
-        else:
+        if r.get("source") == "lecture":
+            ts = r.get("timestamp_start", "")
+            url = r.get("url", "")
+            title = r.get("lecture_title", "")
+            if url:
+                header = f"[Föreläsning: {title}, {ts}]({url})"
+            else:
+                header = f"Föreläsning: {title}, {ts}"
             content = r["text"]
+        else:
+            header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
+            if r["section"]:
+                header += f" › {r['section']}"
+
+            if r.get("table_markdown"):
+                # For table chunks: show the actual table, not the summary
+                legend = r.get("table_legend", "")
+                content = f"{legend}\n\n{r['table_markdown']}"
+            else:
+                content = r["text"]
 
         parts.append(f"{header}\n{content}")
     return "\n\n---\n\n".join(parts)
