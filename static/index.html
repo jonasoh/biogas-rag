@@ -160,12 +160,53 @@
     text-decoration: underline;
   }
 
+  /* Welcome modal */
+  #welcome-modal {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 100;
+    align-items: center; justify-content: center;
+  }
+  #welcome-modal.active { display: flex; }
+  .welcome-box {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 480px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35); max-height: 90vh; overflow-y: auto;
+  }
+  .welcome-box h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .welcome-box p { font-size: 0.92rem; line-height: 1.6; margin-bottom: 0.75rem; }
+  .welcome-box .btn-row { margin-top: 1.25rem; }
+
+  /* About panel — same sizing as .chat-panel */
+  .about-panel {
+    width: 420px; min-width: 280px; max-width: 50%;
+    display: none; flex-direction: column;
+    border-right: 1px solid var(--border);
+    background: var(--chat-bg);
+  }
+  .about-panel.active { display: flex; }
+  .about-content {
+    flex: 1; overflow-y: auto; padding: 1rem;
+  }
+  .about-content h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .about-content h3 { font-size: 0.92rem; font-weight: 600; margin: 1rem 0 0.4rem; }
+  .about-content p { font-size: 0.92rem; line-height: 1.6; margin-bottom: 0.6rem; }
+
+  /* Chat panel footer */
+  .chat-footer {
+    flex-shrink: 0; padding: 0.5rem 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--muted); text-align: center;
+  }
+  .chat-footer a { color: var(--accent); text-decoration: none; cursor: pointer; }
+  .chat-footer a:hover { text-decoration: underline; }
+
   /* Content panel */
   .content-panel { flex: 1; display: flex; }
   .content-panel iframe { flex: 1; border: none; }
 
   @media (max-width: 600px) {
     .chat-panel { width: 100%; max-width: 100%; border-right: none; }
+    .about-panel { width: 100%; max-width: 100%; border-right: none; }
     .content-panel { display: none; }
   }
 </style>
@@ -208,12 +249,42 @@
         <button class="btn btn-primary" id="send-btn" onclick="sendQuery()">Skicka</button>
       </div>
       <div id="messages"></div>
+      <div class="chat-footer">
+        <a onclick="showAbout()">Om applikationen</a>
+      </div>
     </div>
+  <div class="about-panel" id="about-panel">
+    <div class="panel-header">
+      <h1>Om applikationen</h1>
+      <div class="user-info">
+        <button onclick="hideAbout()">&#8592; Tillbaka</button>
+      </div>
+    </div>
+    <div class="about-content">
+      <h2>Biogas RAG</h2>
+      <p>Det här systemet är ett hjälpmedel för att navigera materialet i kursen <i>Driftoptimering av lantbruksbaserad biogasproduktion</i>. Systemet är inte tänkt att ge exakta svar, utan ska fungera som ett stöd för dig som student genom att ge dig vägledning i studierna och hitta rätt bland föreläsningar och i biogashandboken.</p>
+      <h3>Kontakt</h3>
+      <p>För frågor om systemet, kontakta <a href="mailto:jonas.ohlsson@slu.se">Jonas Ohlsson</a>.</p>
+    </div>
+  </div>
     <div class="content-panel">
       <iframe id="pdf-frame" src="/static/pdfjs/web/viewer.html?file=/static/handbok.pdf#zoom=page-width"></iframe>
       <iframe id="video-frame" style="display:none" allowfullscreen></iframe>
     </div>
   </div>
+
+<div id="welcome-modal">
+  <div class="welcome-box">
+    <h2>Välkommen till Biogas RAG</h2>
+    <p>Det här systemet är ett hjälpmedel för att navigera materialet i kursen <i>Driftoptimering av lantbruksbaserad biogasproduktion</i>.</p>
+    <p>Systemet är inte tänkt att ge exakta svar, utan ska fungera som ett stöd för dig som student genom att ge dig vägledning i studierna och hitta rätt bland föreläsningar och i biogashandboken.</p>
+    <h3>Kontakt</h3>
+    <p>För frågor om systemet, kontakta <a href="mailto:jonas.ohlsson@slu.se">Jonas Ohlsson</a>.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="dismissWelcome()">Jag förstår</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const authView = document.getElementById("auth-view");
@@ -224,6 +295,9 @@ const qInput = document.getElementById("q-input");
 const sendBtn = document.getElementById("send-btn");
 const pdfFrame = document.getElementById("pdf-frame");
 const videoFrame = document.getElementById("video-frame");
+const welcomeModal = document.getElementById("welcome-modal");
+const aboutPanel = document.getElementById("about-panel");
+const chatPanel = document.querySelector(".chat-panel");
 
 function showError(msg) {
   authError.textContent = msg;
@@ -231,11 +305,26 @@ function showError(msg) {
 }
 function hideError() { authError.style.display = "none"; }
 
-function showChat(email) {
+function showWelcome() { welcomeModal.classList.add("active"); }
+async function dismissWelcome() {
+  welcomeModal.classList.remove("active");
+  await fetch("/api/welcome/seen", {method: "POST"});
+}
+function showAbout() {
+  chatPanel.style.display = "none";
+  aboutPanel.classList.add("active");
+}
+function hideAbout() {
+  aboutPanel.classList.remove("active");
+  chatPanel.style.display = "flex";
+}
+
+function showChat(email, has_seen_welcome) {
   document.getElementById("user-name").textContent = email;
   authView.style.display = "none";
   chatView.style.display = "flex";
   qInput.focus();
+  if (!has_seen_welcome) showWelcome();
 }
 
 async function doLogin() {
@@ -255,7 +344,7 @@ async function doLogin() {
     return;
   }
   const data = await res.json();
-  showChat(data.email);
+  showChat(data.email, data.has_seen_welcome);
 }
 
 async function doLogout() {
@@ -263,6 +352,8 @@ async function doLogout() {
   chatView.style.display = "none";
   authView.style.display = "flex";
   messages.innerHTML = "";
+  aboutPanel.classList.remove("active");
+  chatPanel.style.display = "flex";
 }
 
 // Navigate the PDF.js viewer to a specific page without reloading the PDF.
@@ -275,10 +366,20 @@ function showHandbookPage(page) {
   });
 }
 
+// Convert a play.slu.se URL to a Kaltura embed URL.
+// play.slu.se URLs end with the entry ID: /media/TITLE/ENTRY_ID
+function toKalturaEmbed(url) {
+  const entryId = url.split("/").pop();
+  return "https://api.kaltura.nordu.net/p/338/embedPlaykitJs/uiconf_id/23454192"
+    + "?iframeembed=true&entry_id=" + entryId
+    + "&config%5Bprovider%5D=%7B%22widgetId%22%3A%220_39pwufv9%22%7D"
+    + "&config%5Bplayback%5D=%7B%22startTime%22%3A0%7D";
+}
+
 // Show a lecture video in the content panel.
 function showLectureVideo(url) {
   pdfFrame.style.display = "none";
-  videoFrame.src = url;
+  videoFrame.src = toKalturaEmbed(url);
   videoFrame.style.display = "";
 }
 

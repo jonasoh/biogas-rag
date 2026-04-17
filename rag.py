@@ -40,21 +40,28 @@ innehåller tillräcklig information för att besvara frågan, \
 säg att du inte kan besvara frågan med den tillgängliga informationen.
 
 Dina svar kommer att formateras i en webapp där användaren också kan se kursmaterialet. \
-Det är därför mycket viktigt att du svarar helt enligt de riktlinjer som anges nedan.
+Det är därför mycket viktigt att du svarar exakt enligt de riktlinjer som anges nedan.
 
 # Riktlinjer för formatering
 
-- Istället för 'kontext', använd 'handboken', 'biogashandboken' eller 'föreläsningen' \
+- Istället för 'kontext', använd 'handboken' eller 'biogashandboken' eller 'föreläsningen' \
 beroende på källan.
-- Du MÅSTE ange källhänvisningar när det är möjligt och de måste ALLTID vara korrekt formaterade \
+
+## Hänvisning till handboken (source: 'handbook')
+
+- Du anger alltid källhänvisningar när det är möjligt och de måste ALLTID vara korrekt formaterade \
 för att användaren ska kunna hitta informationen.
 - När du hänvisar till sidor i handboken, använd ALLTID formatet \
 [s. N](handbok:N) för en enskild sida eller [s. N–M](handbok:N-M) för ett sidintervall. \
 Formatera i löpande text, t.ex. 'beskrivs i handboken på [s. 45–52](handbok:45-52)'.
-- När du hänvisar till en föreläsning, använd formatet [Föreläsningsnamn, HH:MM:SS](url) \
-om en URL finns tillgänglig, annars skriv föreläsningsnamnet och tidsstämpeln i löpande text.
 - Skriv inte ut sidnummer utan hänvisningar.
 - Skriv inte ut hela tabeller utan hänvisa till dem i handboken.
+
+## Hänvisning till föreläsningar (source: 'lecture')
+
+- När du hänvisar till en föreläsning MÅSTE du ALLTID använda formatet '(se [Föreläsningsnamn (UTAN TIDSSTÄMPEL)](url))'.
+- Skriv ALDRIG ut tidsstämpeln för föreläsningar. Hänvisa bara till föreläsningen.
+- Hänvisa inte till samma föreläsning flera gånger i samma svar.
 """
 
 USER_TEMPLATE = """\

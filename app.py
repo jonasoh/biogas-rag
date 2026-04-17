@@ -134,11 +134,12 @@ async def lifespan(app: FastAPI):
     await db.execute("PRAGMA journal_mode=WAL")
     await db.execute(
         """CREATE TABLE IF NOT EXISTS users (
-            id            INTEGER PRIMARY KEY AUTOINCREMENT,
-            name          TEXT,
-            email         TEXT    NOT NULL UNIQUE,
-            allow_logging INTEGER NOT NULL DEFAULT 0,
-            created_at    TEXT    NOT NULL DEFAULT (datetime('now'))
+            id                INTEGER PRIMARY KEY AUTOINCREMENT,
+            name              TEXT,
+            email             TEXT    NOT NULL UNIQUE,
+            allow_logging     INTEGER NOT NULL DEFAULT 0,
+            has_seen_welcome  INTEGER NOT NULL DEFAULT 0,
+            created_at        TEXT    NOT NULL DEFAULT (datetime('now'))
         )"""
     )
     await db.execute(
@@ -200,19 +201,20 @@ async def login(body: LoginBody, request: Request):
 
     db: aiosqlite.Connection = request.app.state.db
     row = await db.execute_fetchall(
-        "SELECT id FROM users WHERE email = ?", (email,)
+        "SELECT id, has_seen_welcome FROM users WHERE email = ?", (email,)
     )
     if not row:
         raise HTTPException(404, "E-postadressen är inte registrerad.")
 
     user_id = row[0][0]
+    has_seen_welcome = bool(row[0][1])
     await db.execute(
         "UPDATE users SET allow_logging = ? WHERE id = ?",
         (int(body.allow_logging), user_id),
     )
     await db.commit()
 
-    resp = JSONResponse({"ok": True, "email": email})
+    resp = JSONResponse({"ok": True, "email": email, "has_seen_welcome": has_seen_welcome})
     set_session_cookie(resp, user_id, email)
     return resp
 
@@ -222,6 +224,19 @@ async def logout():
     resp = JSONResponse({"ok": True})
     resp.delete_cookie(COOKIE_NAME)
     return resp
+
+
+@app.post("/api/welcome/seen")
+async def welcome_seen(request: Request):
+    user = get_current_user(request)
+    if not user:
+        raise HTTPException(401, "Not logged in.")
+    db: aiosqlite.Connection = request.app.state.db
+    await db.execute(
+        "UPDATE users SET has_seen_welcome = 1 WHERE id = ?", (user["uid"],)
+    )
+    await db.commit()
+    return JSONResponse({"ok": True})
 
 
 # ── Admin API ────────────────────────────────────────────────────────────
