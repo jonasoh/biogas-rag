@@ -24,7 +24,7 @@ EMBEDDING_MODEL = "Qwen/Qwen3-Embedding-0.6B"
 # ── LLM ─────────────────────────────────────────────────────────────────
 
 LLM_URL = os.environ.get("LLM_URL", "http://127.0.0.1:8000/v1/chat/completions")
-LLM_MODEL = os.environ.get("LLM_MODEL", "Qwen/Qwen3.5-35B-A3B")
+LLM_MODEL = os.environ.get("LLM_MODEL", "Qwen/Qwen3.6-35B-A3B")
 LLM_TIMEOUT = 120.0
 
 # ── Retrieval ───────────────────────────────────────────────────────────
