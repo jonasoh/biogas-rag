@@ -33,7 +33,7 @@ TOP_K = 8
 
 # ── Data paths ──────────────────────────────────────────────────────────
 
-INDEX_PATH = "data/index.faiss"
+INDEX_PATH = "data/vectors.npy"
 METADATA_PATH = "data/chunk_metadata.json"
 CHUNKS_PATH = "data/chunks.json"
 LECTURE_CHUNKS_PATH = "data/lecture_chunks.json"

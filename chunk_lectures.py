@@ -185,18 +185,18 @@ def chunk_lecture(
 
 
 def load_lecture_metadata(meta_path: str) -> Dict[str, Dict[str, str]]:
-    """Load lecture_metadata.csv → {vtt_filename: {title, url}}.
+    """Load course_overview.csv → {vtt_filename: {title, url}}.
 
-    The CSV has columns: lecture title, transcript, url.
-    The 'transcript' column contains the VTT filename used for matching.
+    The CSV has columns: nummer, titel, transkript, url, beskrivning.
+    The 'transkript' column contains the VTT filename used for matching.
     """
     result: Dict[str, Dict[str, str]] = {}
     with open(meta_path, encoding="utf-8") as fh:
         reader = csv.DictReader(fh)
         for row in reader:
-            vtt = row["transcript"].strip()
+            vtt = row["transkript"].strip()
             result[vtt] = {
-                "title": row["lecture title"].strip(),
+                "title": row["titel"].strip(),
                 "url": row["url"].strip(),
             }
     return result
@@ -210,7 +210,7 @@ def load_lecture_metadata(meta_path: str) -> Dict[str, Dict[str, str]]:
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Chunk WebVTT lecture subtitles.")
     p.add_argument("--subs-dir", default="raw_data/lecture_subs")
-    p.add_argument("--meta", default="raw_data/lecture_subs/lecture_metadata.csv")
+    p.add_argument("--meta", default="raw_data/course_overview.csv")
     p.add_argument("--outdir", default="data")
     p.add_argument("--chunk-size", type=int, default=800)
     p.add_argument("--overlap", type=int, default=160)

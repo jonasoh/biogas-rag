@@ -31,9 +31,13 @@ from config import (
 from query import load_assets
 
 SYSTEM_PROMPT = """\
-Du är en assistent som hjälper studenter att hitta information i kursmaterialet. Du svarar på svenska. \
+Du är en assistent som hjälper studenter att hitta information i kursmaterialet för kursen \
+Driftoptimering av lantbruksbaserad biogasproduktion vid Sveriges Lantbruksuniversitet (SLU). \
+Du svarar på svenska.
+
 Kursmaterialet består av en handbok och föreläsningar. \
-Dina svar visas tillsammans med relevanta avsnitt ur kursmaterialet, inklusive bilder och tabeller.
+Dina svar visas tillsammans med relevanta avsnitt ur kursmaterialet, inklusive bilder och tabeller. \
+Kursmaterialet finns också tillgängligt på [kursens hemsida i Canvas](https://canvas.slu.se/courses/15835).
 
 Du svarar ENBART utifrån den kontext som ges nedan. Kort och koncist. Om kontexten inte \
 innehåller tillräcklig information för att besvara frågan, \
@@ -62,6 +66,15 @@ Formatera i löpande text, t.ex. 'beskrivs i handboken på [s. 45–52](handbok:
 - När du hänvisar till en föreläsning MÅSTE du ALLTID använda formatet '(se [Föreläsningsnamn (UTAN TIDSSTÄMPEL)](url))'.
 - Skriv ALDRIG ut tidsstämpeln för föreläsningar. Hänvisa bara till föreläsningen.
 - Hänvisa inte till samma föreläsning flera gånger i samma svar.
+
+## Hänvisning till kursinformation (source: 'course_info')
+
+- När du hänvisar till kursinformation räcker det att skriva 'enligt kursinformationen' eller 'i kursen'.
+- Du behöver inte ange sidnummer eller tidsstämpel.
+
+## Hänvisning till ordlista (source: 'glossary')
+
+- Skriv bara svaret direkt utan att referera till ordlistan.
 """
 
 USER_TEMPLATE = """\
@@ -73,14 +86,16 @@ USER_TEMPLATE = """\
 
 
 def retrieve(query: str, index, meta, texts, model, top_k: int):
-    """Search the FAISS index and return results with full chunk text."""
+    """Search the vector index and return results with full chunk text."""
     vec = model.encode([query], convert_to_numpy=True).astype("float32")
     vec /= np.linalg.norm(vec, axis=1, keepdims=True)
 
-    scores, ids = index.search(vec, top_k)
+    all_scores = (vec @ index.T)[0]
+    ids = np.argsort(all_scores)[::-1][:top_k]
+    scores = all_scores[ids]
 
     results = []
-    for rank, (idx, score) in enumerate(zip(ids[0], scores[0]), 1):
+    for rank, (idx, score) in enumerate(zip(ids, scores), 1):
         m = meta[idx]
         source = m.get("source", "handbook")
         if source == "lecture":
@@ -93,6 +108,18 @@ def retrieve(query: str, index, meta, texts, model, top_k: int):
                 "url": m.get("url", ""),
                 "timestamp_start": m.get("timestamp_start", ""),
                 "timestamp_end": m.get("timestamp_end", ""),
+                "type": m["type_of_content"],
+                "text": texts[idx],
+                "table_markdown": None,
+                "table_legend": None,
+            }
+        elif source == "course_info":
+            result = {
+                "rank": rank,
+                "score": float(score),
+                "chunk_id": m["chunk_id"],
+                "source": "course_info",
+                "section_title": m.get("section_title", ""),
                 "type": m["type_of_content"],
                 "text": texts[idx],
                 "table_markdown": None,
@@ -188,6 +215,9 @@ def build_context(results: list[dict]) -> str:
             else:
                 header = f"Föreläsning: {title}, {ts}"
             content = r["text"]
+        elif r.get("source") == "course_info":
+            header = f"[Kursinformation: {r.get('section_title', '')}]"
+            content = r["text"]
         else:
             header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
             if r["section"]:
@@ -240,8 +270,15 @@ def rag_query(question: str, index, meta, texts, model, debug: bool = False) -> 
 
     print(f"\n--- Hämtade {len(results)} relevanta avsnitt ---")
     for r in results:
-        ch = f"Kap. {r['chapter']}" if r["chapter"] else ""
-        print(f"  [{r['rank']}] {ch} s. {r['pages']}  (score={r['score']:.4f})")
+        src = r.get("source", "handbook")
+        if src == "lecture":
+            loc = r.get("lecture_title", "")
+        elif src == "course_info":
+            loc = r.get("section_title", "course_info")
+        else:
+            ch = f"Kap. {r.get('chapter', '')} " if r.get("chapter") else ""
+            loc = f"{ch}s. {r.get('pages', '')}"
+        print(f"  [{r['rank']}] {src} · {loc}  (score={r['score']:.4f})")
     print()
 
     context = build_context(results)

@@ -1,8 +1,8 @@
 """
-build_index.py – Embed all chunks (handbook + lectures) and store them in a FAISS index.
+build_index.py – Embed all chunks (handbook + lectures) and save them as a numpy array.
 
 Loads data/chunks.json (handbook) and, if present, data/lecture_chunks.json (lectures),
-merges them, and builds a single combined FAISS index.
+merges them, and saves a single combined vectors.npy file.
 
 Usage:
     python build_index.py \
@@ -18,7 +18,6 @@ import os
 from typing import Any, Dict, List
 
 import numpy as np
-import faiss
 
 from config import DEVICE, EMBEDDING_MODEL
 
@@ -63,18 +62,11 @@ def embed_texts(
     return matrix
 
 
-def build_faiss_index(vectors: np.ndarray) -> faiss.IndexFlatIP:
-    """Build a flat inner-product FAISS index from *vectors*."""
-    dim = vectors.shape[1]
-    index = faiss.IndexFlatIP(dim)
-    index.add(vectors)
-    return index
-
-
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(description="Build a FAISS index from all chunks.")
+    p = argparse.ArgumentParser(description="Build a vector index from all chunks.")
     p.add_argument("--chunks", default="data/handbook_chunks.json")
     p.add_argument("--lecture-chunks", default="data/lecture_chunks.json")
+    p.add_argument("--course-info-chunks", default="data/course_info_chunks.json")
     p.add_argument("--outdir", default="data")
     p.add_argument("--model", default=EMBEDDING_MODEL)
     p.add_argument("--batch-size", type=int, default=32)
@@ -82,8 +74,6 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    import faiss
-
     args = parse_args()
 
     print(f"Loading handbook chunks from {args.chunks} …")
@@ -98,20 +88,25 @@ def main() -> None:
     else:
         print(f"No lecture chunks found at {args.lecture_chunks}, skipping")
 
+    if os.path.exists(args.course_info_chunks):
+        print(f"Loading course info chunks from {args.course_info_chunks} …")
+        course_info_chunks: List[Dict] = read_json(args.course_info_chunks)
+        print(f"  {len(course_info_chunks)} course info chunks loaded")
+        chunks = chunks + course_info_chunks
+    else:
+        print(f"No course info chunks found at {args.course_info_chunks}, skipping")
+
     print(f"Total chunks to index: {len(chunks)}")
 
     texts = [c["text"] for c in chunks]
     vectors = embed_texts(texts, args.model, args.batch_size)
     print(f"Embedding shape: {vectors.shape}")
 
-    index = build_faiss_index(vectors)
-    print(f"FAISS index contains {index.ntotal} vectors (dim={vectors.shape[1]})")
-
     os.makedirs(args.outdir, exist_ok=True)
 
-    index_path = os.path.join(args.outdir, "index.faiss")
-    faiss.write_index(index, index_path)
-    print(f"FAISS index written to {index_path}")
+    index_path = os.path.join(args.outdir, "vectors.npy")
+    np.save(index_path, vectors)
+    print(f"Saved {len(vectors)} vectors (dim={vectors.shape[1]}) to {index_path}")
 
     # Combined chunks.json (used by app.py to load texts at query time)
     chunks_path = os.path.join(args.outdir, "chunks.json")

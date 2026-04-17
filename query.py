@@ -1,5 +1,5 @@
 """
-query.py -- Interactive query utility for the handbook FAISS index.
+query.py -- Interactive query utility for the handbook vector index.
 
 Usage:
     # single query
@@ -19,17 +19,14 @@ import sys
 
 from config import CHUNKS_PATH, DEVICE, EMBEDDING_MODEL, INDEX_PATH, METADATA_PATH
 
-# sentence_transformers must be imported before faiss on macOS: both link
-# against Apple's Accelerate framework and faiss-first causes a segfault.
-from sentence_transformers import SentenceTransformer  # noqa: E402 (must precede faiss)
+from sentence_transformers import SentenceTransformer
 
-import faiss  # noqa: E402
 import numpy as np
 
 def load_assets(index_path, meta_path, chunks_path, model_name):
     print(f"Loading index …", end=" ", flush=True)
-    index = faiss.read_index(index_path)
-    print(f"{index.ntotal} vectors")
+    index = np.load(index_path)
+    print(f"{len(index)} vectors")
 
     print(f"Loading metadata …", end=" ", flush=True)
     meta = json.load(open(meta_path, encoding="utf-8"))
@@ -47,10 +44,12 @@ def search(query: str, index, meta, texts, model, top_k: int, snippet: int):
     vec = model.encode([query], convert_to_numpy=True).astype("float32")
     vec /= np.linalg.norm(vec, axis=1, keepdims=True)
 
-    scores, ids = index.search(vec, top_k)
+    all_scores = (vec @ index.T)[0]
+    ids = np.argsort(all_scores)[::-1][:top_k]
+    scores = all_scores[ids]
 
     results = []
-    for rank, (idx, score) in enumerate(zip(ids[0], scores[0]), 1):
+    for rank, (idx, score) in enumerate(zip(ids, scores), 1):
         m = meta[idx]
         text_preview = texts[idx][:snippet].replace("\n", " ")
         if len(texts[idx]) > snippet:
@@ -66,6 +65,18 @@ def search(query: str, index, meta, texts, model, top_k: int, snippet: int):
                     "lecture_title": m["lecture_title"],
                     "timestamp_start": m.get("timestamp_start", ""),
                     "timestamp_end": m.get("timestamp_end", ""),
+                    "type": m["type_of_content"],
+                    "text": text_preview,
+                }
+            )
+        elif source == "course_info":
+            results.append(
+                {
+                    "rank": rank,
+                    "score": float(score),
+                    "chunk_id": m["chunk_id"],
+                    "source": "course_info",
+                    "section_title": m.get("section_title", ""),
                     "type": m["type_of_content"],
                     "text": text_preview,
                 }
@@ -96,6 +107,9 @@ def print_results(results):
                 f"{r['timestamp_start']}–{r['timestamp_end']}"
             )
             print(f"      {r['lecture_title']}")
+        elif r.get("source") == "course_info":
+            print(f"  [{r['rank']}] score={r['score']:.4f}  course_info · {r['type']}")
+            print(f"      {r.get('section_title', '')}")
         else:
             ch = f"Ch{r['chapter']} · " if r["chapter"] else ""
             print(
@@ -110,7 +124,7 @@ def print_results(results):
 
 
 def parse_args():
-    p = argparse.ArgumentParser(description="Query the handbook FAISS index.")
+    p = argparse.ArgumentParser(description="Query the handbook vector index.")
     p.add_argument("query", nargs="?", help="Query string (omit for interactive mode)")
     p.add_argument("--index", default=INDEX_PATH)
     p.add_argument("--meta", default=METADATA_PATH)
