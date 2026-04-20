@@ -113,6 +113,7 @@ python rag.py                      # interactive mode
 
 ### Prompt for Handbook Conversion
 
+```
 You have been provided a PDF document of a handbook mainly targeted at biogas plant operators. Please transcribe this document to text and format the contents as a JSON document.
 
 The JSON document should be split up per-page, e.g. "1": "contents of page 1", "2": "contents of page 2", … You may alter this format as you wish as long as text and page numbers are clearly connected.
@@ -120,4 +121,4 @@ The JSON document should be split up per-page, e.g. "1": "contents of page 1", "
 For any headings or subheadings you encounter, mark these using the tags <heading></heading> and <subheading></subheading>. Similarly, use <table-legend> and <figure-legend> for table and figure legends. Do not include text which is part of a figure in the transcribed text.
 
 Replace any figures with a markdown image tag with an alt text describing the image. Format tables as html.
-
+```
