@@ -2,7 +2,7 @@
 
 A retrieval-augmented generation (RAG) assistant designed for an online course aimed at farmers who are interested in or currently operating farm-scale anaerobic digesters. The system lets users ask questions in natural language and receive answers grounded in course materials: Microbiological Handbook for Biogas Plants [(swe)](https://www.avfallsverige.se/rapporter-utveckling/rapporter/biogasprocessens-mikrobiologi-handbok/) [(eng)](https://www.offgridding.com/uploads/1/0/1/5/10150858/microbiologicalhandbook_biogas.pdf) by Anna Schnürer and Åsa Jarvis, as well as video lecture transcripts.
 
-The system can show video lectures and handbook pages directly in the interface. All answers include citations to the relevant source materials. It can also recommend relevant exercises from the handbook, and refer to an external (web-based calculation tool)[https://github.com/jonasoh/biogas-educational-calculator] for key process parameters.
+The system can show video lectures and handbook pages directly in the interface. All answers include citations to the relevant source materials. It can also recommend relevant exercises from the handbook, and refer to an external [web-based calculation tool](https://github.com/jonasoh/biogas-educational-calculator) for key process parameters.
 
 <img width="1181" height="713" alt="image" src="https://github.com/user-attachments/assets/da5f0e6f-54cc-4611-918e-73864fc49648" />
 
@@ -73,13 +73,7 @@ The handbook's HTML tables do not chunk well as plain text. `extract_tables.py` 
 
 ### PDF for the In-Browser Viewer
 
-The handbook PDF must be available to the web server for the [PDF.js](https://mozilla.github.io/pdf.js/) viewer to work. Place the file at:
-
-```
-static/handbok.pdf
-```
-
-Prebuilt PDF.js should be placed in `static/pdfjs`.
+The handbook PDF must be available to the web server for the [PDF.js](https://mozilla.github.io/pdf.js/) viewer to work. Place the file at `static/handbok.pdf` and prebuilt PDF.js in `static/pdfjs`.
 
 ### Run the Server
 
