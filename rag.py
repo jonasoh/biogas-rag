@@ -44,8 +44,14 @@ HRT), kväve i processen (TAN, FAN, kvävemineralisering) och \
 processparametrar (SMP, volymetrisk metanproduktion) finns också \
 ett beräkningsverktyg tillgängligt på \
 [denna länk](https://vansinne.se/biogas/). Hänvisa till detta om \
-användaren frågar om beräkning av dessa parametrar. \
-Hänvisa också till specifika övningsfrågor i dessa fall.
+användaren frågar om beräkning av dessa parametrar.
+
+Kursmaterialet innehåller övningsfrågor (kapitel 1–7) och tillhörande svar. \
+Dessa kan ingå i kontexten nedan, markerade som [Övning, Kap. N] respektive \
+[Svar på övningar, Kap. N]. Om övningar eller svar finns med i kontexten, \
+hänvisa till dem med sidnummer, t.ex. [s. 140](handbok:140). \
+Om användaren frågar om en beräkning eller ett begrepp som övas i kursen, \
+hänvisa till relevanta övningsfrågor.
 
 Du svarar ENBART utifrån den kontext som ges nedan. Kort och koncist. Om kontexten inte \
 innehåller tillräcklig information för att besvara frågan, \
@@ -83,6 +89,12 @@ Formatera i löpande text, t.ex. 'beskrivs i handboken på [s. 45–52](handbok:
 ## Hänvisning till ordlista (source: 'glossary')
 
 - Skriv bara svaret direkt utan att referera till ordlistan.
+
+## Hänvisning till övningar och svar (type: 'exercise' / 'solution')
+
+- Hänvisa till övningsfrågor med sidnummer i handboken, t.ex. 'övningsfrågorna på [s. 140](handbok:140)'.
+- Hänvisa till svar på övningar på samma sätt, t.ex. 'svaren finns på [s. 150](handbok:150)'.
+- Ange aldrig svar på övningsfrågor ordagrant — hänvisa istället till sidorna i handboken.
 """
 
 USER_TEMPLATE = """\
@@ -152,60 +164,76 @@ def retrieve(query: str, index, meta, texts, model, top_k: int):
     return results
 
 
+def _make_injected_chunk(m: dict, texts: list[str], idx: int) -> dict:
+    return {
+        "rank": 0,
+        "score": -1.0,
+        "chunk_id": m["chunk_id"],
+        "source": "handbook",
+        "chapter": m["chapter_number"],
+        "chapter_title": m["chapter_title"],
+        "section": m["section_title"],
+        "pages": f"{m['page_start']}–{m['page_end']}",
+        "type": m["type_of_content"],
+        "text": texts[idx],
+        "table_markdown": m.get("table_markdown"),
+        "table_legend": m.get("table_legend"),
+        "injected": True,
+    }
+
+
 def enrich_with_exercises(
     results: list[dict],
     meta: list[dict],
     texts: list[str],
 ) -> list[dict]:
-    """When a solution chunk is retrieved, inject the matching exercise(s)."""
-    solution_chapters = set()
+    """Ensure exercise and solution chunks always appear together.
+
+    - When a solution chunk is retrieved, inject the matching exercise(s) before it.
+    - When an exercise chunk is retrieved, inject the matching solution(s) after it.
+    """
     existing_ids = {r["chunk_id"] for r in results}
+    solution_chapters = {r["chapter"] for r in results if r["type"] == "solution"}
+    exercise_chapters = {r["chapter"] for r in results if r["type"] == "exercise"}
 
-    for r in results:
-        if r["type"] == "solution":
-            solution_chapters.add(r["chapter"])
-
-    if not solution_chapters:
+    if not solution_chapters and not exercise_chapters:
         return results
 
-    # Find exercise chunks for those chapters
-    to_inject: list[dict] = []
+    # Exercises to inject before matching solutions (keyed by chapter)
+    exercises_by_chapter: dict[int, list[dict]] = {}
+    # Solutions to inject after matching exercises (keyed by chapter)
+    solutions_by_chapter: dict[int, list[dict]] = {}
+
     for idx, m in enumerate(meta):
-        if (
-            m["type_of_content"] == "exercise"
-            and m["chapter_number"] in solution_chapters
-            and m["chunk_id"] not in existing_ids
-        ):
-            to_inject.append(
-                {
-                    "rank": 0,
-                    "score": -1.0,
-                    "chunk_id": m["chunk_id"],
-                    "chapter": m["chapter_number"],
-                    "chapter_title": m["chapter_title"],
-                    "section": m["section_title"],
-                    "pages": f"{m['page_start']}–{m['page_end']}",
-                    "type": m["type_of_content"],
-                    "text": texts[idx],
-                    "table_markdown": m.get("table_markdown"),
-                    "table_legend": m.get("table_legend"),
-                    "injected": True,
-                }
+        ch = m.get("chapter_number")
+        ctype = m["type_of_content"]
+        if ch is None or m["chunk_id"] in existing_ids:
+            continue
+        if ctype == "exercise" and ch in solution_chapters:
+            exercises_by_chapter.setdefault(ch, []).append(
+                _make_injected_chunk(m, texts, idx)
+            )
+        elif ctype == "solution" and ch in exercise_chapters:
+            solutions_by_chapter.setdefault(ch, []).append(
+                _make_injected_chunk(m, texts, idx)
             )
 
-    if not to_inject:
+    if not exercises_by_chapter and not solutions_by_chapter:
         return results
 
-    # Insert exercises before the first solution for their chapter
     enriched = []
-    injected_chapters: set[int] = set()
+    injected_ex_chapters: set[int] = set()
+    injected_sol_chapters: set[int] = set()
     for r in results:
-        if r["type"] == "solution" and r["chapter"] not in injected_chapters:
-            for ex in to_inject:
-                if ex["chapter"] == r["chapter"]:
-                    enriched.append(ex)
-            injected_chapters.add(r["chapter"])
+        # Inject exercises before the first solution of their chapter
+        if r["type"] == "solution" and r["chapter"] not in injected_ex_chapters:
+            enriched.extend(exercises_by_chapter.get(r["chapter"], []))
+            injected_ex_chapters.add(r["chapter"])
         enriched.append(r)
+        # Inject solutions after the first exercise of their chapter
+        if r["type"] == "exercise" and r["chapter"] not in injected_sol_chapters:
+            enriched.extend(solutions_by_chapter.get(r["chapter"], []))
+            injected_sol_chapters.add(r["chapter"])
 
     return enriched
 
@@ -227,9 +255,15 @@ def build_context(results: list[dict]) -> str:
             header = f"[Kursinformation: {r.get('section_title', '')}]"
             content = r["text"]
         else:
-            header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
-            if r["section"]:
-                header += f" › {r['section']}"
+            type_ = r.get("type", "")
+            if type_ == "exercise":
+                header = f"[Övning, Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
+            elif type_ == "solution":
+                header = f"[Svar på övningar, Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
+            else:
+                header = f"[Kap. {r['chapter']}, s. {r['pages']}] {r['chapter_title']}"
+                if r["section"]:
+                    header += f" › {r['section']}"
 
             if r.get("table_markdown"):
                 # For table chunks: show the actual table, not the summary

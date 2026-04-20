@@ -1,5 +1,5 @@
 """
-app.py -- FastAPI web interface for the biogas RAG handbook.
+app.py -- FastAPI web interface for the biogas RAG system.
 
 Run:
     python app.py
