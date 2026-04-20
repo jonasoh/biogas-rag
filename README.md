@@ -1,14 +1,14 @@
 # A Continuing Education Tool for Farm-Scale Anaerobic Digestion
 
-A retrieval-augmented generation (RAG) assistant designed for an online course aimed at farmers who are interested in or currently operating farm-scale anaerobic digesters. The system lets users ask questions in natural language and receive answers grounded in course materials: Microbiological Handbook for Biogas Plants [(swe)](https://www.avfallsverige.se/rapporter-utveckling/rapporter/biogasprocessens-mikrobiologi-handbok/) [(eng)](https://www.offgridding.com/uploads/1/0/1/5/10150858/microbiologicalhandbook_biogas.pdf) by Anna Schnürer and Åsa Jarvis, as well as video lecture transcripts.
+A retrieval-augmented generation (RAG) assistant designed for an online course aimed at farmers who are interested in or currently operating farm-scale anaerobic digesters. The system lets users ask questions in natural language and receive answers grounded in course materials: *Microbiological Handbook for Biogas Plants* [(swe)](https://www.avfallsverige.se/rapporter-utveckling/rapporter/biogasprocessens-mikrobiologi-handbok/) [(eng)](https://www.offgridding.com/uploads/1/0/1/5/10150858/microbiologicalhandbook_biogas.pdf) by Anna Schnürer and Åsa Jarvis, as well as video lecture transcripts.
 
-The system can show video lectures and handbook pages directly in the interface. All answers include citations to the relevant source materials. It can also recommend relevant exercises from the handbook, and refer to an external [web-based calculation tool](https://github.com/jonasoh/biogas-educational-calculator) for key process parameters.
+The system can show video lectures and handbook pages directly in the web interface. All answers include citations to the source materials. It can also recommend relevant exercises from the handbook, and refer to an external [web-based calculation tool](https://github.com/jonasoh/biogas-educational-calculator) for key process parameters.
 
 <img width="1181" height="713" alt="image" src="https://github.com/user-attachments/assets/da5f0e6f-54cc-4611-918e-73864fc49648" />
 
 ## Hardware requirements
 
-The system is designed to run locally on a modest machine. We use a GMKtec EVO-X2 with 128 GB unified RAM, but it should work on machines with less memory as well, such as a Mac Mini (not tested).
+The system is designed to run locally on a modest machine. We use a GMKtec EVO-X2 with 128 GB unified RAM running Linux, but it should work on machines with less memory and other OS's as well, such as a Mac Mini, or using commercial LLM API providers (not tested).
 
 ## Preparing the Data
 
@@ -71,7 +71,7 @@ python build_index.py
 
 This produces `data/vectors.npy`, `data/chunks.json`, and `data/chunk_metadata.json`.
 
-#### Why tables are handled separately
+#### Why Tables are Handled Separately
 
 The handbook's HTML tables do not chunk well as plain text. `extract_tables.py` pulls them out of the main text before chunking so they don't pollute neighbouring passages. `summarize_tables.py` then converts each table to Markdown and asks the LLM for a short natural-language summary, making the table content discoverable through semantic search.
 
