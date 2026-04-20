@@ -52,6 +52,15 @@
     margin-bottom: 1.5rem;
     margin-top: -0.5rem;
   }
+  .auth-subheading {
+    font-size: 0.92rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: -1.1rem;
+    margin-bottom: 1.25rem;
+  }
   .auth-card label { display: block; font-size: 0.85rem; margin-bottom: 0.25rem; color: var(--muted); }
   .auth-card input[type="text"],
   .auth-card input[type="email"] {
@@ -218,6 +227,7 @@
     <div class="auth-card">
       <img src="/static/images/slu-logo-color.webp" alt="SLU logo" style="max-width: 50%; height: auto; display: block; margin: 0 auto 1rem;">
       <div class="auth-subtitle">Kursbetjänten</div>
+      <div class="auth-subheading">Driftoptimering av lantbruksbaserad biogasproduktion</div>
       <label for="email-input">E-post</label>
       <input type="email" id="email-input" onkeydown="if(event.key==='Enter')doLogin()">
       <div class="checkbox-row">
@@ -238,7 +248,7 @@
   <div id="chat-view">
     <div class="chat-panel">
       <div class="panel-header">
-        <h1>Biogashandboken</h1>
+        <h1>Kursbetjänten</h1>
         <div class="user-info">
           <span class="meta" id="user-name"></span>
           <button onclick="doLogout()">Logga ut</button>
@@ -250,12 +260,12 @@
       </div>
       <div id="messages"></div>
       <div class="chat-footer">
-        <a onclick="showAbout()">Om applikationen</a>
+        <a onclick="showAbout()">Om kursbetjänten</a>
       </div>
     </div>
   <div class="about-panel" id="about-panel">
     <div class="panel-header">
-      <h1>Om applikationen</h1>
+      <h1>Om kursbetjänten</h1>
       <div class="user-info">
         <button onclick="hideAbout()">&#8592; Tillbaka</button>
       </div>

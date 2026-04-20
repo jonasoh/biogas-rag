@@ -46,6 +46,11 @@
     padding: 0.5rem 0.6rem; border: 1px solid var(--border);
     border-radius: 4px; font-size: 0.9rem;
   }
+  .add-form-title {
+    width: 100%;
+    font-size: 1rem;
+    margin: 0 0 0.2rem;
+  }
   .add-error { width: 100%; color: var(--danger); font-size: 0.82rem; display: none; }
 
   /* Users table */
@@ -93,11 +98,12 @@
 <!-- Admin panel -->
 <div id="admin-view">
   <div class="admin-header">
-    <h1>Användare</h1>
+    <h1>Registrerade användare</h1>
     <button class="btn btn-secondary" onclick="doAdminLogout()">Logga ut</button>
   </div>
 
   <div class="add-form">
+    <h2 class="add-form-title">Lägg till användare</h2>
     <div class="field">
       <label for="new-name">Namn</label>
       <input type="text" id="new-name" placeholder="Anna Andersson">
@@ -118,12 +124,13 @@
           <th>Namn</th>
           <th>E-post</th>
           <th>Datainsamling</th>
+          <th>Har loggat in</th>
           <th>Registrerad</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="users-tbody">
-        <tr><td colspan="6" class="empty">Laddar...</td></tr>
+        <tr><td colspan="7" class="empty">Laddar...</td></tr>
       </tbody>
     </table>
   </div>
@@ -159,7 +166,7 @@ function showPanel() {
 
 function renderUsers(users) {
   if (!users.length) {
-    tbody.innerHTML = '<tr><td colspan="6" class="empty">Inga användare ännu.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="empty">Inga användare ännu.</td></tr>';
     return;
   }
   tbody.innerHTML = users.map(u => `
@@ -168,6 +175,7 @@ function renderUsers(users) {
       <td>${esc(u.name || "—")}</td>
       <td>${esc(u.email)}</td>
       <td><span class="badge ${u.allow_logging ? 'badge-yes' : 'badge-no'}">${u.allow_logging ? 'Ja' : 'Nej'}</span></td>
+      <td><span class="badge ${u.has_seen_welcome ? 'badge-yes' : 'badge-no'}">${u.has_seen_welcome ? 'Ja' : 'Nej'}</span></td>
       <td>${esc(u.created_at ? u.created_at.replace('T', ' ').slice(0, 16) : '—')}</td>
       <td><button class="btn btn-danger btn-sm" onclick="doDeleteUser(${u.id}, ${JSON.stringify(u.email)})">Ta bort</button></td>
     </tr>

@@ -271,7 +271,7 @@ async def admin_list_users(request: Request):
         raise HTTPException(401, "Not authorized.")
     db: aiosqlite.Connection = request.app.state.db
     rows = await db.execute_fetchall(
-        "SELECT id, name, email, allow_logging, created_at FROM users ORDER BY created_at DESC"
+        "SELECT id, name, email, allow_logging, has_seen_welcome, created_at FROM users ORDER BY created_at DESC"
     )
     users = [
         {
@@ -279,7 +279,8 @@ async def admin_list_users(request: Request):
             "name": r[1],
             "email": r[2],
             "allow_logging": bool(r[3]),
-            "created_at": r[4],
+            "has_seen_welcome": bool(r[4]),
+            "created_at": r[5],
         }
         for r in rows
     ]
