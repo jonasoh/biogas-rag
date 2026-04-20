@@ -1,0 +1,14 @@
+[Unit]
+Description=Biogas RAG web application
+After=network.target
+
+[Service]
+User=biogas-rag
+Group=biogas-rag
+WorkingDirectory=/home/biogas-rag/biogas-rag
+EnvironmentFile=/home/biogas-rag/biogas-rag/.env
+ExecStart=/home/biogas-rag/biogas-rag/.venv/bin/uvicorn app:app --host 127.0.0.1 --port 8080
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

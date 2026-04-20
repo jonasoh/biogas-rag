@@ -66,6 +66,10 @@ python chunk_lectures.py
 python chunk_course_info.py
 
 # Embed all chunks and write the vector index
+
+# use experimental AMD Triton backend for embedding if on ROCm
+export TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1
+
 python build_index.py
 ```
 
@@ -81,11 +85,19 @@ The handbook PDF must be available to the web server for the [PDF.js](https://mo
 
 ### Run the Server
 
+For development:
+
 ```bash
-uvicorn app:app --host 0.0.0.0 --port 8000
+uvicorn app:app --host 127.0.0.1 --port 8080
 ```
 
-Then open `http://localhost:8000` in a browser.
+For production, a systemd service file is provided in `misc/biogas-rag.service`. It expects the app to be deployed to `/home/biogas-rag/biogas-rag/` and run as the `biogas-rag` user. Install and start it with:
+
+```bash
+sudo cp misc/biogas-rag.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now biogas-rag
+```
 
 ## CLI Usage
 
