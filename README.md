@@ -56,8 +56,14 @@ python summarize_tables.py
 # → data/handbook_tables_enriched.json
 # Use --dry-run to preview markdown conversion without calling the LLM
 
+# Parse the handbook table of contents into chapter/section metadata
+# N.B.! This file has constants which must be manually updated 
+#       if the handbook structure changes
+python create_metadata.py
+# → metadata/handbook/handbook_chapters.json (used by chunk_handbook.py)
+
 # Chunk all source materials
-python chunk_handbook.py    # uses handbook_notables.json
+python chunk_handbook.py    # uses handbook_notables.json and handbook_chapters.json
 python chunk_lectures.py
 python chunk_course_info.py
 
