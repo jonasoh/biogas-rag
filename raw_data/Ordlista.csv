@@ -1,0 +1,66 @@
+grupp,term,definition
+biokemi,Acetat,"Anjonen av ättiksyra, en flyktig syra med två kolatomer."
+biokemi,AD (eng. anaerobic digestion),Rötning - mikrobiell nedbrytning av organiskt material i en syrefri miljö.
+parametrar,Alkalinitet,"Mått på mängden alkaliska (basiska) ämnen. Bikarbonat, karbonat och hydroxid är exempel på ämnen som bidrar till alkaliniteten i en biogasprocess."
+biokemi,Anaerob,Syrefri
+biokemi,Anaerob oxidation,"Nedbrytningssteg mellan fermentation och metanbildning. Mellanprodukter som alkoholer och fettsyror bryts ned i detta steg till vätgas, koldioxid och acetat."
+parametrar,Belastning,Anges vanligen som organisk belastning eller organic loading rate (OLR). Beskriver hur stor mängd organiskt material som tillförs processen per rötkammarvolym och dygn.
+substrat,Biogas,"Gas som produceras genom rötning av organiskt material och består främst av koldioxid och metan, men ibland också mindre mängd svavelväte (H2S)."
+substrat,Biogödsel,"Rötrest från biogasanläggningar som behandlar olika typer av organiskt avfall, exklusive avloppsslam, såsom gödsel, källsorterat matavfall, avfall från livsmedelsindustrin och lantbruksgrödor."
+parametrar,BMP (biokemisk metanpotential),Potentialen hos ett visst material för metanproduktion. Bestäms ofta genom satsvisa tester. Ger ett ungefärligt mått på metan per viktenhet organiskt material (g VS)
+parametrar,COD (eng. chemical oxygen demand),"Generellt mått på mängden lösliga organiska föreningar. Används främst vid väldigt blöta fraktioner, t ex inom vattenrening, där mängd organiskt material är väldigt liten."
+parametrar,C/N-kvot,Kvoten mellan kol (C) och kväve (N) i ett substrat.
+anlaggning,CSTR (eng. continuous stirred-tank reactor),"Rötkammare där det organiska materialet blandas kontinuerligt, oftast med kontinuerlig inmatning och utflöde."
+substrat,Digestat,Se rötrest.
+substrat,Drank,Restprodukt från etanolproduktion som kan användas som substrat.
+anlaggning,Efterrötning,Separat rötkammare där biogas utvinns från rötrest. Kan förbättra totalt metanutbyte och minska metanemissioner.
+anlaggning,Fackling,"Förbränning av gas för att förhindra utsläpp i atmosfären, exempelvis vid problem med uppgradering eller lagring. Biogasanläggningar får ej släppa ut metan i luften då det är en stark växthusgas."
+biokemi,Fermentation,"Det andra nedbrytningssteget i biogasprocessen, varvid socker, aminosyror med mera bryts ner under syrefria förhållanden till diverse fermentationsprodukter, till exempel olika alkoholer, fettsyror, koldioxid och vätgas."
+substrat,Gårdsanläggning,"Anläggning på gård, rötar mestadels gödsel. Kan även röta rester från närliggande industri, t ex slakteri/matavfall eller avfall från livsmedelsproduktion etc. Aldrig slam från reningsverk."
+parametrar,Gassammansättning,Halt metan och koldioxid i biogasen.
+parametrar,HRT (eng. hydraulic retention time),"Hydralisk uppehållstid, beskriver hur lång tid det tar att byta ut materialet i rötkammaren. Beräknas utifrån mängd inmatat material i förhållande till rötkammarvolym. Ibland anges i stället uppehållstiden för det partikulära materialet i rötkammaren, solids retention time (SRT)."
+biokemi,Hydrolys,Första nedbrytningssteget i biogasprocessen där stora molekyler som kolhydrater och proteiner bryts ner i mindre beståndsdelar.
+anlaggning,Hygienisering,"Reduktion av antalet sjukdomsalstrande organismer i substratet eller rötresten. Vanlig metod är behandling vid 70°C i en timme inför rötning. En alternativ metod är termofil rötning med lång tid mellan inmatning av substrat, t.ex. 52oC och 10 timmar"
+anlaggning,Kontinuerlig rötning,"Nytt material (substrat) pumpas kontinuerligt in i rötkammaren med ett jämnt flöde över dygnet, alternativt portionsvis över dygnet, så kallad semi-kontinuerlig rötning. Detta är möjligt för vätskeformiga substrat (TS-halt under ~15 %)."
+parametrar,Kvävemineralisering,Mått på nedbrytning av organiskt kväve (proteiner)
+biokemi,LCFA (eng. long chain fatty acids),"Långkedjiga fettsyror, frigörs vid hydrolys av fetter."
+parametrar,Mesofil temperatur,Mesofila biogasprocesser körs vanligen vid en temperatur på cirka 35–42°C.
+biokemi,Metan (CH4),"Energirik molekyl i biogas. Det enklaste kolvätet, en luktfri gas med högt energivärde (9,81 kWh/Nm3). Används för att generera värme, el och fordonsbränsle."
+parametrar,Metanpotential,Se BMP.
+biokemi,Metanogener,De mikroorganismer som utför sista steget i nedbrytningen och bildar metan.
+parametrar,Metanutbyte,Mängd metan i Nm3 som bildas per viktenhet inmatat organiskt material
+parametrar,Mineraliseringsgrad,Ett mått på hur mycket av ett organiskt material som brutits ner och omvandlats till koldioxid (och metan).
+parametrar,Normalkubikmeter,"Nm3, volym vid normaltillstånd, det vill säga 0 °C och atmosfärstryck (1,01325 bar)."
+parametrar,OLR (eng. organic loading rate),Se belastning.
+substrat,Patogen,"Sjukdomsalstrande organism. Kan vara bakterie, svamp, virus eller parasit."
+anlaggning,Pluggflödesreaktor,Horisontellt liggande rötkammare där materialet skruvas fram från ena änden till andra.
+biokemi,Propionat,"Anjonen av propionsyra, en fettsyra med tre kolatomer."
+anlaggning,Rening av biogas,"Rening av oönskade spårgaser, t ex svavelväte (H2S)."
+substrat,REVAQ,Certifieringssystem för rötrest med substrat från slam från avloppsvattenreningsverk (rötslam).
+biokemi,Rötning,Se AD.
+substrat,Rötrest,"Den fasta, flytande eller slamformiga produkt som bildas efter rötning och som innehåller vatten, icke nedbrutet material, näringsämnen och mikroorganismer (biomassa)."
+anlaggning,Rötkammare,Stängd tank (reaktor) utan syre där rötning sker.
+substrat,Rötslam,Bildas efter rötning av avloppsslam från avloppsreningsverk.
+anlaggning,Samrötning,Rötning av flera substrat samtidigt. Ger ofta en bättre näringsbalans och ett högre metanutbyte än om varje material rötas var för sig.
+anlaggning,Samrötnings-anläggning,"Anläggning som rötar olika typer av material i rötkammaren, dock aldrig slam från reningsverk."
+anlaggning,Satsvis rötning,"Allt material rötas på en gång, det vill säga utan att något material tillsätts eller tas ut under processens gång."
+anlaggning,Seriell rötning,"Två rötkammare i serie där substratet vanligtvis matas in i den första kammaren. Rötresten från den första rötkammaren används som substrat i den andra rötkammaren, som kan vara uppvärmd eller inte. Ger bättre nedbrytningsgrad än en kammare och mindre restgasproduktion."
+anlaggning,Skumning,Bildas när närvaro av surfaktanter sänker ytspänningen. Exempel på surfaktanter är långkedjiga fettsyror som bildas under nedbrytning av fett.
+parametrar,SMP (specifik metanproduktion),Hur mycket metan som bildas per mängd tillsatt organiskt material. Anges i mängd CH4 per kg VS.
+parametrar,Specifikt gasutbyte,"Mängd biogas i Nm3 som bildas per viktenhet organiskt material. Nm3 = normalkubikmeter, volym vid normaltillstånd, det vill säga 0 °C och atmosfärstryck (1,01325 bar)."
+substrat,Substrat,Organiskt material lämpligt för rötning.
+substrat,SPCR 120,Certifieringssystem för rötrest med substrat från livsmedels - och/ eller foderkedjan (biogödsel).
+biokemi,Syngas,"Bildas vid förbränning/förgasning av träråvara. Bildad gas kan ha olika sammansättning beroende på förgasningsförhållande med olika andel metan, koldioxid, kolmonoxid och vätgas. Syngas kan omvandlas till metan med hjälp av metanbildande mikroorganismer."
+biokemi,Svavelväte (H2S),"Är en giftig, illaluktande gas (ruttna ägg) som ofta förekommer i biogasprocesser. Den bildas naturligt under anaeroba (syrefria) förhållanden i rötkammaren från exempelvis svavel organiskt bundet i proteiner. Är toxiskt för många mikroorganismer, kan orsaka instabilitet och orsakar korrosion"
+anlaggning,Svämtäcke,Kan bildas då material som inte brutits ner ansamlas och flyter ovanpå vätskeytan i rötkammaren eller rötrestlagret.
+parametrar,Termofil temperatur,Termofila biogasprocesser körs vanligen vid temperaturer kring 50–55°C.
+anlaggning,Torrötning,"Rötning av substrat med hög TS-halt (20–35%), sker ofta i form av satsvis rötning eller med pluggflödesreaktor."
+parametrar,TS (eng. total solids),"Torrsubstans, det som återstår när vattnet torkats bort från ett material. Anges vanligen som procent av våtvikt."
+anlaggning,UASB (eng. upflow anaerobic sludge blanket),Rötkammare som tillåter mikroorganismer att ansamlas och växa i klumpar (aggregat). Nytt material pumpas in i ett kraftigt uppåtflöde vilket ger tillräcklig omblandning för att skapa kontakt mellan mikroorganismer och substrat. Förekommer till exempel i reningsverk för rötning av avloppsvatten.
+parametrar,Uppehållstid,Se HRT.
+anlaggning,Uppgradering av biogas,Avlägsna CO2 och H2S för att öka energitätheten och nå kvalitet för användning som fordonsbränsle.
+parametrar,Utrötningsgrad,"Anger, i procent, hur stor del av det organiska materialet som brutits ned och omsatts till biogas under en viss tid."
+biokemi,VFA (eng. volatile fatty acids),Ett samlingsnamn för flyktiga fettsyror med 2 till 5 kolatomer.
+parametrar,Volymetrisk biogasproduktion,Hur mycket biogas som bildas per reaktorvolym dvs L per m3 reaktorvolym.
+parametrar,VS (eng. volatile solids),"Organisk substans, det vill säga torrsubstans minus aska. Anges vanligen som procent av TS. Kallas ibland också för glödförlust."
+parametrar,Våtvikt,Den totala massan av substrat eller rötrest.
