@@ -4,6 +4,8 @@ A retrieval-augmented generation (RAG) assistant designed for an online course a
 
 The system can show video lectures and handbook pages directly in the interface. All answers include citations to the relevant source materials. It can also recommend relevant exercises from the handbook, and refer to an external (web-based calculation tool)[https://github.com/jonasoh/biogas-educational-calculator] for key process parameters.
 
+<img width="1181" height="713" alt="image" src="https://github.com/user-attachments/assets/da5f0e6f-54cc-4611-918e-73864fc49648" />
+
 ## Hardware requirements
 
 The system is designed to run locally on a modest machine. We use a GMKtec EVO-X2 with 128 GB unified RAM, but it should work on machines with less memory as well, such as a Mac Mini (not tested).
