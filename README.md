@@ -77,6 +77,8 @@ The handbook PDF must be available to the web server for the [PDF.js](https://mo
 static/handbok.pdf
 ```
 
+Prebuilt PDF.js should be placed in `static/pdfjs`.
+
 ### Run the Server
 
 ```bash
