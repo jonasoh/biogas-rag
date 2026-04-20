@@ -12,9 +12,7 @@ The system is designed to run locally on a modest machine. We use a GMKtec EVO-X
 
 ## Preparing the Data
 
-The handbook PDF was transcribed to JSON using Google Gemini with a prompt that extracts page-by-page text, marks headings with `<heading>` and `<subheading>` tags, formats tables as HTML, and replaces figures with descriptive markdown image tags.
-
-Lecture transcripts are provided as `.vtt` subtitle files and chunked with timestamp metadata preserved. Transcripts were generated using [MacWhisper](https://goodsnooze.gumroad.com/l/macwhisper).
+The handbook PDF was transcribed to JSON using Google Gemini (see below). Lecture transcripts are provided as `.vtt` subtitle files and chunked with timestamp metadata preserved. Transcripts were generated using [MacWhisper](https://goodsnooze.gumroad.com/l/macwhisper).
 
 ## Setup
 
@@ -98,3 +96,16 @@ python rag.py "How does temperature affect methane production?"
 python rag.py --debug "question"   # shows the full LLM prompt
 python rag.py                      # interactive mode
 ```
+
+## Appendix
+
+### Prompt for Handbook Conversion
+
+You have been provided a PDF document of a handbook mainly targeted at biogas plant operators. Please transcribe this document to text and format the contents as a JSON document.
+
+The JSON document should be split up per-page, e.g. "1": "contents of page 1", "2": "contents of page 2", … You may alter this format as you wish as long as text and page numbers are clearly connected.
+
+For any headings or subheadings you encounter, mark these using the tags <heading></heading> and <subheading></subheading>. Similarly, use <table-legend> and <figure-legend> for table and figure legends. Do not include text which is part of a figure in the transcribed text.
+
+Replace any figures with a markdown image tag with an alt text describing the image. Format tables as html.
+
