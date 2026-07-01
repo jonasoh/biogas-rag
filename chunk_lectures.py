@@ -5,7 +5,7 @@ text chunks with structured metadata, one lecture at a time.
 Usage:
     python chunk_lectures.py \
         --subs-dir  raw_data/lecture_subs \
-        --meta      raw_data/lecture_subs/lecture_metadata.csv \
+        --meta      raw_data/course_overview.csv \
         --outdir    data \
         --chunk-size 1500 \
         --overlap 150
