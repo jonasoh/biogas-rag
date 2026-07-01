@@ -1,0 +1,152 @@
+WEBVTT
+
+00:00:00.001 --> 00:00:04.240
+Välkommen till den här första föreläsningen om processutvärdering.
+
+00:00:04.240 --> 00:00:11.200
+Här ska vi gå igenom olika metoder för att bestämma effektivitet, nedbrytningsgrad och metanutbyte.
+
+00:00:12.080 --> 00:00:24.320
+Det som är intressant att titta på för att bestämma effektiviteten i processen är dels hur väl substratet utnyttjas, vad metanutbytet är och kvaliteten på rötresten.
+
+00:00:25.420 --> 00:00:39.100
+De här aspekterna är viktiga att optimera för att ge en bra energieffektivitet, minimera metanemissioner från rötresten och maximera värdet av både gasen och rötresten, vilket är viktigt för lönsamheten.
+
+00:00:39.120 --> 00:00:44.239
+Vi ska gå igenom de här bitarna lite mer i detalj i den här föreläsningen.
+
+00:00:45.200 --> 00:00:53.440
+Under rötningen kommer en del av den organiska substansen i substratet att omvandlas till metan och koldioxid.
+
+00:00:55.140 --> 00:01:02.260
+För att få ut det mesta möjliga av sin biogasprocess så vill man ha så stor fraktion som möjligt omvandlad till gas.
+
+00:01:02.880 --> 00:01:14.080
+Nedbrytningen brukar man ofta uttrycka som VS-reduktion, alltså den procentuella minskningen av organisk substans mellan substrat och rötrest.
+
+00:01:14.020 --> 00:01:21.939
+Den här kan variera från 5% upp till mot 60% i kogödselprocesser.
+
+00:01:22.100 --> 00:01:24.579
+Det beror på olika driftparametrar.
+
+00:01:24.579 --> 00:01:28.500
+Men genomsnittet ligger på drygt 30%.
+
+00:01:29.920 --> 00:01:44.480
+Ett sätt att uppskatta hur effektiv proteinnedbrytning man har är att beräkna hur stor andel av det organiska kvävet i substratet, vilket ofta är bundet i proteiner, som omvandlas till ammonium och ammoniak.
+
+00:01:44.720 --> 00:01:47.600
+Det här kallas för kväveneralisering.
+
+00:01:47.840 --> 00:01:52.320
+För kogödselprocesser är genomsnittet drygt 20%.
+
+00:01:52.640 --> 00:02:03.120
+Om ni är intresserade av att titta närmare på hur man beräknar de här värdena så kan man använda beräkningsverktyget som finns tillgängligt genom kursen.
+
+00:02:04.399 --> 00:02:13.680
+Ett annat sätt att utvärdera hur mycket nedbrytbart organiskt material som finns kvar i rötressen är att mäta så kallad restmetanpotential.
+
+00:02:15.080 --> 00:02:26.840
+Det här anger alltså hur mycket metan som kan produceras ifrån rötresten, under mer eller mindre optimala förhållanden för metanproduktion.
+
+00:02:28.820 --> 00:02:36.500
+Men viktigt att tänka på här är att rötrest generellt inte förvaras under optimala rötningsförhållanden.
+
+00:02:36.420 --> 00:02:44.900
+Därför kan man inte direkt översätta RNP till hur stora metanemissioner man skulle ha i praktiken.
+
+00:02:44.960 --> 00:02:51.440
+Utan RNP-värdet ger troligtvis en överskattning av metanemissioner.
+
+00:02:51.440 --> 00:02:56.320
+Men det är ändå ett väldigt värdefullt mått på processens effektivitet.
+
+00:02:56.280 --> 00:03:05.000
+RNP för kogödselprocesser ligger i genomsnitt på 50 liter metan per kilo VS i rötresten.
+
+00:03:06.300 --> 00:03:09.660
+Metanutbytet kan beräknas på olika sätt.
+
+00:03:09.980 --> 00:03:22.560
+Ett sätt är att titta på metanproduktion i förhållande till hur mycket organiskt material som går in i processen, alltså volymen av metan per ton VS som matas in.
+
+00:03:23.040 --> 00:03:27.760
+Det här kallas för specifik metanproduktion eller SMP.
+
+00:03:28.780 --> 00:03:42.620
+Ett annat alternativ är att titta på hur mycket metan som produceras i förhållande till den aktiva volymen i rötkammaren, alltså volymen av metan per kubikmeter rötkammarvolym.
+
+00:03:43.040 --> 00:03:47.200
+Det här kallas då för volymetrisk metanproduktion.
+
+00:03:47.760 --> 00:04:03.500
+Båda måtten är viktiga att titta på, men det som kanske ger allra mest information är SMP eftersom det ger ett mått på effektiviteten relaterat till det organiska materialet som går in i processen.
+
+00:04:04.100 --> 00:04:14.580
+Det här måttet är också relativt enkelt att jämföra mellan olika processer så att man får en uppfattning om hur effektiv ens process är.
+
+00:04:15.720 --> 00:04:25.320
+Rötrestens kvalitet beror till stor del på substratets sammansättning, till exempel på halterna av kväve, fosfor och kalium.
+
+00:04:24.800 --> 00:04:34.240
+Och också svårnedbrytna kolföreningar som kan vara viktiga för att förbättra jordkvaliteten när man använder det som biogödsel.
+
+00:04:34.640 --> 00:04:44.000
+Här kan också olika föroreningar som eventuellt kan komma in via substratet spela en stor roll för rötrestens kvalitet och användbarhet.
+
+00:04:44.120 --> 00:04:48.759
+Rötrestkvaliteten påverkas också av rötningens effektivitet.
+
+00:04:49.319 --> 00:04:58.280
+Till exempel omvandlas kvävföreningar till växttillgängligt kväve under proteinnedbrytning och kvävemineralisering.
+
+00:04:58.400 --> 00:05:04.240
+Därmed vill man ha en så hög kvävemineraliseringsgrad som möjligt i processen.
+
+00:05:04.880 --> 00:05:16.240
+Rötrestkvalitet i sig är ett stort ämne som vi inte ska gå in på på djupet i den här kursen, men det finns väldigt mycket information att hämta från till exempel rådgivare.
+
+00:05:16.400 --> 00:05:22.320
+Man kan också titta på information om olika typer av certifieringar för biogödsel.
+
+00:05:23.800 --> 00:05:33.480
+Det finns många sätt att försöka optimera sin process och här ska jag bara nämna några av dem som man kan jobba med och laborera med.
+
+00:05:33.680 --> 00:05:40.080
+Alla de här begreppen som jag tar upp här har också förklarats mer ingående i tidigare föreläsningar.
+
+00:05:41.200 --> 00:05:47.520
+Först och främst så har substratets egenskaper och sammansättning en stor inverkan på processen.
+
+00:05:48.120 --> 00:05:54.440
+Saker som påverkar och som kan justeras är dels förbehandlingsmetoder.
+
+00:05:54.920 --> 00:06:06.680
+En annan sak som kan förbättra både metanutbytet och rötrestkvaliteten är sammansättningen av substratet, där man bland annat kan göra förändringar av kol/kväve-kvoten.
+
+00:06:06.840 --> 00:06:17.240
+Man kan också titta på möjligheter att ha in ytterligare substrat för samrötning eller använda sig av tillsatser som olika former av järn till exempel.
+
+00:06:18.080 --> 00:06:33.379
+Temperaturen i rötkammaren är också en väldigt viktig driftparameter som bland annat har inverkan på ammoniakalten i förhållande till ammonium, nedbrytningshastigheten och den mikrobella sammansättningen.
+
+00:06:33.860 --> 00:06:43.960
+Man kan också använda sig av termofil rötning som en hygieniseringsmetod, vilket kan vara intressant om man har behov av att hygienisera sitt substrat.
+
+00:06:44.680 --> 00:06:50.920
+Sen har vi också HRT, vilket är upphållstiden, och OLR vilket är den organiska belastningen.
+
+00:06:51.080 --> 00:07:09.000
+Det här är också grundläggande driftparametrar som påverkar hur mycket tid som materialet spenderar i reaktorn och därmed hur mycket tid mikroorganismerna får för nedbrytningen, vilket kommer ha en stor inverkan på hur väl substratet utnyttjas.
+
+00:07:09.460 --> 00:07:18.580
+Ett annat sätt att optimera substratnebrytningen kan också vara att använda sig av efterrötkammarare eller seriella rötkammare.
+
+00:07:19.700 --> 00:07:36.220
+Om ni vill veta mer om processoptimering och till exempel hur man kan göra förändringar i HRT och OLR och hur det kan påverka metanutbytet så har vi mer material om det här och också några konkreta exempel som man kan lära sig mer av.
+
+00:07:36.220 --> 00:07:37.500
+Tack så mycket.
+

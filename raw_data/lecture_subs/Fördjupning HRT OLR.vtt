@@ -1,0 +1,230 @@
+WEBVTT
+
+00:00:00.320 --> 00:00:01.120
+Hej!
+
+00:00:01.120 --> 00:00:11.840
+I den här föreläsningen så kommer vi gå igenom hur man kan tänka kring optimering av uppehållstiden, alltså HRT, och den organiska belastningen, alltså OLR,
+
+00:00:11.500 --> 00:00:17.740
+och hur de här parametrarna påverkar processens utbyte och effektivitet.
+
+00:00:19.660 --> 00:00:27.260
+Som kort repetition, HRT beror av den aktiva reaktorvolymen
+
+00:00:27.539 --> 00:00:32.259
+och substratvolymen som matas in i reaktorn varje dag.
+
+00:00:32.579 --> 00:00:38.900
+Medan OLR beror av VS-halten i substratet genom HRT.
+
+00:00:39.380 --> 00:00:43.700
+Som vi ser här så hänger HRT och OLR ihop.
+
+00:00:44.340 --> 00:00:46.820
+Så när belastningen ökas,
+
+00:00:47.140 --> 00:00:52.739
+så betyder det att uppehållstiden minskar och tvärtom.
+
+00:00:53.060 --> 00:00:57.300
+Så när belastningen minskar så ökar uppehållstiden.
+
+00:00:57.660 --> 00:01:06.860
+Det här har speciellt stor effekt vid rötning av substrat med låg TS och VS-halt, som t.ex. flytgödsel.
+
+00:01:07.940 --> 00:01:17.220
+Om man har väldigt torra substrat så kan man däremot göra ganska stora förändringar i belastningen utan att det har så stor effekt på uppehållstiden.
+
+00:01:17.640 --> 00:01:26.200
+Man kan också justera uppehållstiden genom att lägga till en efterrötkammare eller använda sig av seriell rötning.
+
+00:01:28.760 --> 00:01:33.960
+Hur ska man tänka när man ska bestämma eller göra förändringar i de här parametrarna?
+
+00:01:33.960 --> 00:01:38.600
+Här är det bra att förstå riskerna med olika typer av drift.
+
+00:01:38.460 --> 00:01:52.220
+Så om man först tänker sig en process med hög belastning och kort uppehållstid, då har man ett snabbt genomflödat material och man behandlar alltså en stor mängd material på kort tid.
+
+00:01:52.320 --> 00:02:00.960
+Problemet med det här är att anaeroba mikroorganismer generellt växer väldigt långsamt och speciellt vid rötning av material som
+
+00:02:01.160 --> 00:02:08.440
+t.ex. har mycket fibrer så kan inte mikroorganismerna bryta ner materialet om de inte får gott om tid på sig.
+
+00:02:09.800 --> 00:02:17.080
+Så kort tid för nedbrytningen påverkar processens effektivitet och ger ett lågt gasutbyte
+
+00:02:17.280 --> 00:02:19.520
+och låg nedbrytningsgrad.
+
+00:02:19.520 --> 00:02:24.480
+Alltså låg VS-reduktion och låg kvävmineralisering.
+
+00:02:24.640 --> 00:02:30.720
+Effekten av det här blir att det finns väldigt mycket organiskt material kvar i rötresten
+
+00:02:30.460 --> 00:02:36.460
+som kan fortsätta brytas ner även utanför rötkammaren och det kan ge metanemissioner.
+
+00:02:37.100 --> 00:02:41.900
+Så här utnyttjas substratet alltså inte till sin fulla potential.
+
+00:02:42.480 --> 00:02:46.320
+Det kan hända om uppehållstiden blir för kort.
+
+00:02:47.280 --> 00:02:55.840
+Om belastningen är för hög och för mycket substrat tillsätts per reaktorvolym så blir det här en överbelastning.
+
+00:02:55.500 --> 00:03:01.660
+Som ger ackumulerad VFA och i förlängningen kan det ge allvarliga processstörningar.
+
+00:03:02.540 --> 00:03:08.860
+Det här kan ni lära er mer om i föreläsningen om störningar.
+
+00:03:08.720 --> 00:03:22.319
+Om man däremot går åt andra hållet och har en process som har en låg belastning med lång uppehållstid så betyder det att man har ett väldigt långsamt flöde av material genom systemet.
+
+00:03:22.340 --> 00:03:27.540
+Här finns istället risken att man inte utnyttjar rötkammaren på bästa sätt.
+
+00:03:27.860 --> 00:03:32.580
+Man har helt enkelt mycket högre kapacitet än vad man använder.
+
+00:03:34.620 --> 00:03:44.940
+Det här ger en låg gasproduktion och i förlängningen kan det också ge dålig lönsamhet.
+
+00:03:46.360 --> 00:03:57.239
+Generellt sett så finns fler risker med kort HRT och hög OLR och här finns ett större behov av noggrann övervakning av processen.
+
+00:03:57.379 --> 00:04:07.860
+Samtidigt är det viktigt att inte heller välja en för låg belastning och allt för lång HRT eftersom det också ger en ineffektiv process med låg produktivitet.
+
+00:04:08.120 --> 00:04:22.199
+Sammanfattningsvis är det här en svår balansgång där man själv måste väga för- och nackdelar med olika typer av drift och prova sig fram till vad som fungerar bäst med det specifika substratet som används.
+
+00:04:25.220 --> 00:04:35.620
+För att göra det lite lättare att välja driftparametrar är det bra att utgå ifrån vilka värden som faktiskt används i praktiken och hur det påverkar processen.
+
+00:04:35.520 --> 00:04:47.680
+Så här ska jag sammanfatta resultat från en undersökning av gårdsbiogasanläggningar i Sverige, där vi bland annat tittade på hur den organiska belastningen påverkade metanutbyet.
+
+00:04:48.080 --> 00:05:00.000
+De här anläggningarna hade belastningar i ett spann på cirka 1-3 kg VS per m3 rötkammarvolym och dag.
+
+00:05:01.560 --> 00:05:08.280
+Här har vi först plottat OLR mot volymetrisk metanproduktion.
+
+00:05:08.280 --> 00:05:14.040
+Så vi har OLR här på x-axeln och volymetrisk metanproduktion på y-axeln.
+
+00:05:15.020 --> 00:05:22.220
+Här kunde vi se en generell trend av ökande metanproduktion med ökande belastning.
+
+00:05:22.360 --> 00:05:24.599
+Och det här är ett väntat resultat.
+
+00:05:24.599 --> 00:05:30.680
+Om man stoppar in mer mat i processen så bör man också få ut mer gas totalt sett.
+
+00:05:31.199 --> 00:05:45.280
+Men om man tittar på hur väl substraten utnyttjades, alltså den specifika metanproduktionen, så kan man se en trend av minskad metanproduktion i förhållande till den organiska substansen i substratet
+
+00:05:45.260 --> 00:05:47.180
+när man ökar belastningen.
+
+00:05:49.100 --> 00:05:53.900
+De här två plottarna kan verka lite motsägelsefulla.
+
+00:05:53.900 --> 00:05:57.100
+Men det här resultatet indikerar att det är en
+
+00:05:57.039 --> 00:06:07.440
+mindre andel av substratet som omvandlas till metan vid högre belastning, även om den totala metanproduktionen ökar när man ökar belastningen.
+
+00:06:08.199 --> 00:06:20.120
+Troligtvis är det här kopplat till att uppehållstiden är kortare i processer med högre belastning, och det finns då inte tillräckligt med tid för fullständig nedbrytning av substratet.
+
+00:06:22.360 --> 00:06:31.880
+Som en följd av sämre utnyttjande av substratet så kunde vi också se en trend av högre restmetanpotential.
+
+00:06:31.840 --> 00:06:38.960
+Vid högre OLR, vilket tyder på att högre belastning, ökar risken för metanemissioner.
+
+00:06:39.280 --> 00:06:42.160
+Så här ser alltså de generella trenderna ut.
+
+00:06:42.160 --> 00:06:44.720
+Men som man kan se här så är det
+
+00:06:44.560 --> 00:06:47.280
+stor spridning på datapunkterna.
+
+00:06:47.600 --> 00:06:56.160
+Så det finns många undantag som inte följer trenden och till exempel har både hög SMP och hög belastning eller tvärtom.
+
+00:06:56.840 --> 00:07:06.440
+Om man tittar på medelvärdena från den här studien där vi sammanfattade gårdsbiogasanläggningar så kunde vi se att den genomsnittliga
+
+00:07:06.180 --> 00:07:12.660
+HRT:n låg på 35 dagar, men det varierade från 14 till över 80 dagar.
+
+00:07:12.900 --> 00:07:20.660
+Medan för OLR så var medelvärdet 2,1 kg per m3 och dag.
+
+00:07:20.100 --> 00:07:30.100
+Men värdena här varierade mellan 1 och drygt 4 kg VS och den genomsnittliga belastningen vi såg här var relativt låg om man jämför med andra typer av anläggningar, som exempelvis rötar matavfall och andra material.
+
+00:07:30.860 --> 00:07:43.340
+Och också i den här studien så var variationen stor och det finns därmed ett stort utrymme att prova sig fram och laborera med de här parametrarna för att hitta det som fungerar bäst för varje enskild process. Men medelvärden från den här sammanställningen kan ändå vara en bra riktlinje när man vill bestämma HRT och OLR.
+
+00:07:47.100 --> 00:07:56.540
+Sammanfattningsvis hur väl processen fungerar vid olika OLR och HRT beror i hög grad på vilket substrat man använder.
+
+00:07:56.820 --> 00:08:07.460
+Har man ett proteinrikt substrat behöver man alltid ha ammoniakhämning i åtanke, särskilt vid hög belastning eller när man ökar belastningen.
+
+00:08:07.820 --> 00:08:19.900
+Belastar man däremot hårt med ett substrat som kogödsel som har låg proteinhalt är risken för störningar mindre, men då ökar istället risken för att substratet inte utnyttjas fullt ut.
+
+00:08:20.660 --> 00:08:27.460
+En annan viktig faktor är temperaturen eftersom det påverkar nedbrytningshastigheten.
+
+00:08:28.100 --> 00:08:31.940
+Termofila processer går snabbare än mesofila.
+
+00:08:32.099 --> 00:08:35.699
+De kan därför generellt köras med kortare HRT.
+
+00:08:36.659 --> 00:08:46.819
+Så när man optimerar de här parameterna handlar det om att balansera flera behov, dels hur mycket substrat som måste behandlas per dag,
+
+00:08:47.340 --> 00:08:50.620
+vilket gasflöde man behöver,
+
+00:08:50.620 --> 00:08:54.780
+och vilken specifik metanproduktion som är rimlig att få.
+
+00:08:55.900 --> 00:09:07.740
+En strategi kan vara att pressa systemet lite så länge man gör det gradvis och följer processen noggrant så att man snabbt kan backa om något börja gå åt fel håll.
+
+00:09:09.420 --> 00:09:16.220
+Hur man optimerar beror också på vilken produkt som är viktigast, gasen eller rötresten.
+
+00:09:17.120 --> 00:09:28.800
+Om rötresten är huvudprodukten kan det vara helt rätt att köra på lägre belastning under längre tid för att maximera mineraliseringen även om gasproduktionen blir lägre.
+
+00:09:28.940 --> 00:09:37.980
+Förhoppningsvis har det här gett er några verktyg och idéer kring hur man kan tänka när man optimerar driften.
+
+00:09:38.020 --> 00:09:47.540
+Vill ni fördjupa er mer så finns resultaten från den här gårdsbiogasammanställningen publicerade i en rapport från SLF.
+
+00:09:47.840 --> 00:09:54.640
+Ni kan också testa egna optimeringsscenarior i beräkningsverktyget.
+
+00:09:54.960 --> 00:09:56.240
+Tack så mycket!
+

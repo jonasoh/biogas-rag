@@ -1,0 +1,212 @@
+WEBVTT
+
+00:00:00.560 --> 00:00:10.640
+Ibland blir det störningar i den biologiska processen och det är viktigt att undvika för att säkerställa produktionen, både av biogas och av rötrest.
+
+00:00:10.599 --> 00:00:19.400
+I den här föreläsningen kommer jag därför kort gå igenom generella principer för störningar och ge några exempel.
+
+00:00:19.840 --> 00:00:29.280
+I en efterföljande föreläsning om processövervakning så kommer vi titta lite mer på hur man kan övervaka processen för att undvika den här typen av problem.
+
+00:00:30.140 --> 00:00:33.500
+Vad är då en processstörning egentligen?
+
+00:00:33.820 --> 00:00:42.780
+När vi pratar om den biologiska processen så beror en störning på att det blir en obalans mellan olika organismer med olika funktioner.
+
+00:00:42.500 --> 00:00:52.580
+Som vi har berättat om tidigare så bildas biogas genom nedbrytning i olika steg och med hjälp av olika mikroorganismer som samarbetar med varandra.
+
+00:00:52.620 --> 00:01:05.900
+En obalans i det här flödet kan uppstå om en eller flera grupper av organismer är hämmade och inte klarar av att göra sitt jobb av någon anledning som kan vara olika.
+
+00:01:06.440 --> 00:01:12.040
+Det finns olika faktorer som kan vara en orsak till en störning.
+
+00:01:12.280 --> 00:01:15.960
+Jag kommer snart gå in på det och ge några exempel.
+
+00:01:15.400 --> 00:01:22.680
+Men det finns också ett generellt störningsmönster, som man ofta ser, oavsett anledningen till störningen.
+
+00:01:23.000 --> 00:01:27.240
+Typiskt är att metanbildarna blir påverkade först.
+
+00:01:26.800 --> 00:01:32.000
+De är känsliga för olika typer av förändringar och hämmande ämnen.
+
+00:01:32.320 --> 00:01:38.400
+Om deras aktivitet går ned så påverkar det hela den biologiska processen.
+
+00:01:39.000 --> 00:01:47.399
+Ett steg som påverkas lite extra är steget innan metanbidningen, det vill säga nedbrytningen av olika organiska syror.
+
+00:01:47.500 --> 00:01:53.979
+Om metanbildarna är lite trötta så leder det till att organiska styror ansamlas.
+
+00:01:54.540 --> 00:02:00.460
+Om det pågår under en längre tid så kan det leda till att pH slutligen går ner.
+
+00:02:00.420 --> 00:02:04.900
+Det i sin tur kommer påverka hela processen negativt.
+
+00:02:05.540 --> 00:02:12.260
+En viktig parameter i det här skedet är alkaliniteten, som är ett mått på buffertförmågan.
+
+00:02:12.340 --> 00:02:21.460
+Den kan variera mellan olika processer, men om processen har en hög alkalinitet så kan den klara mer syror innan pH påverkas.
+
+00:02:21.260 --> 00:02:28.540
+än om alkaliniteten är något lägre och då påverkas pH negativt ganska tidigt i störningsskedet.
+
+00:02:28.700 --> 00:02:35.980
+I föreläsningen om processutvärdering kommer jag visa några exempel för att visa hur de här olika parametrarna hänger ihop.
+
+00:02:37.520 --> 00:02:40.160
+Vad kan då orsaka en störning?
+
+00:02:40.160 --> 00:02:45.440
+Det finns många olika anledningar till en störning, men här är några vanliga anledningar.
+
+00:02:45.640 --> 00:02:53.239
+Temperaturvariationer kan ibland hända om det är något fel på temperaturregleringen och det kan påverka processen negativt.
+
+00:02:53.239 --> 00:02:59.079
+Ibland kan man också få temperaturhöjning av vissa typer av stärkelserika substrat.
+
+00:02:59.040 --> 00:03:12.000
+Mikroorganismerna i en process kan anpassa sig till många olika temperaturer, men processen gillar inte för stora variationer på för kort tid och det kan orsaka problem.
+
+00:03:12.220 --> 00:03:19.340
+En hög belastning kan också leda till problem, ofta i samband med att upphovstiden är för kort.
+
+00:03:19.340 --> 00:03:26.780
+Organismerna hinner då inte riktigt med att göra sitt jobb eftersom inflödet är för högt av det organiska materialet.
+
+00:03:26.900 --> 00:03:30.900
+Det här blir extra problematiskt om uppehållstiden är för kort.
+
+00:03:31.700 --> 00:03:34.980
+pH påverkar processen också väldigt mycket.
+
+00:03:35.220 --> 00:03:37.860
+Den ska vanligtvis ligga mellan 7 och 8.
+
+00:03:37.860 --> 00:03:40.340
+Det kan vara något högre än 8 också.
+
+00:03:40.160 --> 00:03:46.000
+Men om pH är under 7 eller är för högt, uppemot 9, så kan det bli problem.
+
+00:03:46.240 --> 00:03:52.960
+De flesta metanbildare klarar till exempel alls att växa när pH är under 6 eller över 9.
+
+00:03:53.840 --> 00:04:07.120
+Om substratblandningen inte innehåller alla näringsämnen som organismerna behöver, och i rätt proportioner, så kan processen också få problem eftersom då kan mikroorganismerna inte växa optimalt.
+
+00:04:07.520 --> 00:04:13.280
+Sen är det olika hämmande ämnen också som kan ställa till med problem i processen.
+
+00:04:13.440 --> 00:04:19.280
+De här ämnena kan antingen komma med substratet eller faktiskt också bildas i processen.
+
+00:04:19.780 --> 00:04:27.539
+Om vi tittar lite närmare på vilka ämnen som kan vara hämmande så är det många olika ämnen som faktiskt kan störa biogasprocessen.
+
+00:04:29.060 --> 00:04:37.540
+På den här bilden så ser ni lite olika föreningar eller grupper av föreningar som kan ställa till med problem för processen om de kommer in i för höga doser.
+
+00:04:37.720 --> 00:04:45.160
+Och som jag nämnde är ofta metanbildarna som drabbas först och det kan då inverka negativt på hela processen.
+
+00:04:45.100 --> 00:04:54.780
+Om du vill veta mer om dessa olika ämnen som kan ställa till problem så rekommenderar jag att du läser mer i handboken eller använder vår chattfunktion.
+
+00:04:55.460 --> 00:05:04.260
+För att ge er lite mer förståelse för störningar så kommer jag nu gå in på några olika exempel på vanliga störningar och deras konsekvenser.
+
+00:05:05.659 --> 00:05:14.139
+Vi börjar med amoniakhämning. Som vi har nämnt tidigare i föreläsningen så är det här ett ämne som ofta orsakar problem i biogasprocesser.
+
+00:05:14.060 --> 00:05:17.259
+Men vad händer då egentligen vid en ammoniakstörning?
+
+00:05:17.900 --> 00:05:23.500
+Ammoniak är ju hämmande för hela processen, men framförallt för metanbildarna.
+
+00:05:24.660 --> 00:05:30.980
+Om metanbildarnas aktivitet går ner så påverkas hela processen negativt.
+
+00:05:31.140 --> 00:05:39.620
+Som jag nämnde tidigare så kommer nedbrytningen av olika organiska syror att gå dåligt och då kommer de kunna ansamlas.
+
+00:05:40.180 --> 00:05:49.780
+Även gasens sammansättning kan ändras i samband med en störning, och man kan se ökande koldioxidhalter och sjunkande metanhalter.
+
+00:05:50.020 --> 00:06:01.780
+De metanogener som använder ättiksyra är lite extra känsliga och hämmas ofta först, varför är vanligt att man tidigt i en störning ser just ansamling av ättiksyra.
+
+00:06:01.539 --> 00:06:12.500
+En annan störning som kan ske kopplar till överbelastning, speciellt om man har ett material som bryts ner snabbt som socker och stärkelsrika material.
+
+00:06:12.379 --> 00:06:20.300
+Då kommer de första nedbrytningsstegen som leder till bildning av olika organiska syror att gå relativt fort.
+
+00:06:21.240 --> 00:06:31.640
+De organismer som bryter ner syrorna och bildar metan växer däremot inte lika fort, och de hinner då inte med att omsätta alla organiska syre som bildas.
+
+00:06:31.100 --> 00:06:36.300
+Vilket igen leder till att man får en ansamling av de organiska syorna.
+
+00:06:37.260 --> 00:06:43.180
+Det sista exemplet jag vill nämna är skumning, eller bildning av svämntäcke.
+
+00:06:42.600 --> 00:06:49.800
+Det här är två skilda saker, men de kan ibland vara svåra att särskilja eftersom symptomen kan vara ganska lika.
+
+00:06:50.200 --> 00:06:58.600
+Skumning uppstår till exempel vid nedbrytning av fettrika material då det bildas lånkedjiga fettsyror, så kallade LCFA.
+
+00:06:59.020 --> 00:07:05.980
+Denna typ av föreningar sänker ytspänningen och det kan leda till att man får skumning på processen.
+
+00:07:06.300 --> 00:07:13.500
+Svämtäcke bildas däremot när substratet innehåller mycket fibrer som typiskt bryts ner dåligt i processen.
+
+00:07:13.520 --> 00:07:22.480
+En hög andel av fibrer i kombination med att man har en dålig omrörning kan göra att det bildas ett svämtäcke på vätskeytan i rötkammaren.
+
+00:07:22.340 --> 00:07:29.940
+Mycket skum eller svämtäcke kan göra det svårt för gasen att passera igenom och det kan byggas upp under täcket eller skummet
+
+00:07:31.639 --> 00:07:34.280
+och sedan lyfta det här uppåt i kammaren.
+
+00:07:34.360 --> 00:07:40.759
+Det kan ställa till olika tekniska problem, till exempel med utflöden och gasutlopp.
+
+00:07:41.680 --> 00:07:45.039
+Vad gör man då om man får en störning?
+
+00:07:45.440 --> 00:07:51.759
+Viktigt förstås är att försöka komma fram till varför det är en störning och så försöka åtgärda just detta problem.
+
+00:07:51.400 --> 00:07:59.960
+Det kan till exempel vara att justera substratets sammansättning eller tillsätta extra näringsämnen som kan behövas, som spårämnen.
+
+00:08:00.120 --> 00:08:08.840
+En bra tumregel är att när det börjat bildas syror är att dra ner något på inmatningen och belastningen av det organiska materialet
+
+00:08:08.300 --> 00:08:16.780
+så att organismerna får en chans att återhämta sig och att faktiskt äta upp alla nedbrytningsintermediärer som har ansamlats i processen.
+
+00:08:17.080 --> 00:08:29.080
+Mikroorganismerna kan också vänja sig vid olika hämmande ämnen, som till exempel ammoniak, men då är det bra om det inte samtidigt utsätts för en för stor mängd material eller kort uppehållstid.
+
+00:08:29.320 --> 00:08:35.400
+Slutligen, A och O för att undvika störning är att övervaka sin process.
+
+00:08:35.640 --> 00:08:42.680
+Hur du ska göra det, kan du höra mer om i föreläsningen om processutvärdering som är del 2.
+

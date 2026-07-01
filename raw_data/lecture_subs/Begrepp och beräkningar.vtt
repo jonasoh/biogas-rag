@@ -1,0 +1,104 @@
+WEBVTT
+
+00:00:00.640 --> 00:00:14.080
+Välkommen till den här föreläsningen där vi ska gå igenom några viktiga begrepp, nämligen torrsubstans, organisk substans, hydraulisk uppehållstid och organisk belastning.
+
+00:00:14.360 --> 00:00:23.480
+Målet här är att ni ska förstå både definitionerna och hur begreppen används i praktiken och hur de mäts, beräknas och tolkas.
+
+00:00:23.740 --> 00:00:35.180
+När man undersöker ett substrat eller en rötrest så vill man ofta veta hur stor andel som består av fast material och hur mycket som består av organiskt material.
+
+00:00:35.460 --> 00:00:40.180
+Eller för att uttrycka det på ett annat sätt hur hög vattenhalten är.
+
+00:00:40.739 --> 00:00:47.780
+Både substrat och rötrest består till största delen av vatten som ni också kan se här på staplarna.
+
+00:00:48.520 --> 00:00:54.360
+Och de visar hur sammansättningen ser kan se ut i substrat och rötrest.
+
+00:00:55.260 --> 00:01:02.699
+Torrsubstansen, eller TS som vi kallar den, visar hur stor andel av materialet som inte är vatten.
+
+00:01:03.180 --> 00:01:07.420
+Det kallas ibland dry matter eller DM också.
+
+00:01:07.820 --> 00:01:13.180
+Det anges i procent av våtvikten, vilket är den totala vikten.
+
+00:01:13.820 --> 00:01:21.580
+För att sedan se hur mycket av det fasta materialet som är biologiskt nedbrytbart så tittar man på VS.
+
+00:01:21.520 --> 00:01:25.840
+Vilket är den volatila organiska substansen.
+
+00:01:26.960 --> 00:01:35.759
+VS anger alltså den nedbrytbara andelen och kan anges antingen som procent av våtvikten eller som procent av TS.
+
+00:01:36.920 --> 00:01:43.560
+Andelen av torrsubstansen som inte består av organiskt material brukar kallas för aska.
+
+00:01:43.900 --> 00:01:47.340
+Den kan ni också se här i stapeldiagrammet.
+
+00:01:47.659 --> 00:01:53.259
+Den tar upp en väldigt liten andel av den totala massan.
+
+00:01:53.480 --> 00:02:01.479
+Metoden för att bestämma TS och VS är väldigt enkel och här ska jag ge en snabb genomgång av hur mätningen går till i praktiken.
+
+00:02:01.479 --> 00:02:03.320
+Så först vägs provet i små tråg som ni ser här, och det här anger då totalvikten (våtvikten) av provet.
+
+00:02:03.860 --> 00:02:10.660
+Därefter torkas provet i en ugn på 105°C i minst 12 timmar.
+
+00:02:11.140 --> 00:02:15.060
+När torkningen är klar så vägs provet igen och utifrån
+
+00:02:15.060 --> 00:02:19.140
+viktskillnaden så kan vi bestämma TS-halten.
+
+00:02:20.099 --> 00:02:26.180
+Om vi också vill ta reda på VS-halten så tar vi det ett steg vidare.
+
+00:02:26.020 --> 00:02:35.700
+De torkade proverna bränns i en ugn på över 350°C, tills det är bara aska som finns kvar och allt brännbart har försvunnit.
+
+00:02:35.840 --> 00:02:42.400
+Askan vägs och med hjälp av den vikten kan vi sedan beräkna VS-halten.
+
+00:02:42.800 --> 00:02:50.080
+Nästa begrepp är uppehållstid, som ofta förkortas HRT, vilket står för hydraulic retention time
+
+00:02:49.800 --> 00:02:55.800
+och beskriver hur lång tid det tar genomsnitt att byta ut hela reaktorvolymen.
+
+00:02:56.520 --> 00:03:02.760
+Det här ger ett ungefärligt mått på hur lång tid materialet spenderar i rötkammaren.
+
+00:03:02.740 --> 00:03:11.940
+HRT beräknas genom att ta den aktiva reaktorvolymen delat med volymen av material som matas in varje dag.
+
+00:03:12.860 --> 00:03:20.060
+En annan viktig driftparameter är den organiska belastningen som brukar förkortas OLR
+
+00:03:19.760 --> 00:03:22.400
+vilket står för Organic Loading Rate.
+
+00:03:22.720 --> 00:03:32.320
+Den här parametern ger information om hur mycket organiskt material som matas in varje dag i relation till rötkammarvolymen.
+
+00:03:32.440 --> 00:03:43.400
+Det här är en viktig parameter att hålla koll på eftersom den ger ett mått på hur hårt processen körs och är också en viktig parameter att optimera.
+
+00:03:43.600 --> 00:03:52.400
+Den här är också enkel att jämföra mellan olika system och anläggningar och det kan ge en fingervisning om hur mycket man ska mata sin process.
+
+00:03:53.519 --> 00:04:05.599
+OLR kan beräknas utifrån totala våtvikten av substratet och VShalten i relation till den aktiva volymen.
+
+00:04:05.340 --> 00:04:11.420
+Eller också så kan man utgå ifrån TS- och VS-halten i substratet.
+

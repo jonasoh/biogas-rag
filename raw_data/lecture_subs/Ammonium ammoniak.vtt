@@ -1,0 +1,119 @@
+WEBVTT
+
+00:00:00.320 --> 00:00:09.200
+Hej och välkommen till denna kortföreläsning om kvävets betydelse för biogasprocessen med fokus på ammonium och ammoniak.
+
+00:00:09.240 --> 00:00:17.160
+Kävet är en väldigt viktig parameter för driften, dels för rötrestens näringsinnehåll, men också för processens stabilitet.
+
+00:00:17.400 --> 00:00:21.400
+Därför vill jag prata lite särskilt om detta ämne.
+
+00:00:22.140 --> 00:00:32.780
+Många substrat som används för biogasproduktion innehåller proteiner och aminosyror som är kväverrika, som till exempel olika livsmedelsavfall och gödssel.
+
+00:00:32.780 --> 00:00:35.420
+Det här är så kallat organiskt kväve.
+
+00:00:35.340 --> 00:00:44.780
+I samband med rötningen så kommer en del av det här kvävet att brytas ner och omvandlas till mineralform, det vill säga till ammoniumkäve.
+
+00:00:45.020 --> 00:00:53.340
+Hur mycket av det organiska kvävet som mineraliseras till ammonium beror på hur bra nedbrytningen går i processen.
+
+00:00:53.520 --> 00:01:07.920
+En del substrat har också redan från början en del ammoniumkräve, t.ex. olika gödsel som innehåller både organiskt kväve och ammoniumkräve, som ni kan se på den här bilden här.
+
+00:01:08.899 --> 00:01:18.259
+Jämfört med nötgödsel så har till exempel kycklinggödsel både mer kväve totalt sett och också en högre andel av ammonium.
+
+00:01:18.240 --> 00:01:24.880
+Svingödsel är relativt lika nöt, man har typiskt en högre andel av ammoniumkäve.
+
+00:01:26.220 --> 00:01:39.580
+När organiskt kväve omvandlas till ammoniumkräve i samband med rötningen så höjs andelen av kväve som är direkt tillgängligt för växterna något som förbättrar gödselvärdet på rötresten.
+
+00:01:39.540 --> 00:01:47.700
+I en undersökning av olika gårdsbiogasanlängningar så kunde man bestämma att den genomsnittliga ökningen av ammoniumkväve
+
+00:01:47.939 --> 00:01:54.500
+under rötningen av gödsel var ungefär 0,5 g/kg.
+
+00:01:54.979 --> 00:02:02.579
+Värt att veta och av stor vikt för processens mående är att ammonium står i jämvikt med ammoniak.
+
+00:02:03.700 --> 00:02:12.740
+Ammonium är en nödvändig kvävekälla för mikroorganismerna, men ammoniak är faktiskt hämmande för dem, speciellt metanbildarna.
+
+00:02:12.640 --> 00:02:16.879
+Höga halter av ammoniak kan därför orsaka processproblem.
+
+00:02:17.200 --> 00:02:26.319
+Den här jämvikten mellan ammonium och ammoniak förskjuts mot ammoniak med ökande temperatur och pH.
+
+00:02:27.040 --> 00:02:37.360
+Det här gör att det kan ibland ske hämning av en termofil process, men inte en mesofil process, trots att de har samma totala ammoniumkvävehalt.
+
+00:02:38.660 --> 00:02:49.780
+Vid en kemisk analys så får man ett svar på den totala halten av ammoniumkväve och inte specifikt på ammoniak, men analysen innefattar båda dessa föreningar.
+
+00:02:49.200 --> 00:02:59.120
+Men om man har pH och temperatur på sin process så kan man beräkna ammoniakhalten och på så satt bedöma risken för hämning i sin process.
+
+00:02:59.040 --> 00:03:03.840
+Den här beräkningen finns tillgänglig i beräkningsverktyget som tillhör den här kursen.
+
+00:03:03.840 --> 00:03:10.880
+Men för att ni ska få en förståelse av betydelsen av temperatur och pH så har jag gjort ett räkneexempel.
+
+00:03:10.980 --> 00:03:13.700
+Den kan ni se här på nästa bild.
+
+00:03:14.020 --> 00:03:19.460
+Vi utgår från en process här som har 3 g ammoniumkväve.
+
+00:03:20.260 --> 00:03:24.260
+Sedan har vi olika temperatur och pH.
+
+00:03:25.140 --> 00:03:32.180
+Som exempel utgår vi här från en process som har en total ammoniumkvävehalt på 3 g/kg.
+
+00:03:32.660 --> 00:03:37.780
+Den här processen har ett pH på 7,5 och drivs vid en mesofil temperatur.
+
+00:03:37.300 --> 00:03:42.980
+På 37°C kommer ammoniakhalten att bli 117 mg/kg.
+
+00:03:43.300 --> 00:03:48.180
+Om samma process istället skulle drivas vid en termofil temperatur
+
+00:03:47.600 --> 00:03:53.520
+på 52 grader så ökar ammoniakhalten till 300 mg/kg.
+
+00:03:53.520 --> 00:03:57.120
+Om processen har ett högre pH, det vill säga 8,
+
+00:03:56.900 --> 00:04:02.900
+då ligger ammoniumkvävenivån runt 280 mg/kg vid 37°C.
+
+00:04:03.060 --> 00:04:10.260
+Höjer man temperaturen till 52°C så går ammoniakhalten upp över 700 mg/kg.
+
+00:04:10.520 --> 00:04:24.040
+När det gäller hämning av processen så varierar det något mellan olika processer beroende på deras mikrobiologi, men en vanlig nivå där hämning ofta ses ligger runt 2-300 mg/kg.
+
+00:04:24.320 --> 00:04:34.720
+Processen kan dock anpassas till en högre nivå, men det kräver noggrann övervakning och kontroll av driften för att säkerställa att det inte blir några problem.
+
+00:04:35.180 --> 00:04:45.900
+Slutligen skulle jag vilja understryka att ammoniakhämning är en väldigt vanlig orsak till processproblem och att det därför är värt att tänka lite extra på det här under driften
+
+00:04:45.700 --> 00:04:52.020
+och vid vidare planering av nya substrat till exempel eller förändrade processförhållanden.
+
+00:04:52.020 --> 00:04:58.980
+Om det så kan ni också höra mer på föreläsningarna om övervakning och drift av processen.
+
+00:04:59.020 --> 00:05:01.020
+Då säger jag tack för mig.
+

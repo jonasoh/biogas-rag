@@ -1,0 +1,224 @@
+WEBVTT
+
+00:00:00.320 --> 00:00:07.280
+Den första föreläsningen om processövervakning handlade om hur man utvärderar processens effektivitet.
+
+00:00:07.280 --> 00:00:14.480
+Och i den här uppföljande föreläsningen kommer jag ge mer information om utvärdering av processens stabilitet.
+
+00:00:14.099 --> 00:00:18.260
+Hur man kan bedöma om det finns en risk för att få en störning.
+
+00:00:19.380 --> 00:00:24.660
+Processens stabilitet kopplar till mikroorganismerna och deras aktivitet.
+
+00:00:24.440 --> 00:00:31.240
+Som vi har nämnt tidigare så behövs ett samarbete mellan olika grupper av mikroorganismer för att ha en effektiv process.
+
+00:00:31.640 --> 00:00:36.680
+Det är viktigt att de här olika nedbrytningsstegen är i balans med varandra.
+
+00:00:36.640 --> 00:00:45.840
+Vid utvärdering av stabilitet är det också av betydelse att förstå inte bara om det är en störning utan också hur kraftig den här störningen är.
+
+00:00:46.280 --> 00:00:57.960
+Att tänka på är att en instabil process också har en sämre effektivitet och kan leda till en försämrad nedbrytning med ett lägre näringsinnehåll i rötresten.
+
+00:00:57.660 --> 00:01:03.660
+Som då i förlängningen ger en ökad risk för metanemissioner från rötresten under lagringen.
+
+00:01:03.900 --> 00:01:10.700
+För att klargöra vilka parametrar som är viktiga att titta på för att avgöra om processen är instabil,
+
+00:01:10.340 --> 00:01:16.420
+och om den har en störning, så kommer vi nu gå in i lite mer detalj på ett specifikt exempel.
+
+00:01:16.740 --> 00:01:24.259
+Jag kommer visa data från en gödselbaserad process som drabbats av en störning på grund av en ökning av belastningen.
+
+00:01:24.220 --> 00:01:37.820
+Anledningen till en störning kan variera och det är inte alltid kopplat till en ökad belastning, men som jag nämnt tidigare så är responsen hos processen väldigt likartad för olika typer av störningar.
+
+00:01:37.860 --> 00:01:46.820
+Den här grafen visar nivåer av fettsyror över tid i en process som har genomgått en ökad belastning.
+
+00:01:46.500 --> 00:01:52.500
+Som ni ser på den här svarta linjen så har vi belastningsförändringen som först ökar och sen går ner.
+
+00:01:53.220 --> 00:01:57.220
+De färgade staplarna representerar olika fettsyrror.
+
+00:01:57.960 --> 00:02:09.080
+Grafen visar data från en period på totalt 38 veckor och en stegvis belastningsökning från 3-4,4 gram VS per liter per dag.
+
+00:02:08.780 --> 00:02:13.820
+Det här är en helt rimlig belastningsnivå och den kan fungera väl för vissa substrat.
+
+00:02:13.820 --> 00:02:18.860
+Men just i det här fallet så ledde den här ökningen av belastningen till en störning.
+
+00:02:18.820 --> 00:02:25.780
+Att processen har en störning kan tydligt ses i ökningen av de organiska fettsyrorna, alltså VFA.
+
+00:02:26.260 --> 00:02:33.300
+Som ni ser på grafen så tar ett tag efter belastningsökningen innan fettsyrorna börjar byggas upp.
+
+00:02:33.320 --> 00:02:43.880
+Det här är typiskt för en biogasprocess och det är därför viktigt att tänka på att en respons efter en förändring kan komma efter många veckor.
+
+00:02:44.020 --> 00:02:52.019
+Det är därför rimligt att vänta minst en uppehållstid innan man drar slutsatser kring utgången av en viss förändring som man gör.
+
+00:02:52.220 --> 00:03:06.459
+Att ha låga nivåer av fettsyror är ganska vanligt och inte farligt, men när nivåerna går över 1–2 gram per liter och framför allt visar ökande trend så betyder det ofta att det är ett problem.
+
+00:03:06.940 --> 00:03:12.620
+På den här grafen ser ni också att det är olika typer av organiska syror som ansamlas.
+
+00:03:12.940 --> 00:03:21.020
+Den orangea stapeln visar acetat, ättisksyra, och den gröna visar propionat, propionsyra.
+
+00:03:21.580 --> 00:03:29.019
+Som ni ser så bildas ättiksyran först, och sedan efter ett tag så ser man också bildning av propionsyra.
+
+00:03:28.920 --> 00:03:37.960
+Det är den totala halten av VFA som ger bra mått på störning, men också vilken typ av syra som man har fått vid den här ansamlingen.
+
+00:03:37.760 --> 00:03:48.880
+Acetat brys ner relativt fort, och det innebär att när en korrigering görs i driften för att motverka störningen, så syns ofta en väldigt snabb nedgång av den syran.
+
+00:03:48.760 --> 00:03:53.160
+Medan propionat är däremot ett tecken på en mer allvarlig störning.
+
+00:03:53.400 --> 00:03:57.000
+Den här syran är också betydligt svårare att bli av med.
+
+00:03:57.540 --> 00:04:02.900
+Som ni ser på det här exemplet så bildades propionat när belastningen var som högst.
+
+00:04:02.900 --> 00:04:08.180
+När sedan belastningen igen sänks så ser ni hur syrorna successivt bryts ner.
+
+00:04:08.320 --> 00:04:14.400
+Och att propionat är den syran som stannar relativt längre.
+
+00:04:17.500 --> 00:04:26.620
+Som ni hörde tidigare så är den specifika metanproduktionen, SMP, ett bra mått på hur effektiv en process är.
+
+00:04:26.720 --> 00:04:31.840
+SMP visar hur mycket metan som bildas per tillsatt mängd organiskt material.
+
+00:04:32.080 --> 00:04:35.600
+Om vi tittar på den här grafen igen och på samma störning,
+
+00:04:35.600 --> 00:04:44.960
+och ser hur SMP påverkas av störningen så kan ni tydligt se hur den sjunker i samband med att man har den här störningen.
+
+00:04:47.060 --> 00:04:53.460
+Kolet som vanligtvis går till metan i samband med nedbrytning, finns nu istället i de organiska syrorna.
+
+00:04:53.540 --> 00:04:57.620
+Det är därför man ser att man får en sänkning av SMP.
+
+00:04:58.620 --> 00:05:06.460
+Något som är värt att notera är att i samband med att syrorna igen börjar brytas ner så ökar SMP tillfälligt.
+
+00:05:06.699 --> 00:05:12.379
+Det här sker för att kolet som har varit bundet i de organiska syorna bryts ner.
+
+00:05:12.220 --> 00:05:22.620
+När sedan syrorna är nere på en låg nivå igen så ser man att SMP återgår till ungefär samma nivå som innan man hade den här ökningen av organisk belastning.
+
+00:05:25.660 --> 00:05:38.380
+I samband med en störning är det också typiskt att man får en förändring av gasens sammansättning, med en högre halt av koldioxid och en lägre halt av metan jämfört med en stabil process.
+
+00:05:38.520 --> 00:05:47.640
+Gasens sammansättning förändras ganska tidigt under en störning, ofta innan man ser en tydlig ökning av de flyktiga fettsyrorna.
+
+00:05:48.080 --> 00:05:56.400
+Gasen sammansättning är därför en bra störningsindikator som också är relativt lätt att följa utan speciellt avancerade instrument.
+
+00:05:56.640 --> 00:06:02.000
+Till exempel så är det möjligt att mäta koldioxidhalten med en sackarometer.
+
+00:06:02.020 --> 00:06:07.860
+Hur man mäter finns mer information om i föreläsningen om mätmetoder och instrument.
+
+00:06:11.280 --> 00:06:18.160
+För att en biogasprocess ska fungera är det mest optimalt om pH befinner sig mellan 7 och 8.
+
+00:06:18.160 --> 00:06:23.520
+Det är dock inte ovanligt med välfungerande processer med pH också lite över 8.
+
+00:06:23.200 --> 00:06:30.400
+Det är dock inte bra om pH går ner under 7, eftersom speciellt metanbildande organismer inte gillar det.
+
+00:06:30.720 --> 00:06:37.520
+I samband med en störning där VFA ansamlas, finns alltid en risk att pH går ner.
+
+00:06:37.260 --> 00:06:43.660
+Speciellt om alkaliniteten, det vill säga buffertförmågan, inte är tillräckligt hög.
+
+00:06:44.140 --> 00:06:51.260
+Som ni ser på den här bilden så sjunker alkaliniteten tydligt i samband med att syrorna bildas.
+
+00:06:51.360 --> 00:06:54.960
+Man brukar då säga att man förbrukar buffertkapaciteten.
+
+00:06:55.440 --> 00:07:00.639
+När alkaliniteten sjunker så kommer så småningom också pH att sjunka.
+
+00:07:00.300 --> 00:07:06.539
+Men som ni ser på den här bilden, så tar det faktiskt ett tag innan man ser en förändring på pH.
+
+00:07:06.780 --> 00:07:11.020
+Och då har halten av syrorna blivit ganska höga redan.
+
+00:07:11.220 --> 00:07:21.860
+Det innebär att pH inte så tydligt kan visa när en störning är på väg och att det först ändrar sig när man redan har en ganska allvarlig instabilitet i processen.
+
+00:07:23.820 --> 00:07:35.259
+En intressant och bra parameter för att avgöra om man har en störning och som också går att analysera direkt på plats på en biogasanläggning är så kallade FOS/TAC.
+
+00:07:35.020 --> 00:07:39.820
+Den här analysen går att göra med ett instrument som också samtidigt visar pH.
+
+00:07:40.140 --> 00:07:46.380
+FOS är de organiska syorna och TAC representerar alkaliniteten.
+
+00:07:46.220 --> 00:07:58.139
+Om vi igen tittar på den här grafen så ser ni tydligt hur det här värdet ökar ganska tidigt i störningen och i samband med att fettsyrorna ökar.
+
+00:07:58.340 --> 00:08:05.540
+Som för alkaliniteten visar den här parametern förändringarna tidigare i störningsskedet jämfört med pH.
+
+00:08:06.060 --> 00:08:13.500
+Och för FOS/TAC-värdet så är ett värde över 0,5 ett tecken på att man har en ganska kraftig störning.
+
+00:08:16.580 --> 00:08:27.940
+Den här tabellen sammanfattar slutligen de olika parametrarna som kan användas för att avgöra om man har en störning eller risk för en störning och om processen har en instabilitet.
+
+00:08:27.820 --> 00:08:35.740
+Utöver de parametrar som jag pratat om under den här föreläsningen är också ammonium–ammoniak en viktig parameter att hålla koll på.
+
+00:08:35.740 --> 00:08:40.620
+Detta eftersom det är ett ämne som lätt orsakar hämning av metanbildarna.
+
+00:08:40.720 --> 00:08:50.320
+Om det sker så blir dock effekten likartad den som jag har visat nu, som är en överbelastning, det vill säga att man ser en ansamling av fettsyror.
+
+00:08:50.579 --> 00:08:57.860
+Bra temperaturkontroll är också viktig eftersom variation kan orsaka obalans i det mikrobiella samhället.
+
+00:08:59.240 --> 00:09:12.519
+När det gäller övervakning så är det viktigt att veta att alla processer är unika och även om det finns generella riktlinjer så kan det vara så att det som fungerar för en process kan ge problem i en annan.
+
+00:09:12.320 --> 00:09:18.240
+Det är därför viktigt att lära känna sin egen process och hålla koll på trenderna över tid.
+
+00:09:18.240 --> 00:09:23.680
+En ökande eller sjunkande trend över tid kan vara ett tydligt tecken på att det är en störning.
+
+00:09:23.640 --> 00:09:33.480
+Då är det viktigt att i god tid fundera över vad som kan vara orsaken och sedan justera sin drift för att stabilisera och effektivisera sin process.
+

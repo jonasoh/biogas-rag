@@ -1,0 +1,137 @@
+WEBVTT
+
+00:00:01.200 --> 00:00:04.720
+Välkommen till föreläsningen om mätmetoder och instrument.
+
+00:00:05.200 --> 00:00:11.920
+I den här föreläsningen ska vi gå igenom några metoder man kan använda för övervakning av biogasprocessen,
+
+00:00:11.500 --> 00:00:16.619
+och fokusera på metoder man kan använda på sin egen anläggning.
+
+00:00:17.820 --> 00:00:25.340
+Först går vi igenom ett par enkla metoder för hur man regelbundet kan övervaka gassammansättningen.
+
+00:00:24.700 --> 00:00:32.380
+En mycket enkel metod som inte kräver någon avancerad utrustning är koldioxidmätning med sackarometer.
+
+00:00:32.700 --> 00:00:37.820
+Den här mäter andelen koldioxid i förhållande till metan i biogasen
+
+00:00:37.300 --> 00:00:41.540
+och ger möjlighet att följa hur gasammansättningen förändras över tid.
+
+00:00:41.860 --> 00:00:46.100
+Biogas består till största delen av metan och koldioxid.
+
+00:00:45.920 --> 00:00:52.960
+Om förhållandet mellan de här två ändras kan det vara tecken på att något inte riktigt fungerar som det ska i processen.
+
+00:00:53.199 --> 00:00:59.519
+Själva mätningen går till så att en bestämd mängd biogas sprutas in i en cylinder
+
+00:00:59.280 --> 00:01:03.520
+som innehåller lut, vilket är natriumhydroxid.
+
+00:01:03.760 --> 00:01:06.160
+Det är en stark bas.
+
+00:01:06.160 --> 00:01:12.320
+Koldioxiden löser sig i basen och det som blir kvar i gasform är i princip bara metan.
+
+00:01:13.900 --> 00:01:22.300
+Genom att se hur mycket gasvolymen minskar kan man räkna ut hur stor andel koldioxid gasen innehöll från början.
+
+00:01:22.420 --> 00:01:32.979
+Det finns också enkla gasmätare som är mycket vanliga och lättanvända mäteinstrument som kan användas både stationärt och portabelt.
+
+00:01:33.060 --> 00:01:42.020
+De används för att analysera biogasens sammansättning och mäter halten av metan, koldioxid, syrgas och svavelväte.
+
+00:01:43.460 --> 00:01:52.340
+pH mäts med en pH-meter och det är en enkel men väldigt viktig metod för att följa hur processen mår.
+
+00:01:52.160 --> 00:02:01.520
+pH-värdet i processen bör normalt ligga någonstans runt 7-8, även om det kan variera mellan olika anläggningar.
+
+00:02:01.580 --> 00:02:11.340
+Det viktigaste är egentligen att vara uppmärksam på förändringar över tid eftersom snabba svängningar kan tyda på att processen är ur balans.
+
+00:02:12.940 --> 00:02:17.660
+Utöver pH så finns det andra sätt att följa processens stabilitet.
+
+00:02:17.660 --> 00:02:25.100
+Ett annat mätinstrument som innehåller pH-meter, men som ger mycket mer information än bara pH-värde
+
+00:02:24.740 --> 00:02:28.740
+är instrument för att mäta så kallad FOS/TAC-kvot.
+
+00:02:29.140 --> 00:02:36.180
+Förutom pH så mäter man både alkalinitet och den totala mängden syror i processen.
+
+00:02:36.720 --> 00:02:44.320
+Alkalinitet som kallas TAC i det här fallet är ett mått på processens bufferkapacitet.
+
+00:02:44.620 --> 00:02:52.459
+En hög alkalinitet betyder att processen har bra motståndskraft mot snabba förändringar i pH.
+
+00:02:52.299 --> 00:03:02.299
+Syrorna som kallas FOS i det här fallet visar koncentrationen av flyktiga fettsyror, som till exempel ättiksyra och smörsyra.
+
+00:03:02.220 --> 00:03:11.340
+De här bildas normalt under fermentationen, men om halterna blir för höga kan det vara tecken på att processen är ur balans.
+
+00:03:11.459 --> 00:03:19.379
+Genom att titta på kvoten FOS delat med TAC så får man en tydlig indikation på processens stabilitet.
+
+00:03:19.379 --> 00:03:26.420
+Om FOS/TAC-värdet ökar över tid så är det ett tidigt och väldigt tydligt tecken på att processen har en störning.
+
+00:03:26.980 --> 00:03:31.540
+Det här ser man ofta tidigare än en vanlig pH-mätning kan visa.
+
+00:03:32.680 --> 00:03:43.000
+Så utöver de mätningar som du kan göra direkt på anläggningen så finns det också fler analyser som man kan göra genom att skicka prover på analys till ett laboratorium.
+
+00:03:43.380 --> 00:03:52.420
+En vanlig analys är VFA där man mäter koncentrationen av olika syror som ättiksyra, propionsyra, mjölksyra.
+
+00:03:52.540 --> 00:03:56.140
+Då kan man få koncentrationerna av respektive syra.
+
+00:03:56.379 --> 00:04:01.019
+Det här ger en mer detaljerad bild av hur processen fungerar.
+
+00:04:00.600 --> 00:04:07.240
+Man kan också analysera TS och VS, alltså torrsubstans och organisk substans.
+
+00:04:07.800 --> 00:04:12.200
+Den analysen är intressant både för substrat och rötrest
+
+00:04:12.020 --> 00:04:19.220
+och anger hur mycket organiskt material som finns tillgängligt, respektive hur mycket som bryts ner i processen.
+
+00:04:19.380 --> 00:04:24.260
+De här värdena används också för att beräkna processens belastning.
+
+00:04:24.740 --> 00:04:32.820
+En gödselanalys kan man också göra och här får man värden som torrsubstanshalt och koncentration av
+
+00:04:32.060 --> 00:04:39.660
+totalt kol, organiskt kväve, kalium och fosfor och annat som är relevant för att bestämma gödselkvalitet.
+
+00:04:40.300 --> 00:04:46.460
+Med de resultaten kan man till exempel beräkna kol/kväve-kvoten i substratet
+
+00:04:46.040 --> 00:04:49.639
+som ger ett mått på substratets sammansättning
+
+00:04:49.639 --> 00:04:59.400
+och också bestämma kvävmineraliseringsgraden under rötningen, och det är alltså hur mycket kväve som omvandlas till ammonium under rötningen.
+
+00:04:59.720 --> 00:05:05.240
+Så jag hoppas att ni har blivit inspirerade att göra lite fler analyser på era anläggningar.
+
+00:05:05.560 --> 00:05:08.680
+Jag tackar så mycket för den här föreläsningen.
+
