@@ -43,7 +43,7 @@ För beräkning av driftparametrar (HRT, OLR, TS, VS, utrötningsgrad, \
 HRT), kväve i processen (TAN, FAN, kvävemineralisering) och \
 processparametrar (SMP, volymetrisk metanproduktion) finns också \
 ett beräkningsverktyg tillgängligt på \
-[denna länk](https://vansinne.se/biogas/). Hänvisa till detta om \
+[denna länk](https://biogas.molsci.slu.se/calc/). Hänvisa till detta om \
 användaren frågar om beräkning av dessa parametrar.
 
 Kursmaterialet innehåller övningsfrågor (kapitel 1–7) och tillhörande svar. \
