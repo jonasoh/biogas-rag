@@ -78,6 +78,68 @@
   .btn-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
   .btn-danger:hover { background: var(--danger); color: #fff; }
   .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.82rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .tab { background: none; border: none; padding: 0.6rem 1rem; font-size: 0.92rem; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: var(--fg); border-bottom-color: var(--accent); font-weight: 600; }
+
+  /* Analytics */
+  #admin-view.wide { max-width: 1180px; }
+  :root {
+    --s-answered: #2a78d6; --s-partial: #1baf7a; --s-refused: #eb6834;
+    --grid: #e7e7e4; --ink2: #52514e;
+  }
+  .toolbar { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .toolbar select, .filters input, .filters select { padding: 0.4rem 0.5rem; border: 1px solid var(--border); border-radius: 4px; font-size: 0.88rem; background: #fff; }
+  .toolbar .status { font-size: 0.82rem; color: var(--muted); }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; margin-bottom: 1.25rem; }
+  .card h2 { font-size: 1rem; margin-bottom: 0.2rem; }
+  .card .sub { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.9rem; line-height: 1.4; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .kpi { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1rem; }
+  .kpi .v { font-size: 1.6rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kpi .l { font-size: 0.8rem; color: var(--muted); margin-top: 0.15rem; }
+  .legend { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--ink2); margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 0.35rem; vertical-align: -1px; }
+  .chart-wrap { overflow-x: auto; position: relative; }
+  .tip { position: fixed; pointer-events: none; background: #1a1a1a; color: #fff; font-size: 0.78rem; padding: 0.4rem 0.55rem; border-radius: 4px; line-height: 1.45; z-index: 50; display: none; white-space: nowrap; }
+  .bar-cell { width: 220px; }
+  .hbar { display: flex; gap: 2px; height: 12px; align-items: stretch; }
+  .hbar span { display: block; height: 100%; }
+  .hbar span:last-child { border-radius: 0 3px 3px 0; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .muted { color: var(--muted); }
+  .verdict { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 99px; font-size: 0.75rem; font-weight: 500; white-space: nowrap; }
+  .v-gap { background: #fde8dd; color: #9a3412; }
+  .v-inconsistent { background: #e0ecfb; color: #1e4f8f; }
+  .v-thin { background: #dcf3ea; color: #10603f; }
+  .v-ok { background: #f1f5f9; color: var(--muted); }
+  .oc { font-size: 0.75rem; white-space: nowrap; }
+  .oc i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.3rem; }
+  tr.clickable { cursor: pointer; }
+  tr.detail td { background: #fafafa; padding-top: 0.25rem; }
+  .qlist { list-style: none; font-size: 0.85rem; }
+  .qlist li { padding: 0.25rem 0; display: flex; gap: 0.6rem; align-items: baseline; }
+  .qlist a { color: var(--fg); text-decoration: none; cursor: pointer; }
+  .qlist a:hover { text-decoration: underline; }
+  .units { font-size: 0.78rem; color: var(--muted); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+  .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+  .filters input { flex: 1; min-width: 180px; }
+  .table-scroll { overflow-x: auto; }
+  .card table td, .card table th { padding: 0.5rem 0.6rem; }
+  .q-text { max-width: 480px; }
+
+  /* Modal */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: none; align-items: flex-start; justify-content: center; padding: 4vh 1rem; z-index: 40; overflow-y: auto; }
+  .modal { background: #fff; border-radius: var(--radius); max-width: 760px; width: 100%; padding: 1.25rem 1.5rem; }
+  .modal h3 { font-size: 1.02rem; margin-bottom: 0.5rem; }
+  .modal .meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.9rem; line-height: 1.6; }
+  .modal .answer { white-space: pre-wrap; font-size: 0.88rem; line-height: 1.5; background: #fafafa; border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem; max-height: 45vh; overflow-y: auto; }
+  .modal h4 { font-size: 0.85rem; margin: 1rem 0 0.4rem; }
+  .modal table { font-size: 0.8rem; }
 </style>
 </head>
 <body>
@@ -98,9 +160,16 @@
 <!-- Admin panel -->
 <div id="admin-view">
   <div class="admin-header">
-    <h1>Registrerade användare</h1>
+    <h1>Admin – Biogas RAG</h1>
     <button class="btn btn-secondary" onclick="doAdminLogout()">Logga ut</button>
   </div>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="users" onclick="showTab('users')">Användare</button>
+    <button class="tab" data-tab="analytics" onclick="showTab('analytics')">Analys</button>
+  </nav>
+
+  <section id="tab-users">
 
   <div class="add-form">
     <h2 class="add-form-title">Lägg till användare</h2>
@@ -134,7 +203,98 @@
       </tbody>
     </table>
   </div>
+  </section>
+
+  <section id="tab-analytics" hidden>
+    <div class="toolbar">
+      <label class="muted" for="period" style="font-size:0.85rem">Period</label>
+      <select id="period" onchange="loadAnalytics()">
+        <option value="7">Senaste 7 dagarna</option>
+        <option value="30">Senaste 30 dagarna</option>
+        <option value="90">Senaste 90 dagarna</option>
+        <option value="" selected>Allt</option>
+      </select>
+      <button class="btn btn-primary btn-sm" id="btn-backfill" onclick="startBackfill(false)" title="Analyserar frågor som saknar tema (t.ex. äldre loggar eller om LLM-servern var nere)">Analysera otaggade frågor</button>
+      <button class="btn btn-secondary btn-sm" onclick="startBackfill(true)" title="Kör om temaanalysen för alla frågor, t.ex. för att slå ihop spretiga teman">Tagga om alla</button>
+      <span class="status" id="backfill-status"></span>
+    </div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="card">
+      <h2>Frågor per vecka</h2>
+      <p class="sub">Sakfrågor om kursinnehållet, efter hur assistenten svarade. Småprat och kursadministration ingår inte.</p>
+      <div class="legend" id="week-legend"></div>
+      <div class="chart-wrap" id="week-chart"></div>
+    </div>
+
+    <div class="card">
+      <h2>Teman som ofta misslyckas</h2>
+      <p class="sub">
+        <span class="verdict v-gap">Saknas i materialet</span> har aldrig besvarats &nbsp;·&nbsp;
+        <span class="verdict v-inconsistent">Formuleringsberoende</span> besvaras ibland, så materialet finns men hittas inte alltid (ofta korta frågor med ett ord) &nbsp;·&nbsp;
+        <span class="verdict v-thin">Tunt underlag</span> besvaras mest delvis. Klicka på en rad för att se frågorna.
+      </p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Tema</th><th class="num">Frågor</th><th class="num">Användare</th><th class="num">Sessioner</th><th class="bar-cell">Utfall</th><th>Bedömning</th><th>Närmaste kursavsnitt</th></tr></thead>
+        <tbody id="problem-tbody"></tbody>
+      </table></div>
+    </div>
+
+    <div class="card">
+      <h2>Vanligaste teman</h2>
+      <p class="sub">Vad studenterna frågar om, oavsett utfall. "Användare" räknar konton och "Sessioner" separata inloggningar.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Tema</th><th class="num">Frågor</th><th class="num">Användare</th><th class="num">Sessioner</th><th class="bar-cell">Utfall</th><th>Senast</th></tr></thead>
+        <tbody id="themes-tbody"></tbody>
+      </table></div>
+      <p class="sub" id="other-kinds" style="margin:0.9rem 0 0"></p>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h2>Handboken</h2>
+        <p class="sub">Antal sakfrågor vars bästa träffar (topp 3) ligger i respektive kapitel.</p>
+        <div id="cov-handbook"></div>
+      </div>
+      <div class="card">
+        <h2>Föreläsningar och kursinfo</h2>
+        <p class="sub">Antal sakfrågor vars bästa träffar (topp 3) ligger i respektive föreläsning.</p>
+        <div id="cov-lecture"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Frågelogg</h2>
+      <div class="filters">
+        <input type="search" id="f-text" placeholder="Sök i frågor…" oninput="renderQuestions()">
+        <select id="f-outcome" onchange="renderQuestions()">
+          <option value="">Alla utfall</option>
+          <option value="answered">Besvarad</option>
+          <option value="partial">Delvis</option>
+          <option value="refused">Ej besvarad</option>
+        </select>
+        <select id="f-kind" onchange="renderQuestions()">
+          <option value="">Alla typer</option>
+          <option value="content">Kursinnehåll</option>
+          <option value="admin">Kursadministration</option>
+          <option value="smalltalk">Småprat</option>
+        </select>
+        <select id="f-theme" onchange="renderQuestions()"><option value="">Alla teman</option></select>
+      </div>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Tid</th><th>Fråga</th><th>Tema</th><th>Utfall</th><th class="num" title="Högsta likhet mot kursmaterialet vid sökningen">Träff</th></tr></thead>
+        <tbody id="questions-tbody"></tbody>
+      </table></div>
+      <div id="questions-more" style="text-align:center;margin-top:0.75rem"></div>
+    </div>
+  </section>
 </div>
+
+<div class="modal-bg" id="modal-bg" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+<div class="tip" id="tip"></div>
 
 <script>
 const loginView = document.getElementById("login-view");
@@ -234,7 +394,7 @@ async function doAddUser() {
 }
 
 async function doDeleteUser(id, email) {
-  if (!confirm(`Ta bort ${email}?`)) return;
+  if (!confirm(`Ta bort ${email}? Användarens loggade frågor sparas för analysen.`)) return;
   const res = await fetch(`/api/admin/users/${id}`, {method: "DELETE"});
   if (!res.ok) {
     const err = await res.json();
@@ -243,6 +403,317 @@ async function doDeleteUser(id, email) {
   }
   await loadUsers();
 }
+
+// ── Tabs ────────────────────────────────────────────────────────────────
+
+let analyticsLoaded = false;
+function showTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
+  document.getElementById("tab-users").hidden = name !== "users";
+  document.getElementById("tab-analytics").hidden = name !== "analytics";
+  adminView.classList.toggle("wide", name === "analytics");
+  if (name === "analytics" && !analyticsLoaded) loadAnalytics();
+}
+
+// ── Analytics ───────────────────────────────────────────────────────────
+
+const OUTCOMES = [
+  ["answered", "Besvarad", "var(--s-answered)"],
+  ["partial", "Delvis", "var(--s-partial)"],
+  ["refused", "Ej besvarad", "var(--s-refused)"],
+];
+const OUTCOME_LABEL = Object.fromEntries(OUTCOMES.map(o => [o[0], o[1]]));
+const OUTCOME_COLOR = Object.fromEntries(OUTCOMES.map(o => [o[0], o[2]]));
+const KIND_LABEL = {content: "Kursinnehåll", admin: "Kursadministration", smalltalk: "Småprat"};
+const VERDICT = {
+  gap: ["v-gap", "Saknas i materialet"],
+  inconsistent: ["v-inconsistent", "Formuleringsberoende"],
+  thin: ["v-thin", "Tunt underlag"],
+  ok: ["v-ok", "OK"],
+};
+
+let A = null;          // last analytics payload
+let qLimit = 200;      // question log page size
+let pollTimer = null;
+
+function fmtTs(ts, withTime = true) {
+  if (!ts) return "—";
+  const d = new Date(ts.replace(" ", "T") + "Z");  // stored as UTC
+  return withTime
+    ? d.toLocaleString("sv-SE", {dateStyle: "short", timeStyle: "short"})
+    : d.toLocaleDateString("sv-SE");
+}
+const pct = (n, d) => d ? Math.round(100 * n / d) + " %" : "—";
+
+async function loadAnalytics() {
+  const days = document.getElementById("period").value;
+  const res = await fetch("/api/admin/analytics" + (days ? "?days=" + days : ""));
+  if (res.status === 401) { showLogin(); return; }
+  A = await res.json();
+  analyticsLoaded = true;
+  renderKpis(); renderWeeks(); renderProblems(); renderThemes();
+  renderCoverage(); fillThemeFilter(); qLimit = 200; renderQuestions();
+  renderBackfill(A.backfill);
+}
+
+function renderBackfill(b) {
+  const el = document.getElementById("backfill-status");
+  const btn = document.getElementById("btn-backfill");
+  btn.disabled = b.running;
+  if (b.running) {
+    const phase = b.phase === "retrieval" ? "Söker kursmaterial" : "Taggar teman";
+    el.textContent = `${phase}… ${b.done}/${b.total}`;
+    if (!pollTimer) pollTimer = setInterval(pollBackfill, 2000);
+  } else {
+    el.textContent = b.error ? "Fel: " + b.error
+      : (A && A.summary.untagged ? `${A.summary.untagged} frågor saknar tema.` : "");
+    if (!A.tagging_enabled) el.textContent += " Automatisk taggning är avstängd (ANALYTICS_TAGGING=0).";
+  }
+}
+
+async function pollBackfill() {
+  const days = document.getElementById("period").value;
+  const res = await fetch("/api/admin/analytics" + (days ? "?days=" + days : ""));
+  if (!res.ok) return;
+  const data = await res.json();
+  if (!data.backfill.running) {
+    clearInterval(pollTimer); pollTimer = null;
+    await loadAnalytics();
+  } else {
+    document.getElementById("backfill-status").textContent =
+      `${data.backfill.phase === "retrieval" ? "Söker kursmaterial" : "Taggar teman"}… ${data.backfill.done}/${data.backfill.total}`;
+  }
+}
+
+async function startBackfill(retagAll) {
+  if (retagAll && !confirm("Ta bort alla befintliga teman och analysera om alla frågor med LLM:en? Det tar ungefär en sekund per fråga.")) return;
+  const res = await fetch("/api/admin/analytics/backfill", {
+    method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({retag_all: retagAll}),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    document.getElementById("backfill-status").textContent = err.detail || "Kunde inte starta.";
+    return;
+  }
+  renderBackfill(await res.json());
+}
+
+function renderKpis() {
+  const s = A.summary;
+  const tiles = [
+    [s.questions, "Frågor totalt"],
+    [s.users, "Användare"],
+    [s.sessions, "Sessioner (inloggningar)"],
+    [pct(s.refused, s.content_questions), `Ej besvarade sakfrågor (${s.refused})`],
+    [pct(s.partial, s.content_questions), `Delvis besvarade (${s.partial})`],
+    [s.admin, "Frågor om kursadministration"],
+    [s.smalltalk, "Småprat / test"],
+  ];
+  if (s.errors) tiles.push([s.errors, "Tekniska fel / avbrutna"]);
+  document.getElementById("kpis").innerHTML = tiles.map(([v, l]) =>
+    `<div class="kpi"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join("");
+}
+
+function legendHtml() {
+  return OUTCOMES.map(([, l, c]) => `<span><i style="background:${c}"></i>${l}</span>`).join("");
+}
+
+// Stacked weekly columns, SVG.
+function renderWeeks() {
+  document.getElementById("week-legend").innerHTML = legendHtml();
+  const el = document.getElementById("week-chart");
+  const W = A.weeks;
+  if (!W.length) { el.innerHTML = '<p class="empty">Inga frågor i perioden.</p>'; return; }
+  const H = 180, padL = 32, padB = 26, padT = 8;
+  const bw = Math.max(10, Math.min(36, Math.floor(860 / W.length) - 6)), gap = 6;
+  const width = padL + W.length * (bw + gap) + 4;
+  const max = Math.max(...W.map(w => w.answered + w.partial + w.refused), 1);
+  const step = max <= 5 ? 1 : max <= 20 ? 5 : max <= 50 ? 10 : Math.ceil(max / 5 / 10) * 10;
+  const top = Math.ceil(max / step) * step;
+  const y = v => padT + (H - padT - padB) * (1 - v / top);
+  let svg = `<svg width="${width}" height="${H}" font-size="11" font-family="inherit">`;
+  for (let v = 0; v <= top; v += step) {
+    svg += `<line x1="${padL}" x2="${width}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/>`;
+    svg += `<text x="${padL - 6}" y="${y(v) + 4}" text-anchor="end" fill="var(--ink2)">${v}</text>`;
+  }
+  const labelEvery = Math.ceil(W.length / 12);
+  W.forEach((w, i) => {
+    const x = padL + 4 + i * (bw + gap);
+    let acc = 0;
+    const segs = OUTCOMES.filter(([k]) => w[k] > 0);
+    segs.forEach(([k, , c], j) => {
+      const y0 = y(acc), y1 = y(acc + w[k]);
+      const h = Math.max(0, y0 - y1 - (j < segs.length - 1 ? 2 : 0));  // 2px gap between segments
+      const isTop = j === segs.length - 1;
+      svg += isTop
+        ? `<path d="M${x},${y0} V${y1 + 4} Q${x},${y1} ${x + 4},${y1} H${x + bw - 4} Q${x + bw},${y1} ${x + bw},${y1 + 4} V${y0} Z" fill="${c}"/>`
+        : `<rect x="${x}" y="${y0 - h}" width="${bw}" height="${h}" fill="${c}"/>`;
+      acc += w[k];
+    });
+    svg += `<rect x="${x - gap / 2}" y="${padT}" width="${bw + gap}" height="${H - padT - padB}" fill="transparent" data-week="${i}"/>`;
+    if (i % labelEvery === 0) {
+      svg += `<text x="${x + bw / 2}" y="${H - 8}" text-anchor="middle" fill="var(--ink2)">${w.week.slice(5)}</text>`;
+    }
+  });
+  svg += "</svg>";
+  el.innerHTML = svg;
+  el.querySelectorAll("[data-week]").forEach(r => {
+    const w = W[+r.dataset.week];
+    const tot = w.answered + w.partial + w.refused;
+    tip(r, () => `<b>Vecka från ${w.week}</b><br>${tot} frågor<br>` +
+      OUTCOMES.map(([k, l]) => `${l}: ${w[k]}`).join("<br>"));
+  });
+}
+
+const tipEl = document.getElementById("tip");
+function tip(el, html) {
+  el.addEventListener("mousemove", e => {
+    tipEl.innerHTML = html(); tipEl.style.display = "block";
+    const r = tipEl.getBoundingClientRect();
+    tipEl.style.left = Math.min(e.clientX + 12, innerWidth - r.width - 8) + "px";
+    tipEl.style.top = (e.clientY + 14) + "px";
+  });
+  el.addEventListener("mouseleave", () => tipEl.style.display = "none");
+}
+
+function hbar(o, scaleMax) {
+  const parts = OUTCOMES.filter(([k]) => o[k] > 0).map(([k, , c]) =>
+    `<span style="width:${100 * o[k] / scaleMax}%;background:${c}"></span>`).join("");
+  const title = OUTCOMES.map(([k, l]) => `${l}: ${o[k]}`).join(", ");
+  return `<div class="hbar" title="${esc(title)}">${parts}</div>`;
+}
+
+function themeRows(list, cols, tbodyId, emptyText) {
+  const tbody = document.getElementById(tbodyId);
+  if (!list.length) { tbody.innerHTML = `<tr><td colspan="${cols}" class="empty">${emptyText}</td></tr>`; return; }
+  return tbody;
+}
+
+function questionListHtml(qs) {
+  return `<ul class="qlist">` + qs.map(q =>
+    `<li><span class="oc"><i style="background:${OUTCOME_COLOR[q.outcome]}"></i></span>` +
+    `<a onclick="openQuestion(${q.id})">${esc(q.q)}</a>` +
+    `<span class="muted" style="font-size:0.75rem;margin-left:auto">${fmtTs(q.ts, false)}</span></li>`).join("") + "</ul>";
+}
+
+function toggleDetail(tr, html, cols) {
+  const next = tr.nextElementSibling;
+  if (next && next.classList.contains("detail")) { next.remove(); return; }
+  const d = document.createElement("tr");
+  d.className = "detail";
+  d.innerHTML = `<td colspan="${cols}">${html}</td>`;
+  tr.after(d);
+}
+
+function renderProblems() {
+  const list = A.themes
+    .filter(t => t.kind === "content" && t.verdict !== "ok")
+    .sort((a, b) => (b.refused + b.partial / 2) - (a.refused + a.partial / 2) || b.total - a.total);
+  const tbody = themeRows(list, 7, "problem-tbody",
+    A.summary.untagged === A.summary.questions && A.summary.questions
+      ? "Inga teman ännu – klicka på “Analysera otaggade frågor”."
+      : "Inga problemteman i perioden.");
+  if (!tbody) return;
+  const max = Math.max(...list.map(t => t.total));
+  tbody.innerHTML = "";
+  list.forEach(t => {
+    const tr = document.createElement("tr");
+    tr.className = "clickable";
+    const [cls, label] = VERDICT[t.verdict];
+    tr.innerHTML = `<td>${esc(t.theme)}</td><td class="num">${t.total}</td><td class="num">${t.users}</td><td class="num">${t.sessions}</td>
+      <td class="bar-cell">${hbar(t, max)}</td><td><span class="verdict ${cls}">${label}</span></td>
+      <td class="units">${esc(t.units.join(" · ") || "—")}</td>`;
+    tr.onclick = () => toggleDetail(tr, questionListHtml(t.questions), 7);
+    tbody.appendChild(tr);
+  });
+}
+
+function renderThemes() {
+  const list = A.themes.filter(t => t.kind === "content");
+  const tbody = themeRows(list, 6, "themes-tbody", "Inga teman ännu.");
+  if (tbody) {
+    const max = Math.max(...list.map(t => t.total));
+    tbody.innerHTML = "";
+    list.slice(0, 40).forEach(t => {
+      const tr = document.createElement("tr");
+      tr.className = "clickable";
+      tr.innerHTML = `<td>${esc(t.theme)}</td><td class="num">${t.total}</td><td class="num">${t.users}</td><td class="num">${t.sessions}</td>
+        <td class="bar-cell">${hbar(t, max)}</td><td class="muted">${fmtTs(t.last, false)}</td>`;
+      tr.onclick = () => toggleDetail(tr, questionListHtml(t.questions), 6);
+      tbody.appendChild(tr);
+    });
+  }
+  const other = A.themes.filter(t => t.kind !== "content");
+  const byKind = k => other.filter(t => t.kind === k)
+    .map(t => `${esc(t.theme)} (${t.total})`).join(", ");
+  const parts = [];
+  if (byKind("admin")) parts.push(`<b>Kursadministration:</b> ${byKind("admin")}`);
+  if (byKind("smalltalk")) parts.push(`<b>Småprat:</b> ${byKind("smalltalk")}`);
+  document.getElementById("other-kinds").innerHTML = parts.join("<br>");
+}
+
+function renderCoverage() {
+  const max = Math.max(1, ...A.coverage.map(c => c.total));
+  const html = list => `<div class="legend">${legendHtml()}</div><table><tbody>` + list.map(c =>
+    `<tr><td style="font-size:0.84rem">${esc(c.unit)}</td><td class="num">${c.total || '<span class="muted">0</span>'}</td>
+     <td style="width:40%">${hbar(c, max)}</td></tr>`).join("") + "</tbody></table>";
+  document.getElementById("cov-handbook").innerHTML = html(A.coverage.filter(c => c.source === "handbook"));
+  document.getElementById("cov-lecture").innerHTML = html(A.coverage.filter(c => c.source !== "handbook"));
+}
+
+function fillThemeFilter() {
+  const sel = document.getElementById("f-theme");
+  const cur = sel.value;
+  const names = [...new Set(A.themes.map(t => t.theme))].sort((a, b) => a.localeCompare(b, "sv"));
+  sel.innerHTML = '<option value="">Alla teman</option>' +
+    names.map(n => `<option${n === cur ? " selected" : ""}>${esc(n)}</option>`).join("");
+}
+
+function renderQuestions() {
+  const text = document.getElementById("f-text").value.trim().toLowerCase();
+  const oc = document.getElementById("f-outcome").value;
+  const kind = document.getElementById("f-kind").value;
+  const theme = document.getElementById("f-theme").value;
+  const list = A.questions.filter(q =>
+    (!text || q.q.toLowerCase().includes(text)) &&
+    (!oc || q.outcome === oc) && (!kind || q.kind === kind) && (!theme || q.theme === theme));
+  const tbody = document.getElementById("questions-tbody");
+  tbody.innerHTML = list.length ? list.slice(0, qLimit).map(q => `
+    <tr class="clickable" onclick="openQuestion(${q.id})">
+      <td class="muted" style="white-space:nowrap">${fmtTs(q.ts)}</td>
+      <td class="q-text">${esc(q.q)}</td>
+      <td>${esc(q.theme || "—")}${q.kind !== "content" ? ` <span class="muted">(${KIND_LABEL[q.kind]})</span>` : ""}</td>
+      <td class="oc"><i style="background:${OUTCOME_COLOR[q.outcome]}"></i>${OUTCOME_LABEL[q.outcome]}</td>
+      <td class="num muted">${q.top_score != null ? q.top_score.toFixed(2) : "—"}</td>
+    </tr>`).join("") : '<tr><td colspan="5" class="empty">Inga frågor matchar.</td></tr>';
+  document.getElementById("questions-more").innerHTML = list.length > qLimit
+    ? `<button class="btn btn-secondary btn-sm" onclick="qLimit+=200;renderQuestions()">Visa fler (${list.length - qLimit} kvar)</button>` : "";
+}
+
+async function openQuestion(id) {
+  const res = await fetch("/api/admin/questions/" + id);
+  if (!res.ok) return;
+  const q = await res.json();
+  const outcome = q.outcome ? OUTCOME_LABEL[q.outcome] : "—";
+  document.getElementById("modal").innerHTML = `
+    <div style="display:flex;justify-content:space-between;gap:1rem">
+      <h3>${esc(q.question)}</h3>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal()">Stäng</button>
+    </div>
+    <div class="meta">
+      ${fmtTs(q.created_at)} · Tema: ${esc(q.theme || "—")} · ${esc(KIND_LABEL[q.kind] || "—")} · Utfall: ${esc(outcome)}<br>
+      Session: ${esc(q.session_id || "—")} · Status: ${esc(q.status || "—")}
+      ${q.latency_ms != null ? ` · Svarstid: ${(q.latency_ms / 1000).toFixed(1)} s` : ""}
+      ${q.prompt_version ? ` · Promptversion: ${esc(q.prompt_version)}` : ""}
+    </div>
+    <div class="answer">${esc(q.answer || "(inget svar)")}</div>
+    ${q.retrieval.length ? `<h4>Hämtade avsnitt</h4><table><tbody>${q.retrieval.map(r =>
+      `<tr><td class="num">${r.score.toFixed(3)}</td><td>${esc(r.unit)}</td><td class="muted">${esc(r.chunk_id)}</td></tr>`).join("")}</tbody></table>` : ""}`;
+  document.getElementById("modal-bg").style.display = "flex";
+}
+function closeModal() { document.getElementById("modal-bg").style.display = "none"; }
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
 
 loadUsers();
 </script>

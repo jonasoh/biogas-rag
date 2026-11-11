@@ -99,6 +99,29 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now biogas-rag
 ```
 
+## Analytics
+
+The admin page (`/admin`) has an **Analysis** tab showing what students ask about and where the assistant fails. Only questions from users who opted into data collection are logged. Logs are kept when a user is deleted.
+
+For each logged question the app stores the question and answer plus:
+
+- a session id per login, so sessions can be counted separately from accounts
+- status (`ok` / `error` / `aborted`) and latency
+- the LLM model and a hash of the system prompt
+- the retrieved chunks with similarity scores
+
+After each answer, a background LLM call tags the question with a normalised **theme**, a **kind** (course content / course admin / small talk) and an **outcome** (answered / partial / refused). Tags live in a separate `query_analysis` table and can be regenerated at any time.
+
+The tab shows:
+
+- weekly question volume by outcome
+- **failing themes**, classified as *missing from the material* (never answered), *phrasing-dependent* (answered sometimes, so the material exists but isn't always retrieved) or *thin* (mostly partial answers)
+- the most common themes, plus course-admin and small-talk questions
+- how many questions land in each handbook chapter and lecture, based on top-3 retrieval
+- a filterable question log with answers and retrieved chunks
+
+Existing databases are migrated automatically on startup. To tag older questions (or questions logged while the LLM was down), press *Analysera otaggade frågor*. *Tagga om alla* re-tags everything, which helps consolidate fragmented themes. Set `ANALYTICS_TAGGING=0` in `.env` to disable automatic tagging after each question.
+
 ## CLI Usage
 
 You can query the system directly from the terminal without the web interface:

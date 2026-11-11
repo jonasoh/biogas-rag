@@ -9,6 +9,8 @@ Run:
 import asyncio
 import json
 import os
+import secrets
+import time
 from contextlib import asynccontextmanager
 
 import aiosqlite
@@ -30,6 +32,7 @@ from config import (
     METADATA_PATH,
     TOP_K,
 )
+import analytics
 from query import load_assets
 from rag import (
     SYSTEM_PROMPT,
@@ -46,20 +49,31 @@ load_dotenv()
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-fallback-key-change-in-production")
 COOKIE_NAME = "session"
 COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # 30 days
-DB_PATH = "biogas.db"
+DB_PATH = os.environ.get("DB_PATH", "biogas.db")
 
 ADMIN_COOKIE_NAME = "admin_session"
 ADMIN_COOKIE_MAX_AGE = 60 * 60 * 8  # 8 hours
 ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 
+# Tag each logged question with theme/outcome using the LLM, right after it
+# has been answered. Costs one short extra LLM call per logged question.
+ANALYTICS_TAGGING = os.environ.get("ANALYTICS_TAGGING", "1") != "0"
+PROMPT_VERSION = analytics.prompt_version(SYSTEM_PROMPT)
+
 serializer = URLSafeTimedSerializer(SECRET_KEY)
 
 # ── Session helpers ──────────────────────────────────────────────────────
 
 
-def set_session_cookie(response, user_id: int, email: str):
-    token = serializer.dumps({"uid": user_id, "email": email})
+def new_session_id() -> str:
+    return secrets.token_hex(8)
+
+
+def set_session_cookie(response, user_id: int, email: str, sid: str | None = None):
+    # "sid" identifies one login (one browser sign-in), so analytics can
+    # count sessions separately from accounts.
+    token = serializer.dumps({"uid": user_id, "email": email, "sid": sid or new_session_id()})
     response.set_cookie(
         COOKIE_NAME,
         token,
@@ -106,12 +120,35 @@ def get_current_admin(request: Request) -> bool:
 # ── Database helpers ─────────────────────────────────────────────────────
 
 
-async def log_query(db: aiosqlite.Connection, user_id: int, question: str, answer: str):
-    await db.execute(
-        "INSERT INTO query_logs (user_id, question, answer) VALUES (?, ?, ?)",
-        (user_id, question, answer),
+async def log_query(db: aiosqlite.Connection, **fields) -> int:
+    cols = ", ".join(fields)
+    marks = ", ".join("?" for _ in fields)
+    cur = await db.execute(
+        f"INSERT INTO query_logs ({cols}) VALUES ({marks})", tuple(fields.values())
     )
     await db.commit()
+    return cur.lastrowid
+
+
+# Background tasks (logging/tagging) must be referenced until done, or they
+# can be garbage-collected mid-flight.
+_background_tasks: set[asyncio.Task] = set()
+
+
+def run_in_background(coro):
+    task = asyncio.get_running_loop().create_task(coro)
+    _background_tasks.add(task)
+    task.add_done_callback(_background_tasks.discard)
+
+
+async def log_and_tag(app_state, fields: dict):
+    db = app_state.db
+    log_id = await log_query(db, **fields)
+    if fields["status"] == "ok" and ANALYTICS_TAGGING:
+        await analytics.tag_log_row(
+            db, app_state.http, LLM_URL, LLM_MODEL, log_id,
+            fields["question"], fields["answer"],
+        )
 
 
 # ── Lifespan (startup / shutdown) ────────────────────────────────────────
@@ -152,7 +189,9 @@ async def lifespan(app: FastAPI):
         )"""
     )
     await db.commit()
+    await analytics.migrate(db)
     app.state.db = db
+    app.state.backfill = analytics.Backfill()
 
     # Shared async HTTP client for LLM requests
     app.state.http = httpx.AsyncClient(timeout=LLM_TIMEOUT)
@@ -316,7 +355,8 @@ async def admin_delete_user(user_id: int, request: Request):
     if not get_current_admin(request):
         raise HTTPException(401, "Not authorized.")
     db: aiosqlite.Connection = request.app.state.db
-    await db.execute("DELETE FROM query_logs WHERE user_id = ?", (user_id,))
+    # Query logs are kept for analytics. users.id is AUTOINCREMENT, so the
+    # deleted id is never reused and the logs can't be misattributed.
     result = await db.execute("DELETE FROM users WHERE id = ?", (user_id,))
     await db.commit()
     if result.rowcount == 0:
@@ -337,8 +377,10 @@ async def query_sse(q: str, request: Request):
     if not q or len(q) > 2000:
         raise HTTPException(400, "Query must be 1-2000 characters.")
 
+    started = time.monotonic()
+
     # Retrieve relevant chunks (blocking call → thread pool)
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     st = request.app.state
     results = await loop.run_in_executor(
         None,
@@ -346,6 +388,7 @@ async def query_sse(q: str, request: Request):
     )
     results = enrich_with_exercises(results, st.meta, st.texts)
     context = build_context(results)
+    retrieval_json, top_score = analytics.summarize_retrieval(results)
 
     # Build LLM messages
     messages = [
@@ -360,40 +403,148 @@ async def query_sse(q: str, request: Request):
     )
     allow_logging = bool(row and row[0][0])
 
+    # Sessions created before session ids existed get one now.
+    sid = user.get("sid") or new_session_id()
+
     async def event_stream():
         full_answer = []
+        status = "ok"
         try:
             async with st.http.stream(
                 "POST",
                 LLM_URL,
                 json={"model": LLM_MODEL, "messages": messages, "stream": True},
             ) as resp:
-                async for line in resp.aiter_lines():
-                    if not line.startswith("data: "):
-                        continue
-                    payload = line[6:]
-                    if payload.strip() == "[DONE]":
-                        break
-                    chunk = json.loads(payload)
-                    delta = chunk["choices"][0]["delta"]
-                    token = delta.get("content", "")
-                    if token:
-                        full_answer.append(token)
-                        yield f"data: {json.dumps({'token': token})}\n\n"
-        except httpx.ConnectError:
-            yield f"data: {json.dumps({'error': 'LLM server unavailable.'})}\n\n"
-        except asyncio.CancelledError:
-            pass
-        finally:
+                if resp.status_code != 200:
+                    status = "error"
+                    yield f"data: {json.dumps({'error': 'LLM server error.'})}\n\n"
+                else:
+                    async for line in resp.aiter_lines():
+                        if not line.startswith("data: "):
+                            continue
+                        payload = line[6:]
+                        if payload.strip() == "[DONE]":
+                            break
+                        chunk = json.loads(payload)
+                        delta = chunk["choices"][0]["delta"]
+                        token = delta.get("content", "")
+                        if token:
+                            full_answer.append(token)
+                            yield f"data: {json.dumps({'token': token})}\n\n"
+            if status == "ok" and not full_answer:
+                status = "error"
             yield "data: [DONE]\n\n"
-            if allow_logging and full_answer:
-                await log_query(db, user["uid"], q, "".join(full_answer))
+        except httpx.ConnectError:
+            status = "error"
+            yield f"data: {json.dumps({'error': 'LLM server unavailable.'})}\n\n"
+            yield "data: [DONE]\n\n"
+        except (httpx.HTTPError, json.JSONDecodeError, KeyError, IndexError):
+            status = "error"
+            yield f"data: {json.dumps({'error': 'LLM request failed.'})}\n\n"
+            yield "data: [DONE]\n\n"
+        except (asyncio.CancelledError, GeneratorExit):
+            # Client went away mid-answer.
+            status = "aborted"
+            raise
+        finally:
+            # Logged from a separate task: this generator may be in a
+            # cancelled scope where further awaits would be interrupted.
+            if allow_logging:
+                run_in_background(
+                    log_and_tag(
+                        st,
+                        {
+                            "user_id": user["uid"],
+                            "session_id": sid,
+                            "question": q,
+                            "answer": "".join(full_answer),
+                            "status": status,
+                            "latency_ms": int((time.monotonic() - started) * 1000),
+                            "llm_model": LLM_MODEL,
+                            "prompt_version": PROMPT_VERSION,
+                            "retrieval": retrieval_json,
+                            "top_score": top_score,
+                            "refused": int(
+                                analytics.looks_refused("".join(full_answer))
+                            ),
+                        },
+                    )
+                )
 
-    return StreamingResponse(
+    response = StreamingResponse(
         event_stream(),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+    if not user.get("sid"):
+        set_session_cookie(response, user["uid"], user["email"], sid)
+    return response
+
+
+# ── Admin analytics ──────────────────────────────────────────────────────
+
+
+@app.get("/api/admin/analytics")
+async def admin_analytics(request: Request, days: int | None = None):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    st = request.app.state
+    rows = await analytics.fetch_rows(st.db, days)
+    data = analytics.compute_analytics(rows, st.meta)
+    data["backfill"] = st.backfill.status()
+    data["tagging_enabled"] = ANALYTICS_TAGGING
+    data["prompt_version"] = PROMPT_VERSION
+    return JSONResponse(data)
+
+
+@app.get("/api/admin/questions/{log_id}")
+async def admin_question(log_id: int, request: Request):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    st = request.app.state
+    rows = await st.db.execute_fetchall(
+        """SELECT q.id, q.question, q.answer, q.created_at, q.session_id, q.status,
+                  q.latency_ms, q.llm_model, q.prompt_version, q.retrieval, q.top_score,
+                  a.theme, a.kind, a.outcome
+           FROM query_logs q LEFT JOIN query_analysis a ON a.log_id = q.id
+           WHERE q.id = ?""",
+        (log_id,),
+    )
+    if not rows:
+        raise HTTPException(404, "Not found.")
+    r = dict(rows[0])
+    units = analytics.course_units(st.meta)
+    r["retrieval"] = [
+        {"chunk_id": cid, "score": score, "unit": units.get(cid, (None, cid))[1]}
+        for cid, score in (json.loads(r["retrieval"]) if r["retrieval"] else [])
+    ]
+    return JSONResponse(r)
+
+
+class BackfillBody(BaseModel):
+    retag_all: bool = False
+
+
+@app.post("/api/admin/analytics/backfill")
+async def admin_backfill(body: BackfillBody, request: Request):
+    if not get_current_admin(request):
+        raise HTTPException(401, "Not authorized.")
+    st = request.app.state
+    if st.backfill.running:
+        raise HTTPException(409, "En uppdatering pågår redan.")
+
+    async def retrieve_fn(question: str):
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(
+            None,
+            lambda: retrieve(question, st.index, st.meta, st.texts, st.model, TOP_K),
+        )
+
+    st.backfill.running = True  # set before scheduling to avoid double starts
+    run_in_background(
+        st.backfill.run(st.db, st.http, LLM_URL, LLM_MODEL, retrieve_fn, body.retag_all)
+    )
+    return JSONResponse(st.backfill.status())
 
 
 # ── Main ─────────────────────────────────────────────────────────────────
